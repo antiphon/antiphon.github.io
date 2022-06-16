@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Blogdown test post | Tuomas Rajala ~ Statistician</title>
+<meta name="keywords" content="blogdown">
+<meta name="description" content="IntroBasic featuresMathsR chuncksCitations etcMiscImagesInteractive stuffReferencesEdited: 2022-06-16 19:54:03
+IntroTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do.">
+<meta name="author" content="Tuomas Rajala">
+<link rel="canonical" href="http://antiphon.github.io/blog/testi-posti/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d7fb4cbf980fe688a21621b06a795933c4e6bb2d4070ec940667af1715d84af2.css" integrity="sha256-1/tMv5gP5oiiFiGwanlZM8Tmuy1AcOyUBmevFxXYSvI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://antiphon.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://antiphon.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://antiphon.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://antiphon.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="http://antiphon.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Blogdown test post" />
+<meta property="og:description" content="IntroBasic featuresMathsR chuncksCitations etcMiscImagesInteractive stuffReferencesEdited: 2022-06-16 19:54:03
+IntroTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://antiphon.github.io/blog/testi-posti/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2020-02-13T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-02-13T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Blogdown test post"/>
+<meta name="twitter:description" content="IntroBasic featuresMathsR chuncksCitations etcMiscImagesInteractive stuffReferencesEdited: 2022-06-16 19:54:03
+IntroTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "http://antiphon.github.io/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blogdown test post",
+      "item": "http://antiphon.github.io/blog/testi-posti/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Blogdown test post",
+  "name": "Blogdown test post",
+  "description": "Intro\rBasic features\rMaths\rR chuncks\rCitations etc\rMisc\rImages\rInteractive stuff\rReferences\rEdited: 2022-06-16 19:54:03\nIntro\rTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do.",
+  "keywords": [
+    "blogdown"
+  ],
+  "articleBody": "\rIntro\rBasic features\rMaths\rR chuncks\rCitations etc\rMisc\rImages\rInteractive stuff\rReferences\rEdited: 2022-06-16 19:54:03\nIntro\rTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do.\nFor installing etc: https://bookdown.org/yihui/blogdown/\nI tweaked the main.css after copying it to static/css; also added a new logo (/static/images/) and favicon (/static/); and other stuff not reported here. In an attempt to be able to have a “front page” I added an /content/index.md but this just messed everything up, so I decided to have this whole blog inside a “blog” folder of main my site root.\nBasic features\rAs far as I can tell, the thing that we can not do with Rmarkdown (rmd) document (as opposed to using md) is todos,\ntest maths\rtest R blocks\rtest biblio\rThis is of course stated in the reference guide: only md-format supports this, not rmd. The reason is that the formats use different renderer (BlackFriday for md, Pandoc for rmd). But I doubt there is any point making todo-lists on static posts anyway. What else do we have…\nStandard lists do work\nfirst\rjee jee\rjoo\rsecond\ra pina\rb anaani\ras do quotations with \u003e symbol\nOli hepokatti maantiellä poikittain.\n— somebody\nFor TOC at the top add to YAML\noutput:\rblogdown::html_page:\rtoc: true\rMaths\rWe are supposed to be able generate posts like we would Rmarkdown-documents, so inline \\(\\log \\xi = a\\Rightarrow \\xi=e^a\\) should work as well as\n\\[\\int_U g(z)dz = G(U)\\]\nand\n\\[\\begin{align}\ry_i \u0026= a+ bx_i + z_i\\\\\rz_i \u0026= \\varepsilon_i + y_{i-1}\r\\end{align}\\]\nHmm direct rendering does seem to work. For the theme hugo-xmin or other similar barebones theme the file layouts/partial/foot_custom.html (or similar) needs a bit of tweaking (see link), mainly need to add the relevant js-inclusions e.g.\nThe default theme lithium has the required inclusions by default, providing the math-code.js locally and using MathJax server for the maths.\nI decided to install MathJax locally, to avoid future breakage, e.g. here. That particular example might just be a bad copy-paste job, but I keep seeing those unrendered blocks of LaTeX often, especially when opening my own html-rendered Rmd-docs offline.\nSo to get MathJax working locally on my site, I\ninstalled mathjax, following their readme.md, by opening a terminal inside the blogdown-site root and running\rcd static/js\rnpm install mathjax@3\rmv node_modules/mathjax/es5 mathjax\rModified themes/hugo-lithium/layouts/partials/footer_mathjax.html so that it imports the blogdown-required (or Hugo?) compiler\rand now math works even when drafting offline :)\nOne thing I might need is reference formulas. It seems I can add a tag+label inside the align-environment to show something like\r\\[\\begin{align}\rE\\sum_{x\\neq y}f(x,y)\u0026=\\int f(x,y)\\rho^{(2)}(x,y)dxdy \\tag{tag 1 is here}\\label{eq1}\\\\\r\u0026= Z \\label{eq2}\\tag{tag 2}\r\\end{align}\\]\rand we can refere to them \\(\\eqref{eq1}\\) and \\(\\eqref{eq2}\\), just put the eqref inside dollars, but it does not have autoincrease.\nR chuncks\rBasic chunk, no flags\ndata(iris)\rf \u003c- lm(Petal.Width ~ Species, data = iris)\rsummary(f)\r## ## Call:\r## lm(formula = Petal.Width ~ Species, data = iris)\r## ## Residuals:\r## Min 1Q Median 3Q Max ## -0.626 -0.126 -0.026 0.154 0.474 ## ## Coefficients:\r## Estimate Std. Error t value Pr(\u003e|t|) ## (Intercept) 0.24600 0.02894 8.50 1.96e-14 ***\r## Speciesversicolor 1.08000 0.04093 26.39 \u003c 2e-16 ***\r## Speciesvirginica 1.78000 0.04093 43.49 \u003c 2e-16 ***\r## ---\r## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\r## ## Residual standard error: 0.2047 on 147 degrees of freedom\r## Multiple R-squared: 0.9289, Adjusted R-squared: 0.9279 ## F-statistic: 960 on 2 and 147 DF, p-value: \u003c 2.2e-16\rseems to work. How about some graphics, with a caption and caching and message=FALSE to avoid those package loading messages:\nlibrary(tidyr)\rlibrary(dplyr)\rlibrary(ggplot2)\riris %\u003e% group_by(Species) %\u003e% gather(quant, value, Sepal.Length:Petal.Width) %\u003e%\rggplot(aes( Species, value )) + geom_boxplot() + facet_wrap(~quant)\rFigure 1: Caption of this figure\rWorks fine, even adds the “Figure 1” there. Cross-referencing works, see Figures 1 above and 2 below, as long as fig.cap is set.\nTry caching for longer runs:\nlibrary(spatstat)\rpp \u003c- rpoispp(100)\renv \u003c- envelope(pp, fun = pcf, verbose = FALSE, divisor=\"d\")\rpar(mfrow=c(1,2))\rplot(pp)\rplot(env, ylim = c(0,3))\rFigure 2: randomness, mot\r## Error in rebound.owin(X[[i]], ...) : ## The new rectangle 'rect' does not contain the window 'win'\rSeems to work, rendering does not spew out extra messages after the first run.\nCitations etc\rSimple footnotes work1, just need to write like so 2 .\nTo work with the proper LaTeX-citation system (“BibTeX databases”) I needed to\nAdd the bib-files to content/post,\rInstall pandoc-citeproc\rAdd to the YAML of this Rmd\rbibliography: [testbib.bib, testbib2.bib]\rlink-citations: true\rafter which we can use the Rmarkdown @-syntax with []-brackets for (),\nBlaa R Core Team (2016); Hynynen et al. (2019)\rTime has come to talk of many things (R Core Team 2016, pp 3-4; also Hynynen et al. 2019 p 1)\rNot particularly difficult, and looks quite nice. Just remember to add an empty section-header at the end for the references to have their own space. Note that the footnotes appear below the references. More info on here.\nMisc\rImages\rAnother feature that will be needed is static images import and placement. According to the bookdown-book3 we need to envoce the knitr::include_graphics R-call for this, to get this lovely gif included:\nknitr::include_graphics(\"images/edml915_1232.gif\")\rFigure 3: Example of a 3D point pattern.\rJust remember to store the images in static/images.\nInteractive stuff\rThe above gif is nice visualisation, but an interactive version would be nicer so the reader can spin the data at will. There are many packages for embedding interactive plots in Rmd, e.g. plotly, ggvis, iplot. Example:\nlibrary(plotly)\rx \u003c- data.frame( sapply(1:3, function(...) runif (n = 1000, min =0, max =1) ),\rsample(1:2, 1000, TRUE) )\rcolnames(x) \u003c- c(\"x\", \"y\", \"z\", \"mark\")\rx %\u003e% plot_ly(x=~x, y=~y, z=~z, color=~factor(mark),\rcolors = c(\"black\",\"blue\"),\rtype = \"scatter3d\", size = 0.05, alpha=1)\rFigure 4: Interactive 3d cloud.\rReferences\rHynynen, Jari, Kalle Eerikäinen, Harri Mäkinen, and Sauli Valkonen. 2019. “Growth Response to Cuttings in Norway Spruce Stands Under Even-Aged and Uneven-Aged Management.” Forest Ecology and Management 437 (April): 314–23. https://doi.org/10.1016/j.foreco.2018.12.032.\rR Core Team. 2016. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. https://www.R-project.org/.\rWere are down here!↩︎\n^[footnote text]↩︎\nhttps://bookdown.org/yihui/bookdown/figures.html↩︎\n",
+  "wordCount" : "1080",
+  "inLanguage": "en",
+  "datePublished": "2020-02-13T00:00:00Z",
+  "dateModified": "2020-02-13T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Tuomas Rajala"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://antiphon.github.io/blog/testi-posti/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tuomas Rajala ~ Statistician",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://antiphon.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://antiphon.github.io/" accesskey="h" title="  (Alt + H)">
+                <img src="http://antiphon.github.io/img/sigma-blue-1.png" alt="logo" aria-label="logo"
+                    height="36"> </a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://antiphon.github.io/blog/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Blogdown test post
+    </h1>
+    <div class="post-meta"><span title='2020-02-13 00:00:00 +0000 UTC'>February 13, 2020</span>&nbsp;·&nbsp;Tuomas Rajala
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#" aria-label="Intro">Intro</a></li>
+                <li>
+                    <a href="#" aria-label="Basic features">Basic features</a></li>
+                <li>
+                    <a href="#" aria-label="Maths">Maths</a></li>
+                <li>
+                    <a href="#" aria-label="R chuncks">R chuncks</a></li>
+                <li>
+                    <a href="#" aria-label="Citations etc">Citations etc</a></li>
+                <li>
+                    <a href="#" aria-label="Misc">Misc</a><ul>
+                        
+                <li>
+                    <a href="#" aria-label="Images">Images</a></li>
+                <li>
+                    <a href="#" aria-label="Interactive stuff">Interactive stuff</a></li></ul>
+                </li>
+                <li>
+                    <a href="#" aria-label="References">References</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content">
+<script src="http://antiphon.github.io/blog/testi-posti/index_files/htmlwidgets/htmlwidgets.js"></script>
+<script src="http://antiphon.github.io/blog/testi-posti/index_files/plotly-binding/plotly.js"></script>
+<script src="http://antiphon.github.io/blog/testi-posti/index_files/typedarray/typedarray.min.js"></script>
+<script src="http://antiphon.github.io/blog/testi-posti/index_files/jquery/jquery.min.js"></script>
+<link href="http://antiphon.github.io/blog/testi-posti/index_files/crosstalk/css/crosstalk.min.css" rel="stylesheet" />
+<script src="http://antiphon.github.io/blog/testi-posti/index_files/crosstalk/js/crosstalk.min.js"></script>
+<link href="http://antiphon.github.io/blog/testi-posti/index_files/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="http://antiphon.github.io/blog/testi-posti/index_files/plotly-main/plotly-latest.min.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#basic-features">Basic features</a></li>
+<li><a href="#maths">Maths</a></li>
+<li><a href="#r-chuncks">R chuncks</a></li>
+<li><a href="#citations-etc">Citations etc</a></li>
+<li><a href="#misc">Misc</a>
+<ul>
+<li><a href="#images">Images</a></li>
+<li><a href="#interactive-stuff">Interactive stuff</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<p>Edited: 2022-06-16 19:54:03</p>
+<div id="intro" class="section level1">
+<h1>Intro</h1>
+<p>To begin posting <del>interesting statistics tidbits and personal</del> notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this <code>blogdown</code>-generated site format might just do. Let’s play with it a bit a see what it can do.</p>
+<p>For installing etc: <a href="https://bookdown.org/yihui/blogdown/" class="uri">https://bookdown.org/yihui/blogdown/</a></p>
+<p>I tweaked the <code>main.css</code> after copying it to <code>static/css</code>; also added a new logo (<code>/static/images/</code>) and favicon (<code>/static/</code>); and other stuff not reported here. In an attempt to be able to have a “front page” I added an <code>/content/index.md</code> but this just messed everything up, so I decided to have this whole blog inside a “blog” folder of main my site root.</p>
+</div>
+<div id="basic-features" class="section level1">
+<h1>Basic features</h1>
+<p>As far as I can tell, the thing that we can not do with Rmarkdown (rmd) document (as opposed to using md) is todos,</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+test maths</li>
+<li><input type="checkbox" disabled="" checked="" />
+test R blocks</li>
+<li><input type="checkbox" disabled="" checked="" />
+test biblio</li>
+</ul>
+<p>This is of course stated in the reference guide: only <code>md</code>-format supports this, not <code>rmd</code>. The reason is that the formats use different renderer (BlackFriday for md, Pandoc for rmd). But I doubt there is any point making todo-lists on static posts anyway. What else do we have…</p>
+<p>Standard lists do work</p>
+<ol style="list-style-type: decimal">
+<li>first
+<ol style="list-style-type: decimal">
+<li>jee jee</li>
+<li>joo</li>
+</ol></li>
+<li>second
+<ul>
+<li>a pina</li>
+<li>b anaani</li>
+</ul></li>
+</ol>
+<p>as do quotations with &gt; symbol</p>
+<blockquote>
+<p>Oli hepokatti maantiellä poikittain.</p>
+<p>— somebody</p>
+</blockquote>
+<p>For TOC at the top add to YAML</p>
+<pre><code>output:
+  blogdown::html_page:
+    toc: true</code></pre>
+</div>
+<div id="maths" class="section level1">
+<h1>Maths</h1>
+<p>We are supposed to be able generate posts like we would Rmarkdown-documents, so inline <span class="math inline">\(\log \xi = a\Rightarrow \xi=e^a\)</span> should work as well as</p>
+<p><span class="math display">\[\int_U g(z)dz = G(U)\]</span></p>
+<p>and</p>
+<p><span class="math display">\[\begin{align}
+y_i &amp;= a+ bx_i + z_i\\
+z_i &amp;= \varepsilon_i + y_{i-1}
+\end{align}\]</span></p>
+<p>Hmm direct rendering does seem to work. For the theme <code>hugo-xmin</code> or other similar barebones theme the file <code>layouts/partial/foot_custom.html</code> (or similar) needs a bit of tweaking (see <a href="https://bookdown.org/yihui/blogdown/templates.html#a-minimal-example">link</a>), mainly need to add the relevant js-inclusions e.g.</p>
+<pre><code>&lt;script src=&quot;//yihui.org/js/math-code.js&quot;&gt;&lt;/script&gt;
+&lt;script async
+src=&quot;//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML&quot;&gt;
+&lt;/script&gt;</code></pre>
+<p>The default theme <code>lithium</code> has the required inclusions by default, providing the <code>math-code.js</code> locally and using MathJax server for the maths.</p>
+<p>I decided to install MathJax locally, to avoid future breakage, e.g. <a href="https://www.r-bloggers.com/bayesian-linear-mixed-models-random-intercepts-slopes-and-missing-data/">here</a>. That particular example might just be a bad copy-paste job, but I keep seeing those unrendered blocks of LaTeX often, especially when opening my own html-rendered Rmd-docs offline.</p>
+<p>So to get MathJax working locally on my site, I</p>
+<ol style="list-style-type: decimal">
+<li>installed mathjax, following their readme.md, by opening a terminal inside the blogdown-site root and running</li>
+</ol>
+<pre><code>cd static/js
+npm install mathjax@3
+mv node_modules/mathjax/es5 mathjax</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Modified <code>themes/hugo-lithium/layouts/partials/footer_mathjax.html</code> so that it imports the blogdown-required (or Hugo?) compiler</li>
+</ol>
+<pre><code>&lt;script src=&quot;/js/mathjax/tex-mml-chtml.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>and now math works even when drafting offline :)</p>
+<p>One thing I might need is reference formulas. It seems I can add a tag+label inside the align-environment to show something like
+<span class="math display">\[\begin{align}
+
+E\sum_{x\neq y}f(x,y)&amp;=\int f(x,y)\rho^{(2)}(x,y)dxdy \tag{tag 1 is here}\label{eq1}\\
+&amp;= Z \label{eq2}\tag{tag 2}
+
+\end{align}\]</span>
+and we can refere to them <span class="math inline">\(\eqref{eq1}\)</span> and <span class="math inline">\(\eqref{eq2}\)</span>, just put the eqref inside dollars, but it does not have autoincrease.</p>
+</div>
+<div id="r-chuncks" class="section level1">
+<h1>R chuncks</h1>
+<p>Basic chunk, no flags</p>
+<pre class="r"><code>data(iris)
+f &lt;- lm(Petal.Width ~ Species, data = iris)
+summary(f)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Petal.Width ~ Species, data = iris)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.626 -0.126 -0.026  0.154  0.474 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        0.24600    0.02894    8.50 1.96e-14 ***
+## Speciesversicolor  1.08000    0.04093   26.39  &lt; 2e-16 ***
+## Speciesvirginica   1.78000    0.04093   43.49  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2047 on 147 degrees of freedom
+## Multiple R-squared:  0.9289, Adjusted R-squared:  0.9279 
+## F-statistic:   960 on 2 and 147 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>seems to work. How about some graphics, with a caption and caching and <code>message=FALSE</code> to avoid those package loading messages:</p>
+<pre class="r"><code>library(tidyr)
+library(dplyr)
+library(ggplot2)
+iris %&gt;% group_by(Species) %&gt;% 
+  gather(quant, value, Sepal.Length:Petal.Width) %&gt;%
+  ggplot(aes( Species, value )) + geom_boxplot() + facet_wrap(~quant)</code></pre>
+<div class="figure"><span style="display:block;" id="fig:fig1"></span>
+<img src="http://antiphon.github.io/blog/testi-posti/index_files/figure-html/fig1-1.png" alt="Caption of this figure" width="672" />
+<p class="caption">
+Figure 1: Caption of this figure
+</p>
+</div>
+<p>Works fine, even adds the “Figure 1” there. Cross-referencing works, see Figures <a href="#fig:fig1">1</a> above and <a href="#fig:fig2">2</a> below, as long as <code>fig.cap</code> is set.</p>
+<p>Try caching for longer runs:</p>
+<pre class="r"><code>library(spatstat)
+pp &lt;- rpoispp(100)
+env &lt;- envelope(pp, fun = pcf, verbose = FALSE, divisor=&quot;d&quot;)
+par(mfrow=c(1,2))
+plot(pp)
+plot(env, ylim = c(0,3))</code></pre>
+<div class="figure"><span style="display:block;" id="fig:fig2"></span>
+<img src="http://antiphon.github.io/blog/testi-posti/index_files/figure-html/fig2-1.png" alt="randomness, mot" width="672" />
+<p class="caption">
+Figure 2: randomness, mot
+</p>
+</div>
+<pre><code>## Error in rebound.owin(X[[i]], ...) : 
+##   The new rectangle &#39;rect&#39; does not contain the window &#39;win&#39;</code></pre>
+<p>Seems to work, rendering does not spew out extra messages after the first run.</p>
+</div>
+<div id="citations-etc" class="section level1">
+<h1>Citations etc</h1>
+<p>Simple footnotes work<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, just need to write like so <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> .</p>
+<p>To work with the proper LaTeX-citation system (“BibTeX databases”) I needed to</p>
+<ol style="list-style-type: decimal">
+<li>Add the bib-files to <code>content/post</code>,</li>
+<li>Install <code>pandoc-citeproc</code></li>
+<li>Add to the YAML of this Rmd</li>
+</ol>
+<pre><code>bibliography: [testbib.bib, testbib2.bib]
+link-citations: true</code></pre>
+<p>after which we can use the Rmarkdown @-syntax with []-brackets for (),</p>
+<ul>
+<li>Blaa <span class="citation">R Core Team (<a href="#ref-R-base" role="doc-biblioref">2016</a>)</span>; <span class="citation">Hynynen et al. (<a href="#ref-hynynen_growth_2019" role="doc-biblioref">2019</a>)</span></li>
+<li>Time has come to talk of many things <span class="citation">(<a href="#ref-R-base" role="doc-biblioref">R Core Team 2016</a>, pp 3-4; also <a href="#ref-hynynen_growth_2019" role="doc-biblioref">Hynynen et al. 2019</a> p 1)</span></li>
+</ul>
+<p>Not particularly difficult, and looks quite nice. Just remember to add an empty section-header at the end for the references to have their own space. Note that the footnotes appear below the references. More info on <a href="https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html">here</a>.</p>
+</div>
+<div id="misc" class="section level1">
+<h1>Misc</h1>
+<div id="images" class="section level2">
+<h2>Images</h2>
+<p>Another feature that will be needed is static images import and placement. According to the bookdown-book<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> we need to envoce the <code>knitr::include_graphics</code> R-call for this, to get this lovely gif included:</p>
+<pre class="r"><code>knitr::include_graphics(&quot;images/edml915_1232.gif&quot;)</code></pre>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="images/edml915_1232.gif" alt="Example of a 3D point pattern."  />
+<p class="caption">
+Figure 3: Example of a 3D point pattern.
+</p>
+</div>
+<p>Just remember to store the images in <code>static/images</code>.</p>
+</div>
+<div id="interactive-stuff" class="section level2">
+<h2>Interactive stuff</h2>
+<p>The above gif is nice visualisation, but an interactive version would be nicer so the reader can spin the data at will. There are many packages for embedding interactive plots in Rmd, e.g. plotly, ggvis, iplot. Example:</p>
+<pre class="r"><code>library(plotly)
+x &lt;- data.frame( sapply(1:3, function(...) runif (n = 1000, min =0, max =1) ),
+                 sample(1:2, 1000, TRUE) )
+colnames(x) &lt;- c(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;mark&quot;)
+x %&gt;% plot_ly(x=~x, y=~y, z=~z, 
+              color=~factor(mark),
+              colors = c(&quot;black&quot;,&quot;blue&quot;),
+              type = &quot;scatter3d&quot;, 
+              size = 0.05, alpha=1)</code></pre>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"1190eda5b95":["function () ","plotlyVisDat"]},"cur_data":"1190eda5b95","attrs":{"1190eda5b95":{"x":{},"y":{},"z":{},"color":{},"size":0.05,"colors":["black","blue"],"alpha":1,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter3d"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"x"},"yaxis":{"title":"y"},"zaxis":{"title":"z"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0.350921760546044,0.296151406597346,0.682119377888739,0.0155905846040696,0.163966194959357,0.0288129604887217,0.449144476093352,0.129782818257809,0.0878000210504979,0.276733433827758,0.172445876523852,0.791831391863525,0.773299888940528,0.606933234957978,0.0741657712496817,0.818727960344404,0.215508638182655,0.118641052395105,0.428937201853842,0.271188699873164,0.120014047482982,0.663849618053064,0.377553769154474,0.381713176844642,0.479670385597274,0.528432422550395,0.694300607778132,0.125632249051705,0.0199652207084,0.591215149033815,0.290136870695278,0.729566500289366,0.659368131076917,0.0280714852269739,0.792528155492619,0.0311551883351058,0.571091673336923,0.271288182586432,0.438071652082726,0.692915004910901,0.635634171310812,0.965508037479594,0.00392177142202854,0.408575879409909,0.993205403443426,0.0428396633360535,0.0282713561318815,0.988234824268147,0.425640092464164,0.774547236505896,0.607903889380395,0.407054524868727,0.175099642947316,0.933030880521983,0.76272963359952,0.702921493444592,0.696880626026541,0.0536438615527004,0.625713825691491,0.0639780396595597,0.421585648320615,0.953931777738035,0.871787043754011,0.4449512232095,0.410770279588178,0.35530935972929,0.218974637798965,0.0796073102392256,0.686304916394874,0.553061479702592,0.37368023651652,0.191505357855931,0.673753940267488,0.771482365205884,0.820771270431578,0.181372590363026,0.762153543997556,0.357325999531895,0.835446202894673,0.260027469601482,0.703893064288422,0.822107142303139,0.433030841639265,0.459883388597518,0.903444148600101,0.527344248956069,0.370145448949188,0.661391462897882,0.255232391878963,0.701543249655515,0.813664187677205,0.153874729992822,0.555674718925729,0.579509801231325,0.93242711131461,0.204260658705607,0.358278329716995,0.17243281006813,0.807704985141754,0.379640696803108,0.0386583572253585,0.67788991285488,0.851594482315704,0.233497573062778,0.154266499681398,0.6690723458305,0.781157680787146,0.585945475613698,0.423544849269092,0.0151452189311385,0.901555385440588,0.796125586843118,0.929233481176198,0.58592649246566,0.377263646572828,0.139278796967119,0.475167982745916,0.547129521146417,0.884516508784145,0.643722065724432,0.258088249480352,0.411944142542779,0.972179063595831,0.073943309020251,0.53534325142391,0.259189709089696,0.308516347082332,0.265297291101888,0.847536654677242,0.321998916566372,0.7458909698762,0.65532835223712,0.765535365091637,0.00876003969460726,0.784006886417046,0.907968676881865,0.986582322511822,0.367239478975534,0.771070837043226,0.342480985680595,0.584632012760267,0.0579931845422834,0.110010762233287,0.167941466905177,0.474405558081344,0.618538207607344,0.466958705335855,0.43526310287416,0.301984810037538,0.250567602226511,0.805077899480239,0.238728925818577,0.748766920063645,0.267551299417391,0.687118629226461,0.472214764449745,0.543570828158408,0.892819211119786,0.977753563085571,0.919561494374648,0.173534878063947,0.72216983512044,0.629955502459779,0.627260788111016,0.326698313001543,0.909642854938284,0.00850185984745622,0.966042139101774,0.298778422409669,0.114966042339802,0.832976115634665,0.959466360043734,0.691058188444003,0.5864896052517,0.079196794424206,0.797964475350454,0.392965881153941,0.458478590706363,0.635114196455106,0.891576070804149,0.705300546018407,0.617324962280691,0.11560643860139,0.559851116267964,0.612036344828084,0.677793123759329,0.458621960598975,0.60781726706773,0.483010024763644,0.138059586519375,0.157603755127639,0.864522790303454,0.942995622055605,0.186125450069085,0.258484317455441,0.551311682676896,0.462110973196104,0.956531243864447,0.503540936857462,0.960484839277342,0.376791664399207,0.443420578958467,0.659915276803076,0.501837521092966,0.646975626936182,0.978334876941517,0.272045214194804,0.0505336010828614,0.160313912667334,0.0225695720873773,0.272086093667895,0.84326510806568,0.0560477843973786,0.505183559376746,0.547288761241361,0.377481854055077,0.148321863962337,0.998318159021437,0.295204472262412,0.485436804592609,0.505475063575432,0.699540307512507,0.0517848127055913,0.7228622243274,0.822865471011028,0.519048573914915,0.797844939865172,0.266297574387863,0.503732315264642,0.135988812195137,0.166558608179912,0.0923562366515398,0.682518057525158,0.561447784304619,0.596163752488792,0.778614739887416,0.19183073262684,0.606336230412126,0.170824531698599,0.89936083368957,0.480197255965322,0.48976663639769,0.659283482469618,0.406565337907523,0.586073079146445,0.625990772387013,0.0833776630461216,0.925336402840912,0.515664681326598,0.835417783120647,0.629291157936677,0.721746997907758,0.725702500203624,0.323454132070765,0.932394566014409,0.115543056977913,0.452287819935009,0.109463771339506,0.804766963003203,0.488804940367118,0.491650844691321,0.100069527048618,0.279757649172097,0.115046113962308,0.0625598744954914,0.83906836505048,0.331140820402652,0.435984632000327,0.832293606130406,0.0252647609449923,0.907159363850951,0.933452594326809,0.278028881642967,0.412419601343572,0.184606195194647,0.923083459492773,0.505658817477524,0.121424707351252,0.22943383292295,0.119052913039923,0.272974376333877,0.850329797016457,0.183851568493992,0.403356319991872,0.164426204515621,0.447233400773257,0.602645553881302,0.977654101327062,0.859612702159211,0.602376922033727,0.467028252547607,0.358019474660978,0.591333587188274,0.976505845785141,0.0917356400750577,0.0764284892939031,0.577392728067935,0.667161325924098,0.591774790082127,0.823186816181988,0.56116695003584,0.666528142988682,0.0520669366233051,0.570350065128878,0.416667761746794,0.71478341287002,0.560794463148341,0.904422417283058,0.938625464681536,0.990937636466697,0.934950422495604,0.508745630504563,0.0217653915751725,0.266995214158669,0.0758927739225328,0.361411302350461,0.296326541109011,0.271789646241814,0.594865970080718,0.334085579961538,0.526210983749479,0.197360394755378,0.339885236229748,0.0455343693029135,0.729854099685326,0.579612483736128,0.572113792877644,0.0112339532934129,0.789430166129023,0.51173362438567,0.229891683673486,0.860356817021966,0.137614411767572,0.615209656301886,0.107658147346228,0.212741443188861,0.112132296897471,0.577374538872391,0.454562781611457,0.929544404847547,0.130815476179123,0.0751498492900282,0.0491502033546567,0.562209336087108,0.0953819402493536,0.255778662860394,0.187906437087804,0.96923219319433,0.064760637935251,0.687719596084207,0.968028377974406,0.800690981792286,0.116643427638337,0.525259161135182,0.0968975466676056,0.862217523623258,0.359274252550676,0.707004691008478,0.788801576709375,0.589120381977409,0.703050434356555,0.358110127504915,0.555344257270917,0.467904213583097,0.98391071963124,0.979623331688344,0.805839056381956,0.798540833871812,0.973503196146339,0.55259630875662,0.218688630498946,0.231162613024935,0.787366360193118,0.192505303770304,0.833407773636281,0.0452697351574898,0.00303554558195174,0.506173525005579,0.275874863145873,0.155542841181159,0.335985350888222,0.924523788271472,0.378874782007188,0.893710326170549,0.610021974658594,0.182009756099433,0.486243379302323,0.0946722791995853,0.444570496445522,0.488691590260714,0.824984556995332,0.926072527421638,0.335902334656566,0.492048722459003,0.88124350272119,0.377759013790637,0.542275346117094,0.00558502855710685,0.451043625362217,0.284216966712847,0.391452808398753,0.900058032944798,0.0248224586248398,0.457651073578745,0.373197825159878,0.144479512469843,0.56789578218013,0.307188138598576,0.461069027893245,0.47356173931621,0.458694824948907,0.00068308156915009,0.928616157034412,0.428521112073213,0.540957475779578,0.57546138507314,0.121442016446963,0.0734297237358987,0.746779134729877,0.0392348307650536,0.989753992529586,0.649723287438974,0.531947566196322,0.657673686044291,0.292221498209983,0.693662641104311,0.581041658297181,0.825835310155526,0.850415530381724,0.80253993626684,0.285730481613427,0.945144355297089,0.784911198308691,0.378793478477746,0.000877022510394454,0.920622661244124,0.606506396085024,0.658921643858775,0.0527800393756479,0.847700118785724,0.974024978931993,0.451375791337341,0.594302226323634,0.210101681528613,0.13245209120214,0.318417337490246,0.67608081526123,0.423651037039235,0.917450160020962,0.490994865307584,0.738766487687826,0.146568228956312,0.423552972497419,0.0697015631012619,0.877129821805283,0.127026488538831,0.0498415450565517,0.432133516995236,0.659488908713683,0.235930678667501,0.607753467280418,0.794253966072574,0.903223276371136,0.513197392690927,0.434952082810923,0.980946036754176,0.0639132019132376,0.136574480915442,0.861612269887701,0.670948375482112,0.705919604515657,0.673431987175718,0.0496208565309644,0.587075640214607,0.626564751612023,0.119389083003625,0.900428289081901,0.461340639041737,0.532592312665656,0.66446991218254,0.544068476185203,0.582239396637306,0.593393129296601,0.792029369156808,0.58427916560322,0.402761350385845,0.109637678833678,0.685632282402366,0.155034530907869,0.589465625118464,0.465661193942651,0.324499846668914,0.268725340953097,0.609738905681297,0.0745974062010646,0.840108018368483],"y":[0.0750727336853743,0.991674418561161,0.55993873346597,0.654673158423975,0.973655910929665,0.964276975253597,0.253616700181738,0.0958258863538504,0.406690021511167,0.23768865945749,0.821613853564486,0.812695447122678,0.423027460463345,0.784397347597405,0.709000123431906,0.655806306982413,0.651663343887776,0.586253558518365,0.338686923729256,0.496633699862286,0.454866928514093,0.394626261200756,0.903975744033232,0.332244297955185,0.210314297117293,0.250080073717982,0.340210885275155,0.379505424993113,0.111193888587877,0.875983654754236,0.978736131219193,0.203280307352543,0.371297124773264,0.462878064019606,0.612623675027862,0.524113610619679,0.108072563773021,0.443830301286653,0.632043104618788,0.39908598549664,0.122285488061607,0.580634565791115,0.472630135947838,0.177604566328228,0.141259621595964,0.565228073392063,0.428512646816671,0.0897414712235332,0.115954010980204,0.391223491169512,0.136425916105509,0.396076605655253,0.71839361358434,0.122845568694174,0.251070517813787,0.00824695872142911,0.316189885605127,0.835915302857757,0.619419291382656,0.925334148807451,0.942689237650484,0.489110779250041,0.130175468046218,0.0687951203435659,0.138730189064518,0.20713320421055,0.975376388989389,0.209148142952472,0.349130115704611,0.264927071752027,0.0208586477674544,0.0727465006057173,0.435566330794245,0.0197953043971211,0.214426462771371,0.883411985356361,0.0803693018388003,0.874646084150299,0.50568986707367,0.0679644939955324,0.577031078515574,0.376279996940866,0.560006834333763,0.907204698072746,0.478153276490048,0.468299474334344,0.342604966368526,0.516180148581043,0.543919614749029,0.402634307509288,0.438719910103828,0.48149230144918,0.624560329364613,0.949572634650394,0.0747303168755025,0.47061518765986,0.112764288904145,0.266474906355143,0.0483926264569163,0.0322076242882758,0.33118279883638,0.527882343623787,0.132274202769622,0.67659328924492,0.339664686704054,0.588473004754633,0.960288511356339,0.0635269831400365,0.561216394184157,0.144579532789066,0.769979428034276,0.0295143187977374,0.726750240195543,0.0527395915705711,0.260810120264068,0.00742578902281821,0.842675359919667,0.583729119971395,0.565839611692354,0.973139718640596,0.759085304336622,0.440045833587646,0.50260562566109,0.333554715383798,0.239589113974944,0.352064701495692,0.30324935214594,0.365113148698583,0.38884059060365,0.11869120458141,0.86507577705197,0.268915502587333,0.26424646936357,0.30002276902087,0.602413407992572,0.789751726202667,0.53502450324595,0.852895485702902,0.938820065464824,0.105913501698524,0.703745381208137,0.409418216440827,0.986871364526451,0.803285787580535,0.363507708068937,0.852309403941035,0.353902450064197,0.70592348347418,0.869098678696901,0.701164158759639,0.218494351254776,0.217087893048301,0.171715487958863,0.37762621534057,0.571878296788782,0.693236792692915,0.823612636653706,0.848997661378235,0.254000414395705,0.58197284815833,0.525028387783095,0.649682156741619,0.503900728421286,0.729438707698137,0.914979479974136,0.0418457656633109,0.336692020762712,0.16969891032204,0.394696324132383,0.474477505777031,0.0735424391459674,0.917520627379417,0.779813012108207,0.087846860755235,0.0015419228002429,0.666422300273553,0.151404922129586,0.447203097864985,0.255264869192615,0.588237391551957,0.518433824880049,0.289551409427077,0.365085528697819,0.616671410854906,0.921312382211909,0.0207847582641989,0.68353817705065,0.185152856167406,0.506619124440476,0.294295629486442,0.254969785688445,0.590023459400982,0.0680433218367398,0.683172618504614,0.908547887345776,0.807272624922916,0.475071810185909,0.180418729549274,0.475418037967756,0.124344368930906,0.081527009839192,0.876119000138715,0.364596219034865,0.131983316037804,0.834570385981351,0.532538253813982,0.255572900408879,0.0137692128773779,0.464726852253079,0.127960766665637,0.283675181679428,0.234671854646876,0.486043973825872,0.518844455014914,0.75790720898658,0.199336915509775,0.688556313514709,0.650201701326296,0.243337564403191,0.410889056045562,0.396763617638499,0.384811226045713,0.71144631691277,0.323701270390302,0.0825615471694618,0.167375659802929,0.0915497243404388,0.757992282509804,0.00842517195269465,0.751704756636173,0.885019347304478,0.202078341506422,0.514295090222731,0.767449618317187,0.444114805897698,0.457746135303751,0.521373729687184,0.670048352563754,0.285259099910036,0.0121351275593042,0.21073895227164,0.292649722192436,0.941153453430161,0.267087132669985,0.951914456905797,0.0418575371149927,0.294451726600528,0.941841470310465,0.827068712795153,0.545627152081579,0.700151357101277,0.633686947869137,0.689849232323468,0.349588642595336,0.290929083479568,0.365215161582455,0.776652749860659,0.264495980227366,0.222277738852426,0.333546271082014,0.342552076792344,0.982748710084707,0.213030082406476,0.651022380916402,0.997150538023561,0.836415286408737,0.0618794267065823,0.0404761156532913,0.806387704098597,0.727650440298021,0.365441375179216,0.711358114378527,0.927176981931552,0.0294906091876328,0.501106372568756,0.772547459229827,0.485017009777948,0.343624097760767,0.549686919664964,0.720912824152038,0.337933156406507,0.700040056603029,0.815698449965566,0.203271814854816,0.259175199316815,0.37589264428243,0.547131373081356,0.461231776513159,0.62796934065409,0.680709172971547,0.00322227599099278,0.365363535005599,0.92514491151087,0.0486320245545357,0.350328525993973,0.629813730716705,0.804941073525697,0.959371374221519,0.14710993738845,0.92465541488491,0.445978678995743,0.281827825121582,0.943551266333088,0.971325237536803,0.71701371576637,0.803671294823289,0.906029427191243,0.63843411882408,0.873737205984071,0.993163851788267,0.958095295121893,0.64263765187934,0.244797570398077,0.147858142154291,0.0464935470372438,0.448279038304463,0.261413968168199,0.481661362107843,0.950346526224166,0.319295563735068,0.473477609455585,0.802303820848465,0.422147396020591,0.467803809558973,0.495600090594962,0.565390950534493,0.983731556218117,0.464822334703058,0.581508689559996,0.706234954530373,0.759753891732544,0.57092485926114,0.898133239010349,0.985494390828535,0.0283710237126797,0.71623548050411,0.175281596137211,0.223833305062726,0.548348833341151,0.0909963860176504,0.958391886437312,0.731698553077877,0.0582562296185642,0.0281891638878733,0.204074028879404,0.59020058857277,0.93134502787143,0.0540075616445392,0.562882123049349,0.622145656030625,0.822480659000576,0.693607573863119,0.27364070340991,0.359260206809267,0.310540165519342,0.501037585781887,0.628122394438833,0.968917691381648,0.291386310243979,0.554616924608126,0.150245723780245,0.964802003465593,0.620087038259953,0.0116491080261767,0.49120642687194,0.6559747827705,0.107436435762793,0.364798441762105,0.759191724238917,0.611680008471012,0.156807607738301,0.557857642648742,0.49052872043103,0.662161026149988,0.573090876452625,0.361956862732768,0.689125462900847,0.236766198650002,0.950053490931168,0.728494997136295,0.870680906577036,0.0820983902085572,0.266928837634623,0.756618375889957,0.37139883521013,0.538909638067707,0.33373175887391,0.389006592566147,0.8930624560453,0.625259725609794,0.589180023176596,0.597141767619178,0.993768674554303,0.27009992627427,0.495965220965445,0.105822113342583,0.883612750563771,0.533660163171589,0.00224113860167563,0.421053603291512,0.326725130435079,0.361221085535362,0.89356143027544,0.633283880772069,0.475363882957026,0.306583350757137,0.609646768309176,0.140916296979412,0.561182000208646,0.837240425404161,0.584844258613884,0.840439066290855,0.171281001064926,0.162865283200517,0.412133424542844,0.200686825206503,0.491598360240459,0.13829865376465,0.919270522892475,0.602896754862741,0.966865304391831,0.470364495646209,0.60310249007307,0.00361337047070265,0.255411977879703,0.0177020484115928,0.507531343493611,0.494462350849062,0.239780256291851,0.148356998106465,0.682616037549451,0.431643320247531,0.817868103506044,0.389101790962741,0.714324864093214,0.733150587417185,0.925442774314433,0.376391838537529,0.339902276871726,0.483573742443696,0.614213951863348,0.1156137494836,0.474006747826934,0.723421187372878,0.678237869171426,0.452492062933743,0.0636991714127362,0.746960317250341,0.863852574490011,0.551607419503853,0.696002297569066,0.0345157927367836,0.531876294175163,0.0152566684409976,0.765605177963153,0.877242820570245,0.788374678697437,0.531481034122407,0.125463022151962,0.99297272413969,0.419161901809275,0.526286074658856,0.577949257800356,0.622471024980769,0.797348999651149,0.229823435889557,0.981990475673229,0.946443741442636,0.634904162958264,0.277111063944176,0.46718874713406,0.41297800722532,0.389743856852874,0.229557272745296,0.112181240227073,0.653475239174441,0.39043476106599,0.287437724415213,0.836351888021454,0.907972862245515,0.577356311958283,0.0893104828428477,0.447290770011023,0.507903035962954,0.889930551405996,0.512133396463469,0.792209587525576,0.351111256051809,0.979245491791517,0.498762271599844,0.0510473935864866,0.841698430012912,0.674810678698123,0.155566555447876,0.190973978722468,0.104861167259514],"z":[0.0341188218444586,0.926356530515477,0.669478892348707,0.795848163077608,0.711969568626955,0.422562182880938,0.319056262262166,0.174715765984729,0.977220444241539,0.854050609283149,0.805967521388084,0.315712382318452,0.918578445445746,0.186421823687851,0.674847077578306,0.339244537055492,0.173956611193717,0.893125070957467,0.921208203071728,0.145917976973578,0.06486368435435,0.581033717608079,0.23204592615366,0.968868786003441,0.621022764826193,0.826838887762278,0.738314450718462,0.199489522492513,0.3219121072907,0.466536727035418,0.698079256340861,0.092390644364059,0.122513267444447,0.492050661006942,0.135152489412576,0.724562930176035,0.653640953823924,0.487206718884408,0.0193013758398592,0.320210682461038,0.116898298962042,0.528330351458862,0.369707466103137,0.613228062633425,0.468988809036091,0.827156887156889,0.330564137781039,0.683878403622657,0.529534172732383,0.212393956957385,0.518844297388569,0.71621893835254,0.280832868302241,0.766526953317225,0.358074069488794,0.724195142043754,0.583027708111331,0.325007926672697,0.709138180827722,0.384776446036994,0.449577988358214,0.271971037378535,0.871491500176489,0.191830585012212,0.330688351532444,0.352589924354106,0.199736705981195,0.380246804095805,0.142603303771466,0.656036547152326,0.308011967223138,0.394299245206639,0.305610574083403,0.157289592316374,0.189742157468572,0.179960681358352,0.540548764867708,0.99567442573607,0.371871797833592,0.819394568447024,0.333714798325673,0.0412151673808694,0.172929176827893,0.193201897433028,0.258878192631528,0.29037829907611,0.93528225668706,0.535175698110834,0.803700661985204,0.818346392828971,0.0626477028708905,0.916154489153996,0.820590758230537,0.376197023084387,0.139532556058839,0.262823789846152,0.285954538499936,0.684929609997198,0.0930795085150748,0.924166046781465,0.374062119284645,0.192174498457462,0.766001080162823,0.19110994040966,0.967359436675906,0.0428140941075981,0.208127877209336,0.508499688236043,0.567670983495191,0.710701237665489,0.635997065575793,0.233836410334334,0.788251084042713,0.977173916762695,0.790892059914768,0.845544502604753,0.446822197176516,0.598378086462617,0.264161210972816,0.331380602670833,0.43114116997458,0.0359536991454661,0.17666433705017,0.984222941799089,0.288218117784709,0.342040839837864,0.135183614678681,0.526087572565302,0.665911557618529,0.407431292580441,0.389697630191222,0.759926276281476,0.241870420752093,0.422951679676771,0.89915528986603,0.157195385778323,0.947300077416003,0.763169683748856,0.204892464214936,0.376009120838717,0.683850133093074,0.958430612226948,0.553431876935065,0.58627193281427,0.166722700698301,0.899504136061296,0.768355295993388,0.85273780929856,0.669169961474836,0.983788433484733,0.611034154659137,0.954524607630447,0.706975706852973,0.0728897375520319,0.229875309159979,0.677568030543625,0.903194646118209,0.91180584137328,0.0776216450612992,0.870257963892072,0.51536825671792,0.917009744094685,0.0941691100597382,0.542581512825564,0.618319553090259,0.32041751453653,0.318398943869397,0.918065067147836,0.0512998367194086,0.056231735041365,0.101032241014764,0.215039716335014,0.311858605360612,0.71607324667275,0.109206136781722,0.787530357949436,0.271551731741056,0.560998824890703,0.0399641597177833,0.751282196724787,0.894466747762635,0.217369343154132,0.162079955916852,0.873842040076852,0.938942872453481,0.850475305691361,0.480925756739452,0.135880114743486,0.660204429645091,0.658415365498513,0.604648810811341,0.306515714619309,0.0865910286083817,0.461596944835037,0.438672960037366,0.244969194289297,0.286876603960991,0.923286633566022,0.756009308155626,0.217604964971542,0.322125954320654,0.846165899885818,0.486292660003528,0.488678625551984,0.9343606014736,0.268359457375482,0.626505186781287,0.156370599986985,0.883605144219473,0.54433324560523,0.643157833255827,0.125404062215239,0.746457441011444,0.861969551770017,0.162991318386048,0.72496067173779,0.0080676581710577,0.806291100336239,0.179169690702111,0.0112661891616881,0.295847119996324,0.376272241119295,0.842580857919529,0.132399600697681,0.288571623619646,0.0190496777649969,0.483726312872022,0.958587263012305,0.600484964204952,0.84012136538513,0.0620838387403637,0.612542398273945,0.973185326438397,0.505745866103098,0.504140920238569,0.357813803479075,0.610626441193745,0.356811182340607,0.390038362937048,0.215128225507215,0.781322941882536,0.173636750783771,0.323540010023862,0.267295868368819,0.730248336913064,0.341688515851274,0.216263834387064,0.7731878538616,0.708275791723281,0.0174144522752613,0.991086170775816,0.870340530062094,0.632421413203701,0.962779732653871,0.154988841619343,0.01413787715137,0.370209531858563,0.0156211277935654,0.592962892027572,0.524287030566484,0.978365163784474,0.190700288629159,0.727098067756742,0.126940098591149,0.930903555592522,0.483021521009505,0.729825683636591,0.0339555512182415,0.654198722681031,0.318065854720771,0.026540020480752,0.837009173585102,0.855817714706063,0.349913305602968,0.734794672345743,0.650403077714145,0.17801660625264,0.944645477226004,0.058972267434001,0.762857859255746,0.186593846185133,0.835098808631301,0.0739633776247501,0.791307032108307,0.216454953420907,0.0884320598561317,0.204016803996637,0.513896698830649,0.0353303435258567,0.494345593964681,0.787428788142279,0.69415966141969,0.169253746513277,0.752846466610208,0.441894138464704,0.281378145329654,0.924426288576797,0.188028074568138,0.712113090325147,0.221186376875266,0.505398324225098,0.799984227865934,0.960290762828663,0.947865515947342,0.983243176480755,0.50105231651105,0.150374183896929,0.763851589523256,0.779427372617647,0.625061542727053,0.0547178073320538,0.0655108743812889,0.854635917814448,0.156001748749986,0.0998630300164223,0.842101658927277,0.17913107178174,0.00559801841154695,0.446253790520132,0.698174441466108,0.697090137051418,0.0494142684619874,0.625028578797355,0.43839693791233,0.291206524008885,0.92366900248453,0.959271991625428,0.385591499274597,0.764924735296518,0.250702038872987,0.183037905255333,0.122197770047933,0.5511314724572,0.195394600741565,0.000189304118975997,0.483017154969275,0.224656237754971,0.650819294853136,0.361010848777369,0.244103327160701,0.951387137873098,0.513746263459325,0.14622321841307,0.189008026150987,0.527152084046975,0.715096366358921,0.865632178029045,0.564441327704117,0.545187417650595,0.509309209417552,0.773517284309492,0.478989395080134,0.564656136324629,0.986735010053962,0.780609361594543,0.343031604075804,0.940950611839071,0.038159420248121,0.178838730091229,0.125713667366654,0.563705730019137,0.106311352923512,0.715220333309844,0.735216146567836,0.865417531924322,0.87641946435906,0.988090388244018,0.375918760895729,0.314389817183837,0.011017399141565,0.569536769762635,0.162757159443572,0.67123085539788,0.705119005870074,0.211899183457717,0.692373370053247,0.0243180505931377,0.438312476035208,0.154437344288453,0.0736099041532725,0.583438354544342,0.268266177969053,0.347460442455485,0.908545915735886,0.230821728473529,0.779791615670547,0.610132352216169,0.187427553348243,0.955470085842535,0.325378114357591,0.794805136043578,0.0178860989399254,0.23006996139884,0.467277129646391,0.0463649891316891,0.248596765799448,0.688871399266645,0.362618105486035,0.739709583576769,0.551803024252877,0.872691767523065,0.202499046223238,0.185823942068964,0.11485778586939,0.795661765383556,0.0418867692351341,0.300182228675112,0.320391189306974,0.903456861153245,0.410917777102441,0.150810228427872,0.152998496545479,0.465973740909249,0.482651143800467,0.130337124457583,0.464991653570905,0.321674013743177,0.327335290843621,0.973349123960361,0.948099138680845,0.877436824608594,0.644281060667709,0.955524245742708,0.859247784595937,0.772550137713552,0.924308465328068,0.509770600590855,0.824628054862842,0.702894940972328,0.377347528701648,0.965084909461439,0.480692796874791,0.680304486770183,0.871411216678098,0.883768680971116,0.998629422858357,0.480840635020286,0.708265025867149,0.231556911021471,0.440806033322588,0.390455465065315,0.321607600199059,0.0835229833610356,0.882863240549341,0.307072902098298,0.964937356766313,0.229289924027398,0.901822347193956,0.0818119116593152,0.735401824582368,0.334181364392862,0.526514174649492,0.644591682590544,0.387341801775619,0.179561403347179,0.082905737683177,0.0257642329670489,0.171870594844222,0.462785246316344,0.369960359763354,0.901135867228732,0.120949361240491,0.331839511170983,0.582892871228978,0.567906654439867,0.815754577983171,0.323209956288338,0.734544819686562,0.148936711717397,0.237640461418778,0.900360059225932,0.0376614925917238,0.383380708051845,0.512417156482115,0.675010036211461,0.918798911850899,0.377558527514338,0.97534940065816,0.293851828668267,0.539513100637123,0.139741047751158,0.904455406358466,0.950066813500598,0.81679485575296,0.844960621092469,0.0656019495800138,0.710301620652899,0.560167360818014,0.473629204556346,0.504002329427749,0.999490017304197,0.42879461706616,0.104344537481666,0.378838518634439,0.37753390474245,0.157108493614942],"type":"scatter3d","mode":"markers","name":"1","marker":{"color":"rgba(0,0,0,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(0,0,0,1)"}},"textfont":{"color":"rgba(0,0,0,1)","size":55},"error_y":{"color":"rgba(0,0,0,1)","width":55},"error_x":{"color":"rgba(0,0,0,1)","width":55},"line":{"color":"rgba(0,0,0,1)","width":55},"frame":null},{"x":[0.224032569676638,0.165020615793765,0.693335233954713,0.0899703789036721,0.4853493666742,0.409860279876739,0.0869875682983547,0.78211831394583,0.485434195259586,0.928063042927533,0.990317266667262,0.308988479664549,0.322320766048506,0.0510736559517682,0.274460454471409,0.810560409445316,0.863914333516732,0.923098698491231,0.57183001213707,0.000955346040427685,0.526038181269541,0.973612791625783,0.694873711327091,0.20222718291916,0.457926676841453,0.190419157268479,0.421793548390269,0.276455839630216,0.791502349777147,0.749107050476596,0.928870911244303,0.678879145300016,0.631482311990112,0.750361997168511,0.163507601479068,0.166720194742084,0.0544384347740561,0.181809081230313,0.950100568588823,0.662508936831728,0.329383430536836,0.140459922607988,0.818282628664747,0.843620286555961,0.843806221848354,0.536393452901393,0.94562154263258,0.631982113933191,0.579267292283475,0.931314326124266,0.899222526932135,0.257285098079592,0.078866011928767,0.726635953877121,0.704275202704594,0.785268963081762,0.447777766501531,0.94345966912806,0.761299725389108,0.147620026720688,0.949290315853432,0.66191815957427,0.249764492036775,0.303931141505018,0.480169198010117,0.577117338776588,0.162335146451369,0.543435668339953,0.902140197576955,0.0961525875609368,0.531888911034912,0.428764515556395,0.859957002801821,0.0484775365330279,0.648718257434666,0.442063881549984,0.987805333919823,0.528010186040774,0.70890048565343,0.618417171295732,0.833243604749441,0.795227714581415,0.147621568059549,0.172592640854418,0.335177690023556,0.292415148345754,0.236272052628919,0.977786633418873,0.776466346578673,0.00829237210564315,0.455262579256669,0.634957061847672,0.310983314877376,0.852757477667183,0.351197791518643,0.0811861529946327,0.00860338821075857,0.47580068721436,0.388799911132082,0.391071807360277,0.528102117590606,0.411097568459809,0.845315895276144,0.608297039754689,0.936902828281745,0.79248662898317,0.0414760222192854,0.34979618457146,0.146863741800189,0.268684746697545,0.819465661654249,0.423891050973907,0.781241743825376,0.12315995618701,0.738452445482835,0.742497775470838,0.326163135934621,0.162214665440843,0.0894706940744072,0.252289665397257,0.120546282967553,0.626362049719319,0.0747727851849049,0.560844141524285,0.0921614163089544,0.409762645373121,0.27059309463948,0.131335231475532,0.787173833232373,0.270086199510843,0.113653157372028,0.081165173323825,0.107841048622504,0.156324351904914,0.755885948427022,0.206906845793128,0.891146128997207,0.134333858266473,0.807268099626526,0.816839444683865,0.322618174599484,0.900983741274104,0.988929487532005,0.7514792769216,0.99046401726082,0.302405601134524,0.229712445288897,0.192769527900964,0.492260924074799,0.844437902327627,0.17909560748376,0.509547679917887,0.931295028189197,0.931021560449153,0.581335545517504,0.656176514923573,0.768685339717194,0.061175889801234,0.546671157469973,0.876540238270536,0.244677749462426,0.126957474276423,0.564611580222845,0.338950806995854,0.361953507876024,0.308274948503822,0.616560530848801,0.763772037578747,0.681952484650537,0.536384003702551,0.975797907914966,0.330666497349739,0.220104380976409,0.649782559368759,0.336776753421873,0.884237077785656,0.21986459987238,0.165382955223322,0.749884163262323,0.0577845517545938,0.554047176381573,0.798725900240242,0.908320799004287,0.703828242607415,0.984810073394328,0.590353400446475,0.739167055347934,0.638813549885526,0.617893866728991,0.594790829811245,0.184678775491193,0.408703120192513,0.743660192238167,0.877665160922334,0.660384840797633,0.911355225834996,0.71550131146796,0.323162483517081,0.6134704106953,0.74581142840907,0.0164235883858055,0.0317194659728557,0.991835770662874,0.871201207861304,0.733316707890481,0.411160804796964,0.014740041224286,0.457162147620693,0.0567728637252003,0.130362628493458,0.630909305531532,0.0127470013685524,0.148299971362576,0.0216389982961118,0.25186649360694,0.1513077148702,0.532087882515043,0.640524893300608,0.580324981128797,0.920622783480212,0.413457667222247,0.465567032340914,0.583092069020495,0.846104348776862,0.812964488053694,0.238612742628902,0.275258441921324,0.402796495007351,0.831813670694828,0.79965047352016,0.308865019120276,0.952499348670244,0.857649567071348,0.441905974643305,0.902637490769848,0.982728359522298,0.82086587860249,0.00563458865508437,0.149821612983942,0.201556945452467,0.600240983767435,0.635893418453634,0.470821433700621,0.889279275201261,0.697145134909078,0.834793971618637,0.381902269087732,0.306750183226541,0.347179888980463,0.699532158207148,0.0395704109687358,0.937748370459303,0.0306327166035771,0.275799742899835,0.167364737018943,0.284137250622734,0.328169358661398,0.901607589097694,0.641151343006641,0.149844794068485,0.652570829959586,0.288888245820999,0.918920951662585,0.739629042567685,0.940515419235453,0.692971880082041,0.0262561219278723,0.227323687868193,0.493208398809657,0.662535809678957,0.152429641922936,0.701509923441336,0.419700337341055,0.177020812639967,0.709254808258265,0.324074325850233,0.0569647147785872,0.64173998683691,0.945380196906626,0.976883981842548,0.847649313742295,0.245852505322546,0.412366738077253,0.883651626994833,0.967897118069232,0.611893770284951,0.192071781959385,0.747386571485549,0.0427167194429785,0.703302376437932,0.773644396103919,0.647401651833206,0.351830472936854,0.228492700494826,0.323162703309208,0.108667315915227,0.85536994994618,0.623127559665591,0.628920946037397,0.794252964435145,0.0234286147169769,0.530362585093826,0.0289491412695497,0.718171508284286,0.345151014160365,0.261721221962944,0.476583063835278,0.412971611134708,0.649032264715061,0.92196201486513,0.221929930150509,0.227556547150016,0.555940398946404,0.164565742947161,0.256834364961833,0.305061378283426,0.77414106647484,0.261927616549656,0.912109920987859,0.352818520972505,0.79159211460501,0.888641913887113,0.138134099775925,0.920629557222128,0.500079270917922,0.378344935365021,0.558322764001787,0.306695350678638,0.658611844526604,0.566308042500168,0.943275998346508,0.130947034806013,0.708633437752724,0.119129517115653,0.457624497357756,0.848888363456354,0.509575778851286,0.944632177473977,0.930526062846184,0.556253351271152,0.314340259646997,0.759217523038387,0.223679658491164,0.167006883071736,0.901104954537004,0.448984577087685,0.576168163213879,0.605782554484904,0.0813522555399686,0.00922783254645765,0.753839003620669,0.812104594893754,0.922222964465618,0.636056806892157,0.84724951768294,0.0306703967507929,0.487076499732211,0.312590468442068,0.662260869052261,0.602726381737739,0.149073496460915,0.456199828302488,0.0400847452692688,0.371361270081252,0.127963812556118,0.0764304909389466,0.335984077537432,0.607925654854625,0.341915290802717,0.23714290256612,0.584399596787989,0.635139560792595,0.496361032128334,0.236416918458417,0.681918781716377,0.563514593057334,0.890493250684813,0.47311211633496,0.686045142123476,0.130531752482057,0.113965611439198,0.654163470026106,0.496664621867239,0.864382725441828,0.972632887074724,0.496878774836659,0.359208171255887,0.50168278766796,0.67891055974178,0.114024447277188,0.409817378036678,0.228713816497475,0.502926529385149,0.57793324906379,0.864425196079537,0.344699319684878,0.0103966661263257,0.300208175322041,0.581035517854616,0.214749381877482,0.282982483506203,0.286360195372254,0.585157063789666,0.235315843485296,0.744531006552279,0.712984418962151,0.632506957277656,0.71781838987954,0.162203626474366,0.612781392410398,0.0231043889652938,0.684686504071578,0.922614209121093,0.818806945579126,0.558810000075027,0.783602779265493,0.534451151965186,0.49708727770485,0.960310692898929,0.633161714533344,0.254645985784009,0.662141638807952,0.99452920537442,0.219762409105897,0.681698966771364,0.246896074386314,0.178237420972437,0.356584215303883,0.131896106991917,0.815459325211123,0.827775127487257,0.0143617815338075,0.684298023814335,0.876816504402086,0.617649010615423,0.261742000468075,0.989818492671475,0.697174722095951,0.8636414273642,0.339868454029784,0.0851341616362333,0.629324643407017,0.0247920416295528,0.463066044729203,0.964279254432768,0.0312597395386547,0.929135066689923,0.0361791315954179,0.567846744321287,0.736806730739772,0.314782348228619,0.286597632104531,0.806244510691613,0.577312612440437,0.28105835407041,0.826437104260549,0.0218159542419016,0.543382575502619,0.313639178872108,0.460116431349888,0.480450067203492,0.625792649108917,0.354780634166673,0.442403819411993,0.274728070013225,0.546378587372601,0.22799961315468,0.631579213542864,0.895622963551432,0.134619828313589,0.244969639461488,0.42890700395219,0.640890497947112,0.145229844376445,0.446908215526491,0.840552429901436,0.602477938868105,0.938463848084211,0.67303156782873,0.901543986983597,0.374683699104935,0.895340463146567,0.0759510300122201,0.76863256120123,0.201001118868589,0.781725768698379,0.164929939201102,0.342884262790903,0.179989435477182,0.378242495004088,0.6189644287806,0.939357717754319,0.127846464980394,0.806029208702967,0.0782386062201113,0.821811865316704,0.991730825044215,0.371151249622926,0.0900140188168734,0.0212498190812767,0.652193595655262,0.851469574961811,0.17650906718336,0.232505986699834],"y":[0.595744224730879,0.9676060276106,0.309676897246391,0.0380038945004344,0.159080730983987,0.367532375268638,0.189880156191066,0.289820033591241,0.2741277476307,0.128557734191418,0.73129816330038,0.111026512924582,0.262085692258552,0.411664189537987,0.121976825175807,0.247444397304207,0.749061561888084,0.754236045526341,0.777007962111384,0.527882916387171,0.341844010399655,0.810280599631369,0.200523785082623,0.173163204221055,0.349352820077911,0.0253533897921443,0.984893005574122,0.749327046098188,0.148430956760421,0.191334528382868,0.736579493386671,0.976124562555924,0.0767890766728669,0.492553468327969,0.605463511077687,0.103684026282281,0.618959893938154,0.55795101262629,0.585508038522676,0.961565287783742,0.0158454317133874,0.347059415886179,0.623253452591598,0.127486686222255,0.465822988888249,0.67002927348949,0.757151131751016,0.921847144141793,0.959883958101273,0.408136179903522,0.278521056519821,0.62072712671943,0.146456080954522,0.781621010508388,0.603141146944836,0.464833481702954,0.967367324745283,0.466667881933972,0.468665056396276,0.338340083137155,0.711561819305643,0.651089732069522,0.12272047274746,0.957529513165355,0.502234400482848,0.584539748728275,0.213038774672896,0.337779299588874,0.319780623773113,0.151106765493751,0.790785366669297,0.996373146539554,0.648457314353436,0.52225754968822,0.950013548368588,0.181550394045189,0.0163726075552404,0.772179474122822,0.846355448709801,0.352654904825613,0.738451024051756,0.989537382032722,0.871877923840657,0.374935155035928,0.383639934938401,0.83056965097785,0.671342292334884,0.160631543258205,0.22388518624939,0.0669323864858598,0.856889940565452,0.9527406480629,0.621235859347507,0.878818646771833,0.0722178977448493,0.987186948768795,0.0194005619268864,0.405134688131511,0.0435068490915,0.688260655617341,0.88022138690576,0.511694675311446,0.981176262488589,0.627038332400844,0.528727018041536,0.353746807435527,0.0544565534219146,0.187774595106021,0.238428924931213,0.480200002202764,0.973910244647413,0.759403281379491,0.517754176398739,0.401569125475362,0.0373494368977845,0.555047329282388,0.757024398539215,0.213566984282807,0.879309867275879,0.218776697991416,0.933992038015276,0.728570314124227,0.267915444681421,0.796988122165203,0.565788244828582,0.689215322490782,0.504602028755471,0.395103942137212,0.0357444318942726,0.0554809984751046,0.425491282017902,0.420050642453134,0.269463007338345,0.922125789569691,0.202988265547901,0.695429343963042,0.397518251789734,0.641971251694486,0.448656918015331,0.311936046695337,0.919227258069441,0.934950721217319,0.409532647114247,0.254146455554292,0.831733705708757,0.218831220641732,0.0712974260095507,0.896481424802914,0.529815944610164,0.778932007495314,0.358494230313227,0.526750563876703,0.120148947928101,0.934515480650589,0.59654029016383,0.625064281281084,0.349540531169623,0.754317091312259,0.59112765151076,0.825247408356518,0.891345804557204,0.00922720483504236,0.641566692152992,0.211891170358285,0.486799956532195,0.611672664992511,0.944048514822498,0.468067666050047,0.00154969119466841,0.36322358250618,0.00701570301316679,0.0847090776078403,0.65695758536458,0.276165239745751,0.504752591252327,0.633433651411906,0.741828884230927,0.117408721009269,0.618942915461957,0.476313412887976,0.180887958267704,0.956636831630021,0.0372637829277664,0.412603841628879,0.0892968417610973,0.227023962885141,0.471937862923369,0.64258826058358,0.289328721817583,0.150423617800698,0.788832996040583,0.891841505654156,0.276688962941989,0.0723636595066637,0.380719493608922,0.581375817535445,0.367425486911088,0.683177727973089,0.622125455643982,0.269622539635748,0.0360947314184159,0.691112455911934,0.319300206610933,0.70208211732097,0.683954687556252,0.846379280090332,0.547343083890155,0.845999871380627,0.352671783184633,0.38349976669997,0.356450762366876,0.717390335164964,0.204074735986069,0.341520497109741,0.0776490035932511,0.979900290956721,0.44223258481361,0.595332307508215,0.988042652141303,0.237505073193461,0.457280935486779,0.0647175160702318,0.418160714674741,0.297516317572445,0.954631346277893,0.962272211210802,0.0603329911828041,0.242988803423941,0.759842597646639,0.0291367257013917,0.88669833727181,0.104971641208977,0.598589551169425,0.772820049431175,0.403521512635052,0.941185656702146,0.961174498079345,0.63809303753078,0.362338276579976,0.274753659032285,0.91306037735194,0.17525778664276,0.393198322039098,0.0142872584983706,0.861213703406975,0.967720106709749,0.889629325130954,0.890546656679362,0.936848895857111,0.554756562924013,0.208850081078708,0.529707527486607,0.0240513144526631,0.474365742178634,0.649104612646624,0.179210484726354,0.834426197456196,0.771796121727675,0.109374817926437,0.370992948068306,0.711551708169281,0.297533439006656,0.104920991463587,0.413852191297337,0.35135311097838,0.584428407484666,0.40942029026337,0.0288530788384378,0.907453618710861,0.391528220847249,0.0376126472838223,0.112662563798949,0.455259773880243,0.825136268977076,0.61152177141048,0.00266844592988491,0.927003538701683,0.892756608081982,0.402454086812213,0.389204153325409,0.833546184934676,0.0959015961270779,0.269172998145223,0.254242378054187,0.660298009635881,0.480413941899315,0.179998146137223,0.950786910951138,0.48360164789483,0.565459188772365,0.51264020241797,0.85014929366298,0.251138905063272,0.972850472666323,0.784028691239655,0.11897330917418,0.0633052007760853,0.323339309776202,0.259071727981791,0.638240208849311,0.818177369656041,0.306064700940624,0.387839215109125,0.488976790569723,0.194186079315841,0.362157147843391,0.77488925610669,0.53111879946664,0.430394028779119,0.718027695314959,0.770604098215699,0.486532827373594,0.295606329105794,0.58573907148093,0.402460078475997,0.07369573879987,0.652740760706365,0.805369040230289,0.545722658513114,0.238427873002365,0.413593947887421,0.57612962811254,0.21063886792399,0.947353613562882,0.244468880118802,0.379515600623563,0.211306755663827,0.432923570508137,0.228521327953786,0.278828379232436,0.871882834471762,0.74207611870952,0.172259936109185,0.0848349467851222,0.371288993163034,0.279334677616134,0.444995771860704,0.279043156653643,0.896771987434477,0.622565092053264,0.836413115262985,0.247220961377025,0.951946367975324,0.775835359934717,0.557126028463244,0.00757775199599564,0.764543836703524,0.79075718508102,0.849394439486787,0.406875953311101,0.472935945959762,0.82810565456748,0.585889659123495,0.894823820563033,0.890094134956598,0.371741947252303,0.400902078254148,0.655932917725295,0.160207125823945,0.70354205626063,0.0387614679057151,0.557253474835306,0.0509652723558247,0.00826045451685786,0.346827318426222,0.599525572033599,0.124815182993189,0.321020692354068,0.0919148323591799,0.0380186813417822,0.440738825593144,0.632705613737926,0.872366743860766,0.160922464216128,0.600971822859719,0.487380719045177,0.938530054641888,0.283784163650125,0.729964714264497,0.871794444974512,0.427970799384639,0.137915971688926,0.28550688480027,0.832312058890238,0.235242136754096,0.53503521438688,0.686887946445495,0.948232176946476,0.834605961106718,0.759462464833632,0.328913312405348,0.843276134924963,0.587408397579566,0.686805240344256,0.0566350894514471,0.310499943094328,0.259296341566369,0.840212405892089,0.622914549196139,0.264901177026331,0.673529412131757,0.38470083498396,0.104825065238401,0.794342891545966,0.319576972164214,0.812226378591731,0.260005381656811,0.310412475373596,0.690064104506746,0.952875935472548,0.18530765385367,0.870437130564824,0.37968681124039,0.854437048081309,0.954355535563082,0.620247090701014,0.352630745386705,0.353166920831427,0.555900138569996,0.128562636207789,0.252974402159452,0.593240757472813,0.880050593521446,0.92751400382258,0.0490226785186678,0.268240934005007,0.0516680444125086,0.681593767367303,0.0137984873726964,0.976739231497049,0.337982118828222,0.373683148063719,0.906232703244314,0.392686328850687,0.809251200873405,0.41607256163843,0.529513957677409,0.268183919368312,0.672909010667354,0.637940716929734,0.70348250027746,0.0168110313825309,0.960994717432186,0.366311341524124,0.79122788249515,0.348122118972242,0.804995553568006,0.950382979819551,0.806471020448953,0.916203625034541,0.533502466976643,0.912667945958674,0.0335803835187107,0.667909687152132,0.855142666958272,0.0106993678491563,0.5771981975995,0.583001110469922,0.60461515490897,0.623742569470778,0.037138968706131,0.435663168085739,0.186237513553351,0.806886583799496,0.927306786878034,0.243924996349961,0.110452179796994,0.0831202589906752,0.772600292926654,0.0318983846809715,0.808801989769563,0.59272658941336,0.834110860712826,0.814863638253883,0.159429016755894,0.648485744604841,0.559733156813309,0.516059549059719,0.539097467437387,0.415734527632594,0.182486171135679,0.3514274796471,0.721137470100075,0.495015731547028,0.107555251801386,0.990677250316367,0.123751314124092,0.0784490234218538,0.111583545105532,0.2691162051633,0.343636246863753,0.660680225351825,0.514516799710691,0.918442954309285,0.0699495251756161,0.951291558332741,0.278722440125421,0.00157758919522166,0.295434735016897,0.576047100126743,0.5019384638872,0.509884668281302,0.941611043410376,0.0591121737379581],"z":[0.323991221608594,0.610436109593138,0.567832217318937,0.0550869365688413,0.424796457402408,0.717029733816162,0.450016791699454,0.797270645620301,0.796233103144914,0.711755351163447,0.648381006205454,0.255597097799182,0.845034153666347,0.404281756607816,0.350101475371048,0.174109481507912,0.370282440911978,0.734246743377298,0.5667751559522,0.468810420483351,0.218785234494135,0.833466536365449,0.600324570666999,0.483144380617887,0.0236530248075724,0.409265822498128,0.162353075575083,0.225535589503124,0.788788786856458,0.0628578083124012,0.840999177657068,0.270448333350942,0.299815516220406,0.16272253007628,0.653959106188267,0.985077607445419,0.826687926892191,0.479049960384145,0.904480037745088,0.257358147064224,0.735163140576333,0.381507845362648,0.0439525805413723,0.956080975942314,0.530695422785357,0.64578404603526,0.600757192354649,0.333940642420202,0.327968158759177,0.0275306366384029,0.852012413321063,0.434628575807437,0.639188052155077,0.915421002078801,0.746963909827173,0.18479911214672,0.793180939508602,0.667527406010777,0.0958714305888861,0.625643268693238,0.201941078761593,0.98290732037276,0.826422246405855,0.311595690902323,0.421288454905152,0.990781688829884,0.64028382813558,0.624379142886028,0.375866678776219,0.600460956804454,0.437464037677273,0.333133111242205,0.352199631975964,0.0135846976190805,0.833954467438161,0.134417492430657,0.316539698280394,0.472739802207798,0.0549029135145247,0.813318302389234,0.148911492200568,0.345552402315661,0.0953994919545949,0.270765300374478,0.323536577168852,0.493496284820139,0.938950648065656,0.512132629286498,0.163787862984464,0.518905886914581,0.88531510042958,0.892675807001069,0.949328322662041,0.794330793665722,0.71323243691586,0.548498659394681,0.124104003189132,0.675327908014879,0.220662616891786,0.627575666410848,0.317167546367273,0.73100220807828,0.559722463600338,0.829761850647628,0.902256453409791,0.494156343629584,0.567813083995134,0.63325609639287,0.442775908624753,0.227943111211061,0.853854750050232,0.545960683841258,0.737208367791027,0.0580928884446621,0.117477914318442,0.947088493732736,0.893891926622018,0.882142970105633,0.662860527168959,0.798431776696816,0.365645163459703,0.960988521808758,0.0970750313717872,0.78679290227592,0.383831403683871,0.500796348555014,0.61603272636421,0.0944072569254786,0.457349956035614,0.00999817182309926,0.274623885750771,0.177441152743995,0.685639352537692,0.0941576766781509,0.645612228428945,0.404914410784841,0.118889567675069,0.772289471467957,0.358109776629135,0.0867455864790827,0.894926296314225,0.9630298090633,0.58117314404808,0.636999321868643,0.335095074260607,0.102113927248865,0.947940356098115,0.756220500916243,0.222647101385519,0.406083685578778,0.110780315240845,0.558256613090634,0.808144685579464,0.558599195675924,0.990416853688657,0.135323335183784,0.860822310205549,0.975214503705502,0.44510051026009,0.353215978713706,0.292359849670902,0.367686696583405,0.709838294191286,0.846557689365,0.0910404049791396,0.58261142205447,0.259366512065753,0.330771724460647,0.788211987353861,0.377686697524041,0.0924606691114604,0.782939369091764,0.0857467616442591,0.717689835466444,0.417032990604639,0.0248296824283898,0.845171635039151,0.242945382604375,0.898898935643956,0.474390792194754,0.149627041304484,0.342599893221632,0.365485642105341,0.705986084183678,0.419481667689979,0.477123840013519,0.122989733004943,0.832394524244592,0.00192143768072128,0.221021734876558,0.885346350027248,0.874715114710853,0.124707498820499,0.135446886299178,0.658269866136834,0.315066339215264,0.903181399451569,0.92469452903606,0.873223384376615,0.274816197343171,0.196263740537688,0.76568863587454,0.601795394904912,0.693840489722788,0.701082884566858,0.673299342626706,0.0627461571712047,0.258969353046268,0.533433028031141,0.341824306407943,0.603309376165271,0.101196237141266,0.893334101885557,0.49350343993865,0.480651849880815,0.746879144571722,0.90691518317908,0.226810121443123,0.265990281710401,0.530069783562794,0.585787651827559,0.694120491622016,0.976077712373808,0.783510358538479,0.259978923946619,0.971964390249923,0.540851071476936,0.290762928780168,0.541000304743648,0.274728596676141,0.25251097837463,0.417183704674244,0.329240940744057,0.32444576988928,0.824221099261194,0.0019022470805794,0.874154281569645,0.0603087227791548,0.313486045692116,0.959326705196872,0.588974891463295,0.389852915424854,0.353725517867133,0.436708688270301,0.886907974025235,0.489544020965695,0.819763134699315,0.523171780630946,0.878827654290944,0.986094394465908,0.692235066089779,0.701710744760931,0.571890183025971,0.984648132463917,0.375270971329883,0.243542129639536,0.0882435694802552,0.828529596095905,0.528152955928817,0.450622505741194,0.750370201654732,0.945709123509005,0.648244438227266,0.212918699719012,0.913653608877212,0.638824766268954,0.660336251370609,0.255818720674142,0.854178501060233,0.0643177719321102,0.982915128115565,0.724820949370041,0.573482836829498,0.127588348463178,0.783776408061385,0.328916369238868,0.87320958240889,0.0994652048684657,0.46131678018719,0.900372295640409,0.142124499194324,0.264423107495531,0.293685814132914,0.0911294610705227,0.414599006529897,0.700717601925135,0.0794170924928039,0.15347364358604,0.155256523750722,0.166040998883545,0.184328278759494,0.770573203451931,0.309582864167169,0.783370465505868,0.10081893322058,0.977652043337002,0.0796283427625895,0.518536093179137,0.410815563518554,0.2473391701933,0.806197474477813,0.359586582751945,0.154385281028226,0.824031117372215,0.809021449880674,0.389362604822963,0.218953278614208,0.364005357259884,0.274541604099795,0.315765933599323,0.713963821297511,0.746082533150911,0.850284390617162,0.435620943084359,0.92625488829799,0.26601273403503,0.126352037768811,0.293946277350187,0.475081354612485,0.96278605540283,0.25099123781547,0.919104621745646,0.529047449119389,0.701377110322937,0.817991030868143,0.435019009979442,0.415341265499592,0.676064366707578,0.116892656544223,0.328408353496343,0.817589460173622,0.548810425680131,0.155969140119851,0.295948941260576,0.129587372764945,0.942006649915129,0.359533042181283,0.0134918796829879,0.892388571053743,0.568226645002142,0.785682515474036,0.986553629627451,0.451572582591325,0.564658835995942,0.158030038466677,0.900958764366806,0.228259848430753,0.569247000850737,0.733044851338491,0.715574151137844,0.0617942453827709,0.993111049057916,0.616391808260232,0.933437164407223,0.00919685396365821,0.043783653061837,0.915842974092811,0.78056616242975,0.642967203631997,0.61972354981117,0.487186374608427,0.305306787602603,0.183354245964438,0.794465445680544,0.204782815650105,0.769341827370226,0.334386582253501,0.7197945213411,0.00366388796828687,0.982497506774962,0.943765925243497,0.199452576460317,0.49516574642621,0.632482826244086,0.653815333964303,0.734989707358181,0.961377127328888,0.826982900267467,0.321164610330015,0.678412713576108,0.307899641338736,0.338071747915819,0.147606343496591,0.0841322592459619,0.811343381181359,0.305350314127281,0.0837483594659716,0.437789567979053,0.080750014167279,0.152918525505811,0.878652132116258,0.26359403366223,0.16092962375842,0.936644812347367,0.929093074519187,0.722018301021308,0.867391671519727,0.376206202898175,0.536238873843104,0.640805640723556,0.548707496607676,0.890674045542255,0.554268704494461,0.0531098172068596,0.356616691220552,0.997022033901885,0.103322790469974,0.0417519430629909,0.58744353428483,0.876038437476382,0.59504994773306,0.232500797370449,0.161885980283841,0.464233397040516,0.779624433023855,0.702974423766136,0.909046507673338,0.188853207975626,0.567847612779588,0.271975397365168,0.0325106298550963,0.721740765497088,0.565803951350972,0.746365129714832,0.11166160996072,0.500099669443443,0.641043609939516,0.990333348046988,0.817444768268615,0.72110613854602,0.373198982328176,0.314144964329898,0.266302682459354,0.688188941217959,0.174394769361243,0.285642915638164,0.818236645311117,0.930138494586572,0.107154123717919,0.365941732190549,0.40982125652954,0.201501245377585,0.362258022418246,0.697573046199977,0.453142796875909,0.0877600910607725,0.490382963558659,0.7210644306615,0.128697273787111,0.561544942902401,0.0527799478732049,0.342642344301566,0.140617773868144,0.185311892535537,0.208755869651213,0.549452433129773,0.383555625798181,0.968807083554566,0.962043968727812,0.20212676958181,0.886687788413838,0.0734348522964865,0.696275253314525,0.19379952410236,0.900151002686471,0.668227321468294,0.00601843884214759,0.801295252516866,0.132664174539968,0.177464843494818,0.0235461043193936,0.096122866962105,0.16628303937614,0.439761934569106,0.868943365290761,0.547848034882918,0.110502089839429,0.414209595881402,0.28698421199806,0.133725938154384,0.933047885075212,0.945950515568256,0.101414532167837,0.923369899624959,0.380892840679735,0.480300404364243,0.202808237168938,0.8950304700993,0.553547829156741,0.820809166645631,0.368769115069881,0.933851362438872,0.00709456182084978,0.548478740965948,0.0234284589532763,0.14080657158047,0.85960215004161,0.150377109646797,0.93037056713365,0.681293131783605,0.545566795859486,0.277116732904688,0.189345243386924,0.897536661010236],"type":"scatter3d","mode":"markers","name":"2","marker":{"color":"rgba(0,0,255,1)","size":[55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55,55],"sizemode":"area","line":{"color":"rgba(0,0,255,1)"}},"textfont":{"color":"rgba(0,0,255,1)","size":55},"error_y":{"color":"rgba(0,0,255,1)","width":55},"error_x":{"color":"rgba(0,0,255,1)","width":55},"line":{"color":"rgba(0,0,255,1)","width":55},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 4: Interactive 3d cloud.
+</p>
+</div>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-hynynen_growth_2019" class="csl-entry">
+Hynynen, Jari, Kalle Eerikäinen, Harri Mäkinen, and Sauli Valkonen. 2019. <span>“Growth Response to Cuttings in Norway Spruce Stands Under Even-Aged and Uneven-Aged Management.”</span> <em>Forest Ecology and Management</em> 437 (April): 314–23. <a href="https://doi.org/10.1016/j.foreco.2018.12.032">https://doi.org/10.1016/j.foreco.2018.12.032</a>.
+</div>
+<div id="ref-R-base" class="csl-entry">
+R Core Team. 2016. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Were are down here!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><code>^[footnote text]</code><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://bookdown.org/yihui/bookdown/figures.html" class="uri">https://bookdown.org/yihui/bookdown/figures.html</a><a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://antiphon.github.io/tags/blogdown/">blogdown</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="http://antiphon.github.io/">Tuomas Rajala ~ Statistician</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

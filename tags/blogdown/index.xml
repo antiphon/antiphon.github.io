@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>blogdown on Tuomas Rajala ~ Statistician</title>
+    <link>http://antiphon.github.io/tags/blogdown/</link>
+    <description>Recent content in blogdown on Tuomas Rajala ~ Statistician</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://antiphon.github.io/tags/blogdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blogdown test post</title>
+      <link>http://antiphon.github.io/blog/testi-posti/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://antiphon.github.io/blog/testi-posti/</guid>
+      <description>IntroBasic featuresMathsR chuncksCitations etcMiscImagesInteractive stuffReferencesEdited: 2022-06-16 19:54:03
+IntroTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tuomas Rajala ~ Statistician</title>
+    <link>http://antiphon.github.io/</link>
+    <description>Recent content on Tuomas Rajala ~ Statistician</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 28 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://antiphon.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Natural protection areas in Finland into R</title>
+      <link>http://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/</link>
+      <pubDate>Fri, 28 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/</guid>
+      <description>A quick note on fetching Finland’s natural protection area -data (luonnonsuojeluealueet) from Syke’s servers into R.
+Requirements:
+library(sf)library(dplyr)library(ggplot2)# Optional: Polygonal Finland for reference. Provide your own.fin &amp;lt;- st_geometry( st_as_sf( suomi::finland_polygons$sp_hires ) )Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.
+Download dataThe website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot (2020-02-27). The download links are a bit different.
+# The target zipstypes &amp;lt;- c(&amp;quot;eramaa&amp;quot;, &amp;quot;valtio&amp;quot;, &amp;quot;yksityinen&amp;quot;)urlf &amp;lt;- &amp;quot;http://wwwd3.</description>
+    </item>
+    
+    <item>
+      <title>Golden ratio of Valium</title>
+      <link>http://antiphon.github.io/blog/golden-ratio-of-valium/</link>
+      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://antiphon.github.io/blog/golden-ratio-of-valium/</guid>
+      <description>Damien Hirst and patterns again, this time using the golden ratio.</description>
+    </item>
+    
+    <item>
+      <title>Blogdown test post</title>
+      <link>http://antiphon.github.io/blog/testi-posti/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://antiphon.github.io/blog/testi-posti/</guid>
+      <description>IntroBasic featuresMathsR chuncksCitations etcMiscImagesInteractive stuffReferencesEdited: 2022-06-16 19:54:03
+IntroTo begin posting interesting statistics tidbits and personal notes online, I first needed to find a suitable workflow to make the publication process as easy as possible. Since I work most days using R with Rstudio, this blogdown-generated site format might just do. Let’s play with it a bit a see what it can do.</description>
+    </item>
+    
+    <item>
+      <title>Spot painting, randomly</title>
+      <link>http://antiphon.github.io/blog/spot-painting-randomly/</link>
+      <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://antiphon.github.io/blog/spot-painting-randomly/</guid>
+      <description>Damien Hirsts’ paintings with random coloured dots on white canvas go for thousands, e.g. this 8x6 regular grid spot-painting, canvas size 50.0 x 71.1cm, with price tag of £15k-20k:
+Figure 1: ©artsy.netAs I work with points scattered on various sub-spaces, I decided to write a small Shiny-app for generating such spot patterns. Here is an example with similar specs as the £20k painting:
+Figure 2: Generated automaticallyThe app is available at Shinyapps, “Spot painting”.</description>
+    </item>
+    
+  </channel>
+</rss>

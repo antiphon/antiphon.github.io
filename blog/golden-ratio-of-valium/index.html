@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Golden ratio of Valium | Tuomas Rajala ~ Statistician</title>
+<meta name="keywords" content="art, geometry">
+<meta name="description" content="Damien Hirst and patterns again, this time using the golden ratio.">
+<meta name="author" content="Tuomas Rajala">
+<link rel="canonical" href="http://antiphon.github.io/blog/golden-ratio-of-valium/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d7fb4cbf980fe688a21621b06a795933c4e6bb2d4070ec940667af1715d84af2.css" integrity="sha256-1/tMv5gP5oiiFiGwanlZM8Tmuy1AcOyUBmevFxXYSvI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://antiphon.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://antiphon.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://antiphon.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://antiphon.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="http://antiphon.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Golden ratio of Valium" />
+<meta property="og:description" content="Damien Hirst and patterns again, this time using the golden ratio." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://antiphon.github.io/blog/golden-ratio-of-valium/" />
+<meta property="og:image" content="http://antiphon.github.io/featured-small.png" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2020-02-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-02-16T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://antiphon.github.io/featured-small.png" />
+<meta name="twitter:title" content="Golden ratio of Valium"/>
+<meta name="twitter:description" content="Damien Hirst and patterns again, this time using the golden ratio."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "http://antiphon.github.io/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Golden ratio of Valium",
+      "item": "http://antiphon.github.io/blog/golden-ratio-of-valium/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Golden ratio of Valium",
+  "name": "Golden ratio of Valium",
+  "description": "Damien Hirst and patterns again, this time using the golden ratio.",
+  "keywords": [
+    "art", "geometry"
+  ],
+  "articleBody": "\rHirst’s Valium and the Golden ratio\rThe artist Damien Hirst has a painting called Valium (2000) (£6k-8k at Christie’s) which is based on a geometrically repeating pattern coupled with randomised colors. The pattern of locations resembles that found in a sun flower, and has a beautiful connection to the golden ratio. Numberphile has a video1 that explains the maths quite nicely, let’s demostrate the idea here.\nThe priciple is to add dots around a center with a constant rotational step while moving further out each round. let’s write a script that does that:\ngenerator \u003c- function(\rfrac = 2, # fraction of a round per turn\rits = 100 # do this many rounds\r){\rturn \u003c- 2*pi / frac # turn angle each step, radians\rit \u003c- 1 # which rotation are we at\rang \u003c- 0 # # Points in polars, first location\rr \u003c- 1\ri \u003c- 1 # iterator\rwhile(TRUE) {\rnewang \u003c- turn + ang[i]\rif(newang \u003e= 2*pi){ # have we done full round?\rit \u003c- it + 1\rif(it \u003e its) break # stop\rr[i+1] \u003c- r[i] + 1 }\relse {\rr[i+1] \u003c- r[i]\r}\rang[i+1] \u003c- newang %% (2*pi)\ri \u003c- i+1\r}\r# In Cartesian\rx \u003c- r * cos(ang)\ry \u003c- r * sin(ang)\rcbind(x = x, y = y, r = r, ang = ang)\r}\r# shorthand generate + plot\rplop \u003c- function(frac, its, ..., main = 1/frac) {\rlim \u003c- c(-1,1)*( its + 1)\rplot(generator(frac, its), axes=FALSE, asp = 1, xlim = lim, ylim =lim, main = main, ...)\rpoints(0,0,pch=3)\r}\rWe can now illustrate that if the turn is a rational fraction of a circle, we get a repeating pattern. Example:\nfracs \u003c- c(2, 3, 5, 10)\rpar(mfrow = c(2,2), mar = c(1,1,1,1))\rfor(f in fracs) plop(f, its = 20)\rSo when the fraction is 1/5 we will have 5 spokes, for example.\nThe interesting thing is that when the fraction becomes less like a rational number, the pattern becomes more and more staggered. Repeating the example in the Numberphile video where we are close to the fraction 1/3:\nfracs \u003c- (3 + seq(-1,1, l = 7)*.01)[-1]\rpar(mfrow = c(2,3), mar = c(1,1,2,1))\rfor(f in fracs) plop(f, its = 200)\rFigure 1: Fractions near 1/3\rIn the video the golden ration \\(\\phi=\\frac{1 + \\sqrt{5}}{2}\\approx 1.61808\\) is argued to be”the most irrational number” because it is hardest to approximate with a rational number. The maths is not hard to understand, but to just illustrate the property discussed in the video, let’s see some irrational numbers alongside the golden ratio:\ngr \u003c- (1+sqrt(5))/2\rfracs \u003c- list(\"pi\"= pi, \"Sqrt 2\"= sqrt(2), \"Golden ratio\"= gr)\rpar(mfrow = c(1,3), mar = c(1,1,1,1))\rfor(i in names(fracs)) plop(fracs[[i]], its = 500, main = i, cex = .5)\rIt is quite clear how \\(\\pi\\)’s pattern has that spokiness of rational numbers, and this is because it can be approximated with a rational number quite well (viz. Figure 1 above). \\(\\sqrt{2}\\) is a bit more mixed up but starts to show spokes as we get further out. The golden ratio is clearly the least spoky and keeps at it the furthest out. Note also the resemblance to the sun flower.\nSpot paintings\rReturning to the paintings by Damien Hirst, we can now mimic the Valium painting pattern as it is quite obviously based on the golden ratio.\nFirst, let’s adjust the radius of each dot, as otherwise the pattern is visually too packed near the center and thins out the further we go. To do this we transform each point’s distance from the center by taking the square-root of it, which will keep the intensity of the points per unit area constant (proof available somewhere). Then we decorate with the famous random colors, and just as a final touch we add some noise to mimic the imperfect human hand:\nset.seed(1)\rx \u003c- generator(gr, 700)\rang \u003c- x[,4]\rnewr \u003c- sqrt( x[,3] )\rxy \u003c- cbind( newr * cos(ang), newr*sin(ang) )\r# add some noise\rxy \u003c- xy + runif(length(xy), -.1, .1)\r# Pick colors:\rcol \u003c- sample(colors(), nrow(xy), replace = TRUE)\r# we are done:\rpar(mar=c(1,1,1,1), mfrow=c(1,1))\rplot(xy, asp = 1, pch = 19, col = col, axes=F, cex= 1)\rFigure 2: Author’s rendition\rFor reference, here is the original by Hirst (from WikiArt):\nFigure 3: Hirst: Valium (from Wikiart)\rI don’t have £7k or anything like that floating about, but I’m pretty sure that when I want random spots on a white canvas to decorate my flat with, I can figure out a sufficient substitute.\nhttps://www.youtube.com/watch?v=sj8Sg8qnjOg↩︎\n",
+  "wordCount" : "762",
+  "inLanguage": "en",
+  "image":"http://antiphon.github.io/featured-small.png","datePublished": "2020-02-16T00:00:00Z",
+  "dateModified": "2020-02-16T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Tuomas Rajala"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://antiphon.github.io/blog/golden-ratio-of-valium/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tuomas Rajala ~ Statistician",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://antiphon.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://antiphon.github.io/" accesskey="h" title="  (Alt + H)">
+                <img src="http://antiphon.github.io/img/sigma-blue-1.png" alt="logo" aria-label="logo"
+                    height="36"> </a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://antiphon.github.io/blog/" title="blog">
+                    <span>blog</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Golden ratio of Valium
+    </h1>
+    <div class="post-description">
+      Damien Hirst and patterns again, this time using the golden ratio.
+    </div>
+    <div class="post-meta"><span title='2020-02-16 00:00:00 +0000 UTC'>February 16, 2020</span>&nbsp;·&nbsp;Tuomas Rajala
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#" aria-label="Hirst’s Valium and the Golden ratio">Hirst’s Valium and the Golden ratio</a><ul>
+                        
+                <li>
+                    <a href="#" aria-label="Spot paintings">Spot paintings</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content">
+
+
+<div id="hirsts-valium-and-the-golden-ratio" class="section level1">
+<h1>Hirst’s Valium and the Golden ratio</h1>
+<p>The artist Damien Hirst has a painting called <em>Valium</em> (2000) (£6k-8k at Christie’s) which is based on a geometrically repeating pattern coupled with randomised colors. The pattern of locations resembles that found in a sun flower, and has a beautiful connection to the golden ratio. Numberphile has a video<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> that explains the maths quite nicely, let’s demostrate the idea here.</p>
+<p>The priciple is to add dots around a center with a constant rotational step while moving further out each round. let’s write a script that does that:</p>
+<pre class="r"><code>generator &lt;- function(
+              frac = 2, # fraction of a round per turn
+              its  = 100 # do this many rounds
+              ){
+  turn &lt;- 2*pi / frac # turn angle each step, radians
+  it &lt;- 1 # which rotation are we at
+  ang &lt;- 0  # # Points in polars, first location
+  r &lt;- 1
+  i &lt;- 1 # iterator
+  while(TRUE) {
+    newang &lt;- turn + ang[i]
+    if(newang &gt;= 2*pi){ # have we done full round?
+      it &lt;- it + 1
+      if(it &gt; its) break # stop
+      r[i+1] &lt;- r[i] + 1     
+    }
+    else {
+      r[i+1] &lt;- r[i]
+    }
+    ang[i+1] &lt;- newang %% (2*pi)
+    i &lt;- i+1
+  }
+  # In Cartesian
+  x &lt;- r * cos(ang)
+  y &lt;- r * sin(ang)
+  cbind(x = x, y = y, r = r, ang = ang)
+}
+
+
+# shorthand generate + plot
+plop &lt;- function(frac, its, ..., main = 1/frac) {
+  lim &lt;- c(-1,1)*( its + 1)
+  plot(generator(frac, its), 
+       axes=FALSE, asp = 1, xlim = lim, ylim =lim, main = main, ...)
+  points(0,0,pch=3)
+}</code></pre>
+<p>We can now illustrate that if the turn is a rational fraction of a circle, we get a repeating pattern. Example:</p>
+<pre class="r"><code>fracs &lt;- c(2, 3, 5, 10)
+par(mfrow = c(2,2), mar = c(1,1,1,1))
+for(f in fracs) plop(f, its = 20)</code></pre>
+<p><img src="http://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>So when the fraction is 1/5 we will have 5 spokes, for example.</p>
+<p>The interesting thing is that when the fraction becomes less like a rational number, the pattern becomes more and more staggered. Repeating the example in the Numberphile video where we are close to the fraction 1/3:</p>
+<pre class="r"><code>fracs &lt;- (3 + seq(-1,1, l = 7)*.01)[-1]
+par(mfrow = c(2,3), mar = c(1,1,2,1))
+for(f in fracs) plop(f, its = 200)</code></pre>
+<div class="figure"><span style="display:block;" id="fig:threes"></span>
+<img src="http://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/threes-1.png" alt="Fractions near 1/3" width="672" />
+<p class="caption">
+Figure 1: Fractions near 1/3
+</p>
+</div>
+<p>In the video the golden ration <span class="math inline">\(\phi=\frac{1 + \sqrt{5}}{2}\approx 1.61808\)</span> is argued to be”the most irrational number” because it is hardest to approximate with a rational number. The maths is not hard to understand, but to just illustrate the property discussed in the video, let’s see some irrational numbers alongside the golden ratio:</p>
+<pre class="r"><code>gr &lt;- (1+sqrt(5))/2
+fracs &lt;- list(&quot;pi&quot;= pi, &quot;Sqrt 2&quot;= sqrt(2), &quot;Golden ratio&quot;= gr)
+par(mfrow = c(1,3), mar = c(1,1,1,1))
+for(i in names(fracs)) plop(fracs[[i]], its = 500, main = i, cex = .5)</code></pre>
+<p><img src="http://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>It is quite clear how <span class="math inline">\(\pi\)</span>’s pattern has that spokiness of rational numbers, and this is because it can be approximated with a rational number quite well (<em>viz.</em> Figure <a href="#fig:threes">1</a> above). <span class="math inline">\(\sqrt{2}\)</span> is a bit more mixed up but starts to show spokes as we get further out. The golden ratio is clearly the least spoky and keeps at it the furthest out. Note also the resemblance to the sun flower.</p>
+<div id="spot-paintings" class="section level2">
+<h2>Spot paintings</h2>
+<p>Returning to the paintings by Damien Hirst, we can now mimic the <em>Valium</em> painting pattern as it is quite obviously based on the golden ratio.</p>
+<p>First, let’s adjust the radius of each dot, as otherwise the pattern is visually too packed near the center and thins out the further we go. To do this we transform each point’s distance from the center by taking the square-root of it, which will keep the intensity of the points per unit area constant (proof available somewhere). Then we decorate with the famous random colors, and just as a final touch we add some noise to mimic the imperfect human hand:</p>
+<pre class="r"><code>set.seed(1)
+x &lt;- generator(gr, 700)
+ang &lt;- x[,4]
+newr &lt;- sqrt( x[,3] )
+xy &lt;- cbind( newr * cos(ang), newr*sin(ang)  )
+# add some noise
+xy &lt;- xy + runif(length(xy), -.1, .1)
+# Pick colors:
+col &lt;- sample(colors(), nrow(xy), replace = TRUE)
+
+# we are done:
+par(mar=c(1,1,1,1), mfrow=c(1,1))
+plot(xy, asp = 1, pch = 19, col = col, axes=F, cex= 1)</code></pre>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="http://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-4-1.png" alt="Author's rendition" width="672" />
+<p class="caption">
+Figure 2: Author’s rendition
+</p>
+</div>
+<p>For reference, here is the original by Hirst (from WikiArt):</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="images/hirst-valium-wikiart.jpg" alt="Hirst: Valium (from Wikiart)"  />
+<p class="caption">
+Figure 3: Hirst: Valium (from Wikiart)
+</p>
+</div>
+<p>I don’t have £7k or anything like that floating about, but I’m pretty sure that when I want random spots on a white canvas to decorate my flat with, I can figure out a sufficient substitute.</p>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://www.youtube.com/watch?v=sj8Sg8qnjOg" class="uri">https://www.youtube.com/watch?v=sj8Sg8qnjOg</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://antiphon.github.io/tags/art/">art</a></li>
+      <li><a href="http://antiphon.github.io/tags/geometry/">geometry</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="http://antiphon.github.io/">Tuomas Rajala ~ Statistician</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
