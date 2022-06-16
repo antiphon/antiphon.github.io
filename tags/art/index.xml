@@ -16,16 +16,5 @@
       <description>Damien Hirst and patterns again, this time using the golden ratio.</description>
     </item>
     
-    <item>
-      <title>Spot painting, randomly</title>
-      <link>http://antiphon.github.io/blog/spot-painting-randomly/</link>
-      <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://antiphon.github.io/blog/spot-painting-randomly/</guid>
-      <description>Damien Hirsts’ paintings with random coloured dots on white canvas go for thousands, e.g. this 8x6 regular grid spot-painting, canvas size 50.0 x 71.1cm, with price tag of £15k-20k:
-Figure 1: ©artsy.netAs I work with points scattered on various sub-spaces, I decided to write a small Shiny-app for generating such spot patterns. Here is an example with similar specs as the £20k painting:
-Figure 2: Generated automaticallyThe app is available at Shinyapps, “Spot painting”.</description>
-    </item>
-    
   </channel>
 </rss>
