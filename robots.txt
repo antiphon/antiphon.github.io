@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: http://antiphon.github.io/sitemap.xml
+Sitemap: https://antiphon.github.io/sitemap.xml
