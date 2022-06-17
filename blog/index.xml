@@ -76,11 +76,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
       <pubDate>Fri, 28 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/</guid>
-      <description>A quick note on fetching Finland&amp;rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&amp;rsquo;s servers into R.
-Requirements:
-library(sf) library(dplyr) library(ggplot2) # Optional: Polygonal Finland for reference. Provide your own. fin &amp;lt;- st_geometry( st_as_sf( suomi::finland_polygons$sp_hires ) ) Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.
-Download data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot (2020-02-27). The download links are a bit different.
-# The target zips types &amp;lt;- c(&amp;#34;eramaa&amp;#34;, &amp;#34;valtio&amp;#34;, &amp;#34;yksityinen&amp;#34;) urlf &amp;lt;- &amp;#34;http://wwwd3.</description>
+      <description>A quick note on fetching Finland&amp;#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&amp;#39;s servers into R.</description>
       <content:encoded><![CDATA[<p>A quick note on fetching Finland&rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&rsquo;s servers into R.</p>
 <p>Requirements:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>

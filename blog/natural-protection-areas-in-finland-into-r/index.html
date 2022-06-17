@@ -7,11 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician</title>
 <meta name="keywords" content="R, geo">
-<meta name="description" content="A quick note on fetching Finland&rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&rsquo;s servers into R.
-Requirements:
-library(sf) library(dplyr) library(ggplot2) # Optional: Polygonal Finland for reference. Provide your own. fin &lt;- st_geometry( st_as_sf( suomi::finland_polygons$sp_hires ) ) Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.
-Download data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot (2020-02-27). The download links are a bit different.
-# The target zips types &lt;- c(&#34;eramaa&#34;, &#34;valtio&#34;, &#34;yksityinen&#34;) urlf &lt;- &#34;http://wwwd3.">
+<meta name="description" content="A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R.">
 <meta name="author" content="Tuomas Rajala">
 <link rel="canonical" href="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1a604fedec25e03e9fbf0fa84dfc2a185356369a0f7842f05d48cbb4e27cb258.css" integrity="sha256-GmBP7ewl4D6fvw&#43;oTfwqGFNWNpoPeELwXUjLtOJ8slg=" rel="preload stylesheet" as="style">
@@ -19,19 +15,11 @@ Download data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/
 <link rel="apple-touch-icon" href="https://antiphon.github.io/apple-touch-icon.png">
 
 <meta name="twitter:title" content="Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician" />
-<meta name="twitter:description" content="A quick note on fetching Finland&rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&rsquo;s servers into R.
-Requirements:
-library(sf) library(dplyr) library(ggplot2) # Optional: Polygonal Finland for reference. Provide your own. fin &lt;- st_geometry( st_as_sf( suomi::finland_polygons$sp_hires ) ) Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.
-Download data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot (2020-02-27). The download links are a bit different.
-# The target zips types &lt;- c(&#34;eramaa&#34;, &#34;valtio&#34;, &#34;yksityinen&#34;) urlf &lt;- &#34;http://wwwd3." />
+<meta name="twitter:description" content="A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R." />
 <meta name="twitter:site" content="@novoreorx" />
 <meta name="twitter:creator" content="@novoreorx" />
 <meta property="og:title" content="Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician" />
-<meta property="og:description" content="A quick note on fetching Finland&rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&rsquo;s servers into R.
-Requirements:
-library(sf) library(dplyr) library(ggplot2) # Optional: Polygonal Finland for reference. Provide your own. fin &lt;- st_geometry( st_as_sf( suomi::finland_polygons$sp_hires ) ) Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.
-Download data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot (2020-02-27). The download links are a bit different.
-# The target zips types &lt;- c(&#34;eramaa&#34;, &#34;valtio&#34;, &#34;yksityinen&#34;) urlf &lt;- &#34;http://wwwd3." />
+<meta property="og:description" content="A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/" />
 <meta property="article:section" content="blog" />
@@ -65,7 +53,7 @@ Download data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/
   "@type": "BlogPosting",
   "headline": "Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician",
   "name": "Natural protection areas in Finland into R",
-  "description": "A quick note on fetching Finland\u0026rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke\u0026rsquo;s servers into R.\nRequirements:\nlibrary(sf) library(dplyr) library(ggplot2) # Optional: Polygonal Finland for reference. Provide your own. fin \u0026lt;- st_geometry( st_as_sf( suomi::finland_polygons$sp_hires ) ) Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.\nDownload data The website for the data is https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot (2020-02-27). The download links are a bit different.\n# The target zips types \u0026lt;- c(\u0026#34;eramaa\u0026#34;, \u0026#34;valtio\u0026#34;, \u0026#34;yksityinen\u0026#34;) urlf \u0026lt;- \u0026#34;http://wwwd3.",
+  "description": "A quick note on fetching Finland's natural protection area -data (luonnonsuojeluealueet) from Syke's servers into R.",
   "keywords": [
     "R", "geo"
   ],
@@ -295,6 +283,9 @@ function toggleThemeListener() {
     <h1 class="post-title">
       Natural protection areas in Finland into R
     </h1>
+    <div class="post-description">
+      A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R.
+    </div>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2020-02-28</span></span><span class="meta-item">
