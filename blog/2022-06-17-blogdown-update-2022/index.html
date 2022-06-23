@@ -60,7 +60,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
   "keywords": [
     "blogdown"
   ],
-  "wordCount" : "435",
+  "wordCount" : "485",
   "inLanguage": "en",
   "datePublished": "2022-06-17T00:00:00Z",
   "dateModified": "2022-06-17T00:00:00Z",
@@ -309,7 +309,9 @@ function toggleThemeListener() {
                 <li>
                     <a href="#fix-missing-figures-and-tables-due-to-raw-html-omitted" aria-label="Fix missing figures and tables due to &amp;ldquo;raw html omitted&amp;rdquo;">Fix missing figures and tables due to &ldquo;raw html omitted&rdquo;</a></li>
                 <li>
-                    <a href="#copy-svg-icon-for-orcid-from-papermod" aria-label="Copy svg icon for Orcid from PaperMod">Copy svg icon for Orcid from PaperMod</a>
+                    <a href="#copy-svg-icon-for-orcid-from-papermod" aria-label="Copy svg icon for Orcid from PaperMod">Copy svg icon for Orcid from PaperMod</a></li>
+                <li>
+                    <a href="#footnotes-no-more-inline-footnote-ness" aria-label="Footnotes: no more inline footnote-ness">Footnotes: no more inline footnote-ness</a>
                 </li>
             </ul>
         </div>
@@ -375,7 +377,17 @@ function toggleThemeListener() {
 </span></span><span class="line"><span class="cl">        fill=&#34;currentColor&#34; /&gt;
 </span></span><span class="line"><span class="cl">&lt;/svg&gt;
 </span></span><span class="line"><span class="cl">&#39;&#39;&#39;
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
+<p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>they said&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
   </div>
 
   <footer class="post-footer">

@@ -73,7 +73,17 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl">        fill=&#34;currentColor&#34; /&gt;
 </span></span><span class="line"><span class="cl">&lt;/svg&gt;
 </span></span><span class="line"><span class="cl">&#39;&#39;&#39;
-</span></span></code></pre></div>]]></content:encoded>
+</span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
+<p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>they said&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+]]></content:encoded>
     </item>
     
     <item>
@@ -228,7 +238,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
       <guid>https://antiphon.github.io/blog/golden-ratio-of-valium/</guid>
       <description>Damien Hirst and patterns again, this time using the golden ratio.</description>
       <content:encoded><![CDATA[<h1 id="hirsts-valium-and-the-golden-ratio">Hirst&rsquo;s Valium and the Golden ratio</h1>
-<p>The artist Damien Hirst has a painting called <em>Valium</em> (2000) (£6k-8k at Christie&rsquo;s) which is based on a geometrically repeating pattern coupled with randomised colors. The pattern of locations resembles that found in a sun flower, and has a beautiful connection to the golden ratio.  Numberphile has a video^[https://www.youtube.com/watch?v=sj8Sg8qnjOg] that explains the maths quite nicely, let&rsquo;s demostrate the idea here.</p>
+<p>The artist Damien Hirst has a painting called <em>Valium</em> (2000) (£6k-8k at Christie&rsquo;s) which is based on a geometrically repeating pattern coupled with randomised colors. The pattern of locations resembles that found in a sun flower, and has a beautiful connection to the golden ratio.  Numberphile has a <a href="https://www.youtube.com/watch?v=sj8Sg8qnjOg">video</a> that explains the maths quite nicely, let&rsquo;s demostrate the idea here.</p>
 <p>The priciple is to add dots around a center with a constant rotational step while moving further out each round. let&rsquo;s write a script that does that:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">generator</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span>
 </span></span><span class="line"><span class="cl">              <span class="n">frac</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="c1"># fraction of a round per turn</span>
