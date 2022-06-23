@@ -60,7 +60,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
   "keywords": [
     "blogdown"
   ],
-  "wordCount" : "397",
+  "wordCount" : "435",
   "inLanguage": "en",
   "datePublished": "2022-06-17T00:00:00Z",
   "dateModified": "2022-06-17T00:00:00Z",
@@ -307,6 +307,8 @@ function toggleThemeListener() {
                 <li>
                     <a href="#add-support-for-maths-and-syntax-highlighting" aria-label="Add support for maths AND syntax highlighting">Add support for maths AND syntax highlighting</a></li>
                 <li>
+                    <a href="#fix-missing-figures-and-tables-due-to-raw-html-omitted" aria-label="Fix missing figures and tables due to &amp;ldquo;raw html omitted&amp;rdquo;">Fix missing figures and tables due to &ldquo;raw html omitted&rdquo;</a></li>
+                <li>
                     <a href="#copy-svg-icon-for-orcid-from-papermod" aria-label="Copy svg icon for Orcid from PaperMod">Copy svg icon for Orcid from PaperMod</a>
                 </li>
             </ul>
@@ -355,7 +357,13 @@ function toggleThemeListener() {
 </span></span></code></pre></div><ul>
 <li>Rerender all Rmd files :/</li>
 </ul>
-<h2 id="copy-svg-icon-for-orcid-from-papermod">Copy svg icon for Orcid from PaperMod</h2>
+<h2 id="fix-missing-figures-and-tables-due-to-raw-html-omitted">Fix missing figures and tables due to &ldquo;raw html omitted&rdquo;</h2>
+<p>R-markdown creates html-snippets for example including figures, out of plotting or just <code>knitr::include_graphics</code>. Hugo omits those bits, unless we set in the <code>config.yaml</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">markup:
+</span></span><span class="line"><span class="cl">  goldmark:
+</span></span><span class="line"><span class="cl">    renderer:
+</span></span><span class="line"><span class="cl">      unsafe: true
+</span></span></code></pre></div><h2 id="copy-svg-icon-for-orcid-from-papermod">Copy svg icon for Orcid from PaperMod</h2>
 <ul>
 <li>add to svg.toml:</li>
 </ul>

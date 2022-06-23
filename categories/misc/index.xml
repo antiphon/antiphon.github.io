@@ -55,7 +55,13 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span></code></pre></div><ul>
 <li>Rerender all Rmd files :/</li>
 </ul>
-<h2 id="copy-svg-icon-for-orcid-from-papermod">Copy svg icon for Orcid from PaperMod</h2>
+<h2 id="fix-missing-figures-and-tables-due-to-raw-html-omitted">Fix missing figures and tables due to &ldquo;raw html omitted&rdquo;</h2>
+<p>R-markdown creates html-snippets for example including figures, out of plotting or just <code>knitr::include_graphics</code>. Hugo omits those bits, unless we set in the <code>config.yaml</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">markup:
+</span></span><span class="line"><span class="cl">  goldmark:
+</span></span><span class="line"><span class="cl">    renderer:
+</span></span><span class="line"><span class="cl">      unsafe: true
+</span></span></code></pre></div><h2 id="copy-svg-icon-for-orcid-from-papermod">Copy svg icon for Orcid from PaperMod</h2>
 <ul>
 <li>add to svg.toml:</li>
 </ul>
