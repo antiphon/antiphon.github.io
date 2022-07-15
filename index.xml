@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tuomas Rajala ~ Statistician</title>
+    <link>https://antiphon.github.io/</link>
+    <description>Recent content on Tuomas Rajala ~ Statistician</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 15 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://antiphon.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>R, leaflet, and MML tiles: Changing the output CRS</title>
+      <link>https://antiphon.github.io/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</link>
+      <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://antiphon.github.io/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</guid>
+      <description>Changing the projection of an interactive map? Yes, can be done, but not so straightforward.</description>
+      <content:encoded><![CDATA[<h1 id="task">Task</h1>
+<p>Make an interactive map (HTML widget) where the Coordinate Reference System (CRS) of the map is the official CRS used by Finnish institutes, TM35FIN / EPSG:3067.</p>
+<p>Define the target CRS and Mercator EPSG codes to be used later.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">crs_fin</span> <span class="o">&lt;-</span> <span class="m">3067</span>
+</span></span><span class="line"><span class="cl"><span class="n">crs_ll</span>  <span class="o">&lt;-</span> <span class="m">4326</span>
+</span></span></code></pre></div><p>We will use these libraries.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">leaflet</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">tmap</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">geofi</span><span class="p">)</span>
+</span></span></code></pre></div><h1 id="preliminaries">Preliminaries</h1>
+<h2 id="example-data-polygons">Example data: Polygons</h2>
+<p>To have some data to depict and check the output, we fetch the municipalities of Finland using the <code>geofi</code> package.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mun</span> <span class="o">&lt;-</span> <span class="n">geofi</span><span class="o">::</span><span class="nf">get_municipalities</span><span class="p">()</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Requesting response from: http://geo.stat.fi/geoserver/wfs?service=WFS&amp;version=1.0.0&amp;request=getFeature&amp;typename=tilastointialueet%3Akunta4500k_2022
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Warning: Coercing CRS to epsg:3067 (ETRS89 / TM35FIN)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Data is licensed under: Attribution 4.0 International (CC BY 4.0)
+</span></span></code></pre></div><h2 id="example-basemap-that-supports-the-target-crs">Example basemap that supports the target CRS</h2>
+<p>Most likely the data is to plotted on top of some kind of a basemap, also known as a theme map or layer. A typical basemap service is of the type Web Map Service (WMS) or Web Map Tile Service (WMTS), and provides pre-rendered pixel-images known as tiles. These tiles are fast to download and are to be stiched together as the background map by the rendering engine. The images usually come in the unprojected lon-lat, Mercator CRS.</p>
+<p>An example of a WMTS service provider that supports the Finnish goverment CRS is the National Land Survey of Finland, or Maanmittauslaitos (MML). Details of their open data services can be found at <a href="https://www.maanmittauslaitos.fi/karttakuvapalvelu">https://www.maanmittauslaitos.fi/karttakuvapalvelu</a>. The English side is not complete, so try to parse the details from the Finnish pages.</p>
+<p>To use this WMTS provider, a free API key is needed. I&rsquo;ve stored my key in the environmental variable <code>MML_API_KEY</code>, defined in  the local <code>~/.Rprofile</code> . See <code>Sys.setenv</code> help page for doing this.</p>
+<p>To use the custom WMTS, we define a url-template string that describes the service in a way that the leaflet-engine can request the tiles.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mml_key</span> <span class="o">&lt;-</span> <span class="nf">Sys.getenv</span><span class="p">(</span><span class="s">&#34;MML_API_KEY&#34;</span><span class="p">)</span> <span class="c1"># use your own here.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># url template; From an example</span>
+</span></span><span class="line"><span class="cl"><span class="n">umml_fin</span> <span class="o">&lt;-</span> <span class="s">&#34;https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/taustakartta/default/ETRS-TM35FIN/{z}/{y}/{x}.png&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Augment the template with the api key</span>
+</span></span><span class="line"><span class="cl"><span class="n">umml</span> <span class="o">&lt;-</span> <span class="nf">sprintf</span><span class="p">(</span><span class="s">&#34;%s?api-key=%s&#34;</span><span class="p">,</span><span class="n">umml_fin</span><span class="p">,</span> <span class="n">mml_key</span><span class="p">)</span>
+</span></span></code></pre></div><p>Note the &ldquo;ETRS-TM35FIN&rdquo; string. This is where we request the tiles to be in the target projection. The other interesting string is &ldquo;taustakartta&rdquo;, which defines the layer we want. &ldquo;selkokartta&rdquo; and &ldquo;maastokartta&rdquo; would be alternatives, see ^[https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts].</p>
+<p><em>Note: I think this is not clean WMTS, more like WMS, but I&rsquo;ve not found a way to make leaflet-package support the full WMTS 🤷</em></p>
+<h1 id="making-the-crs-understandable-by-leaflet">Making the CRS understandable by <code>leaflet</code></h1>
+<p><code>leaflet</code> assumes that all input data are in EPSG:3867 Web Mercator CRS ^[https://rstudio.github.io/leaflet/projections.html]. The list of basemap provides all default to this CRS, and will not work with the target projection.</p>
+<p>Other projections can be used, but the CRS need to be specified manually. Let us define the target CRS in a format that <code>leaflet</code> (and derivatives) understands. The specification is entagled with the properties of the tile service, particularly the resolution and the origin of the tile mosaics, so adjust accordingly. We need to</p>
+<ul>
+<li>Use the Proj4-string syntax. This string we get from <a href="https://epsg.io/3067">https://epsg.io/3067</a> (scroll down therein).</li>
+<li>The resolution (meters-to-pixels) and the origin (top-left corner) of the tile service</li>
+</ul>
+<p>The CRS information, to be used with the MML tiles, is then compiled like so:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">lcrs</span> <span class="o">&lt;-</span> <span class="nf">leafletCRS</span><span class="p">(</span><span class="n">crsClass</span> <span class="o">=</span> <span class="s">&#34;L.Proj.CRS&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">code</span>     <span class="o">=</span> <span class="s">&#34;EPSG:3067&#34;</span> <span class="p">,</span>    <span class="c1"># just a name tag </span>
+</span></span><span class="line"><span class="cl">                   <span class="n">proj4def</span> <span class="o">=</span> <span class="s">&#34;+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">origin</span>   <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">-548576</span><span class="p">,</span> <span class="m">8388608</span><span class="p">),</span> <span class="c1"># This is MML basemap related</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">resolutions</span> <span class="o">=</span> <span class="m">2</span><span class="nf">^</span><span class="p">(</span><span class="m">13</span><span class="o">:</span><span class="m">-1</span><span class="p">)</span>         <span class="c1"># This is MML basemap related</span>
+</span></span><span class="line"><span class="cl">                   <span class="p">)</span>
+</span></span></code></pre></div><p>The origin and resolution details were found in a technical document provide by MML ^[https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc].</p>
+<h1 id="interactive-map-using-leaflet">Interactive map using <code>leaflet</code></h1>
+<p>The projection information is now ready to be applied to a map. First though: <code>leaflet</code> expects all input data to be in lon-lat, so we need to first transform the data to be shown. The back-transformation to the target CRS will take place inside <code>leaflet</code> code when rendered.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mun_ll</span> <span class="o">&lt;-</span> <span class="n">sf</span><span class="o">::</span><span class="nf">st_transform</span><span class="p">(</span><span class="n">mun</span><span class="p">,</span> <span class="n">crs_ll</span><span class="p">)</span>
+</span></span></code></pre></div><p>We can now produce the map. The target CRS for output is provided in the <code>options</code> parameter.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">leaflet</span><span class="p">(</span><span class="n">mun_ll</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">options</span> <span class="o">=</span> <span class="nf">leafletOptions</span><span class="p">(</span><span class="n">crs</span> <span class="o">=</span> <span class="n">lcrs</span><span class="p">)</span>  <span class="c1">## Here is the main thing, will project data</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span> <span class="o">|&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># add the basemap, now already in the target CRS</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">addTiles</span><span class="p">(</span> <span class="n">urlTemplate</span> <span class="o">=</span> <span class="n">umml</span> <span class="p">)</span> <span class="o">|&gt;</span> 
+</span></span><span class="line"><span class="cl">  <span class="c1"># then draw the example data</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">addPolygons</span><span class="p">(</span><span class="n">fillColor</span> <span class="o">=</span> <span class="o">~</span><span class="nf">colorFactor</span><span class="p">(</span><span class="s">&#34;viridis&#34;</span><span class="p">,</span> <span class="n">domain</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">16</span><span class="p">)(</span><span class="n">ely_code</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">              <span class="n">popup</span>  <span class="o">=</span> <span class="o">~</span><span class="n">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">weight</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">highlightOptions</span> <span class="o">=</span> <span class="nf">highlightOptions</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;red&#34;</span><span class="p">,</span> <span class="n">bringToFront</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">              <span class="p">)</span> <span class="o">|&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">setView</span><span class="p">(</span><span class="n">lng</span> <span class="o">=</span> <span class="m">25</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="m">68</span><span class="p">,</span> <span class="n">zoom</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="c1"># lon-lat again</span>
+</span></span></code></pre></div><p><img loading="lazy" src="/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/leaflet-1.png" type="" alt="Leaflet example"  /></p>
+<p>The projection is now correct.</p>
+<h1 id="tmap-example-uses-leaflet"><code>tmap</code> example, uses <code>leaflet</code></h1>
+<p>If the above example for <code>leaflet</code> worked, we should be able to also use <code>tmap</code>, which provides a higher level functionality for producing maps.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># Set interactive mode</span>
+</span></span><span class="line"><span class="cl"><span class="nf">tmap_mode</span><span class="p">(</span><span class="s">&#34;view&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">tm_shape</span><span class="p">(</span><span class="n">mun_ll</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">tm_view</span><span class="p">(</span><span class="n">projection</span> <span class="o">=</span> <span class="n">lcrs</span><span class="p">,</span>     <span class="c1"># here is the main thing, will project data</span>
+</span></span><span class="line"><span class="cl">          <span class="n">set.view</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">lon</span> <span class="o">=</span> <span class="m">25</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="m">68</span><span class="p">,</span> <span class="n">zoom</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="c1"># lon-lat again</span>
+</span></span><span class="line"><span class="cl">         <span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">tm_basemap</span><span class="p">(</span><span class="n">server</span> <span class="o">=</span> <span class="n">umml</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">tm_borders</span><span class="p">()</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">tm_fill</span><span class="p">(</span><span class="n">col</span> <span class="o">=</span> <span class="s">&#34;ely_name_fi&#34;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="m">.8</span><span class="p">,</span> <span class="n">legend.show</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">          <span class="n">id</span> <span class="o">=</span> <span class="s">&#34;name&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">popup.vars</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">,</span> <span class="s">&#34;ely_name_fi&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="p">)</span> 
+</span></span></code></pre></div><p><img loading="lazy" src="/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/tmap-1.png" type="" alt="tmap example"  /></p>
+<p>Note that while writing this example the <code>tm_shape</code> data needed to be in lat-lon too if using a custom CRS basemap provider. I think this is because when manipulating the CRS using <code>tm_view</code>, the data is automatically re-projected from assumed lon-lat regardless of the data CRS.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Blogdown update 2022</title>
+      <link>https://antiphon.github.io/blog/2022-06-17-blogdown-update-2022/</link>
+      <pubDate>Fri, 17 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://antiphon.github.io/blog/2022-06-17-blogdown-update-2022/</guid>
+      <description>Trying out blogdown again, this time with the intention of migrating the site under Github pages. As usual, some tweaks are needed to make Hugo themes work with R and blogdown.
+I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking the look but finding it difficult to edit. I tried some others, mainly Anatole and Apéro, but the PaperMod was at a more suitable balance of simple looks and rich in features for me.</description>
+      <content:encoded><![CDATA[<p>Trying out blogdown again, this time with the intention of migrating the site under Github pages. As usual, some tweaks are needed to make Hugo themes work with R and blogdown.</p>
+<p>I chose the <a href="https://reorx.github.io/hugo-PaperModX/">PaperModX</a> as the Hugo theme after trying out the PaperMod and liking the look but finding it difficult to edit. I tried some others, mainly Anatole and Apéro, but the PaperMod was at a more suitable balance of simple looks and rich in features for me.</p>
+<p><a href="https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/">This</a> post by Alison Hill was helpful (ignoring the torrent of animated gifs). Note that many posts related to blogdown and Hugo are outdated, with configuration styles that do not apply etc etc. See <a href="https://www.rstudio.com/blog/blogdown-v1.0/">the blogdown 1.0 announcement</a> for examples of major changes.</p>
+<p>What follows is a list of tweaks needed to make my old posts migrate reasonably painlessly.</p>
+<h2 id="add-support-for-maths">Add support for maths</h2>
+<ul>
+<li>Add <code>math.html</code> to layout/partials subdir. See the second code snippet at <a href="https://katex.org/docs/autorender.html">KaTeX site</a> what to add</li>
+<li>Add to <code>extended_head.html</code> in the same directory</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{ if or .Params.math .Site.Params.math }}
+</span></span><span class="line"><span class="cl">{{ partial &#34;math.html&#34; . }}
+</span></span><span class="line"><span class="cl">{{ end }}
+</span></span></code></pre></div><ul>
+<li>then add to global config</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">  math: true
+</span></span></code></pre></div><ul>
+<li>And we should have $\alpha, \beta, \Gamma(x^2), \ldots$</li>
+</ul>
+<h2 id="add-support-for-maths-and-syntax-highlighting">Add support for maths AND syntax highlighting</h2>
+<ul>
+<li>Set the highlighting settings in the Hugo config, for example add to <code>config.yaml</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">markup:
+</span></span><span class="line"><span class="cl">  highlight:
+</span></span><span class="line"><span class="cl">    lineNos: false
+</span></span><span class="line"><span class="cl">    noClasses: false
+</span></span><span class="line"><span class="cl">    guessSyntax: true
+</span></span></code></pre></div><p>Note that style-variable is not supported, and changing the light/dark themes need to be manually edited. See <a href="https://reorx.github.io/hugo-PaperModX/docs/papermodx-new-features/#highlight-code-with-chroma-no-bullshit">here</a> for details.</p>
+<ul>
+<li>Tell  blogdown to a) not use pandoc but instead render to markdown in order to go via Rmd$\rightarrow$md$\rightarrow$hugo html route for the highlight.js to kick in properly b) to not backtick maths in the output .md&rsquo;s. Do these by modifying <code>.Rprofile</code> settings thusly:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">options</span><span class="p">(</span> 
+</span></span><span class="line"><span class="cl"> <span class="c1"># ... </span>
+</span></span><span class="line"><span class="cl">  <span class="n">blogdown.method</span> <span class="o">=</span> <span class="s">&#39;markdown&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">blogdown.protect.math</span> <span class="o">=</span> <span class="kc">FALSE</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></div><ul>
+<li>Rerender all Rmd files :/</li>
+</ul>
+<h2 id="fix-missing-figures-and-tables-due-to-raw-html-omitted">Fix missing figures and tables due to &ldquo;raw html omitted&rdquo;</h2>
+<p>R-markdown creates html-snippets for example including figures, out of plotting or just <code>knitr::include_graphics</code>. Hugo omits those bits, unless we set in the <code>config.yaml</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">markup:
+</span></span><span class="line"><span class="cl">  goldmark:
+</span></span><span class="line"><span class="cl">    renderer:
+</span></span><span class="line"><span class="cl">      unsafe: true
+</span></span></code></pre></div><h2 id="copy-svg-icon-for-orcid-from-papermod">Copy svg icon for Orcid from PaperMod</h2>
+<ul>
+<li>add to svg.toml:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">orcid = &#39;&#39;&#39;
+</span></span><span class="line"><span class="cl">&lt;svg width=&#34;24&#34; height=&#34;24&#34; viewBox=&#34;0 0 256 256&#34; fill=&#34;none&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+</span></span><span class="line"><span class="cl">    &lt;path fill-rule=&#34;evenodd&#34; clip-rule=&#34;evenodd&#34;
+</span></span><span class="line"><span class="cl">        d=&#34;M128 256C198.7 256 256 198.7 256 128C256 57.3 198.7 0 128 0C57.3 0 0 57.3 0 128C0 198.7 57.3 256 128 256ZM70.9 186.2H86.3V127.5V79.0999H70.9V186.2ZM108.9 79.0999H150.5C190.1 79.0999 207.5 107.4 207.5 132.7C207.5 160.2 186 186.3 150.7 186.3H108.9V79.0999ZM124.3 172.4H148.8C183.7 172.4 191.7 145.9 191.7 132.7C191.7 111.2 178 93 148 93H124.3V172.4ZM78.6 66.8999C84.2 66.8999 88.7 62.2999 88.7 56.7999C88.7 51.2999 84.2 46.7 78.6 46.7C73 46.7 68.5 51.2 68.5 56.7999C68.5 62.2999 73 66.8999 78.6 66.8999Z&#34;
+</span></span><span class="line"><span class="cl">        fill=&#34;currentColor&#34; /&gt;
+</span></span><span class="line"><span class="cl">&lt;/svg&gt;
+</span></span><span class="line"><span class="cl">&#39;&#39;&#39;
+</span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
+<p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>they said&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Natural protection areas in Finland into R</title>
+      <link>https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/</link>
+      <pubDate>Fri, 28 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/</guid>
+      <description>A quick note on fetching Finland&amp;#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&amp;#39;s servers into R.</description>
+      <content:encoded><![CDATA[<p>A quick note on fetching Finland&rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&rsquo;s servers into R.</p>
+<p>Requirements:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Optional: Polygonal Finland for reference. Provide your own.</span>
+</span></span><span class="line"><span class="cl"><span class="n">fin</span> <span class="o">&lt;-</span> <span class="nf">st_geometry</span><span class="p">(</span>  <span class="nf">st_as_sf</span><span class="p">(</span> <span class="n">suomi</span><span class="o">::</span><span class="n">finland_polygons</span><span class="o">$</span><span class="n">sp_hires</span>  <span class="p">)</span> <span class="p">)</span>
+</span></span></code></pre></div><p><strong>Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.</strong></p>
+<h2 id="download-data">Download data</h2>
+<p>The website for the data is <a href="https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot">https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot</a> (2020-02-27). The download links are a bit different.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># The target zips</span>
+</span></span><span class="line"><span class="cl"><span class="n">types</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;eramaa&#34;</span><span class="p">,</span> <span class="s">&#34;valtio&#34;</span><span class="p">,</span> <span class="s">&#34;yksityinen&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">urlf</span> <span class="o">&lt;-</span> <span class="s">&#34;http://wwwd3.ymparisto.fi/d3/gis_data/spesific/luonnonsuojelualueet_%s.zip&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">paths</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">ty</span> <span class="n">in</span> <span class="n">types</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">tmp</span> <span class="o">&lt;-</span> <span class="nf">tempfile</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">url</span> <span class="o">&lt;-</span> <span class="nf">sprintf</span><span class="p">(</span><span class="n">urlf</span><span class="p">,</span> <span class="n">ty</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">download.file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">unzip</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">exdir</span> <span class="o">=</span> <span class="n">path</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="nf">tempdir</span><span class="p">(),</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="n">ty</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">paths[[ty]]</span> <span class="o">&lt;-</span> <span class="n">path</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Then we read the shape-files in, make sure coordinate system is what we want, add an identifier for type of area, and compile:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># Target CRS is ETRS89 \ TM35FIN. The data should already be in that.</span>
+</span></span><span class="line"><span class="cl"><span class="n">crs</span> <span class="o">&lt;-</span> <span class="s">&#34;+init=epsg:3067&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># read the shapes as sf</span>
+</span></span><span class="line"><span class="cl"><span class="n">polyl</span> <span class="o">&lt;-</span> <span class="nf">lapply</span><span class="p">(</span><span class="n">types</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">ty</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">st_read</span><span class="p">(</span><span class="n">paths[[ty]]</span><span class="p">,</span> <span class="n">quiet</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">st_transform</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span><span class="o">$</span><span class="n">suojeluRyhma</span> <span class="o">&lt;-</span> <span class="n">ty</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Then rbind</span>
+</span></span><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">&lt;-</span> <span class="nf">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span> <span class="n">polyl</span><span class="p">)</span>
+</span></span></code></pre></div><p>We now got a bunch of polys.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">dim</span><span class="p">(</span><span class="n">areas</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 15847    29
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areas</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;137.1 Mb&#34;
+</span></span></code></pre></div><h1 id="some-checks">Some checks</h1>
+<p>According to the data all areas are currently active:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">areas</span><span class="o">$</span><span class="n">Olotila</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Voimassa 
+</span></span><span class="line"><span class="cl">##    15847
+</span></span></code></pre></div><p>Some stats:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">%&gt;%</span> <span class="nf">as.data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">suojeluRyhma</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">summarise</span><span class="p">(</span><span class="n">mean_area_km2</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Shape_STAr</span><span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="n">^2</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 3 × 3
+</span></span><span class="line"><span class="cl">##   suojeluRyhma mean_area_km2     n
+</span></span><span class="line"><span class="cl">##   &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;
+</span></span><span class="line"><span class="cl">## 1 eramaa            1241.       12
+</span></span><span class="line"><span class="cl">## 2 valtio              19.0    1090
+</span></span><span class="line"><span class="cl">## 3 yksityinen           0.278 14745
+</span></span></code></pre></div><p>Private ones are very small, wilderness massive.</p>
+<p>Simplifying is easy with the <code>sf</code> classes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areass</span> <span class="o">&lt;-</span> <span class="nf">st_simplify</span><span class="p">(</span><span class="n">areas</span><span class="p">,</span> <span class="n">dTolerance</span> <span class="o">=</span> <span class="m">400</span><span class="p">,</span> <span class="n">preserveTopology</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areass</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;26 Mb&#34;
+</span></span></code></pre></div><p>Example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">col</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span><span class="n">areass[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">add</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<h2 id="when-where-the-areas-established">When where the areas established?</h2>
+<p>According to meta-docs for the files,  <code>VoimaantuloPvm</code> should describe when the protection started. But many have filler date with year 9999,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">vyears</span> <span class="o">&lt;-</span> <span class="nf">format</span><span class="p">(</span><span class="nf">as.POSIXct</span><span class="p">(</span> <span class="n">areas</span><span class="o">$</span><span class="n">Voimaantul</span> <span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">vyears</span> <span class="o">&gt;</span> <span class="s">&#34;2025&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## FALSE  TRUE 
+</span></span><span class="line"><span class="cl">##  4180 11667
+</span></span></code></pre></div><p>Let&rsquo;s assume <code>PaatPvm</code> (date of the decision) is a better starting time. Some are still missing here, though:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">pyears</span> <span class="o">&lt;-</span> <span class="nf">format</span><span class="p">(</span><span class="nf">as.POSIXct</span><span class="p">(</span> <span class="n">areas</span><span class="o">$</span><span class="n">PaatPvm</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">nostart</span>  <span class="o">&lt;-</span> <span class="n">pyears</span> <span class="o">==</span> <span class="s">&#34;9999&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">paat</span><span class="o">=</span> <span class="n">nostart</span><span class="p">,</span> <span class="n">voim</span><span class="o">=</span><span class="n">vyears</span><span class="o">==</span><span class="s">&#34;9999&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##        voim
+</span></span><span class="line"><span class="cl">## paat    FALSE  TRUE
+</span></span><span class="line"><span class="cl">##   FALSE  4181 11653
+</span></span><span class="line"><span class="cl">##   TRUE      0    13
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">odd</span> <span class="o">&lt;-</span> <span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[</span> <span class="n">nostart</span><span class="p">,</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span> <span class="n">odd</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;red&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span> <span class="nf">st_as_sfc</span><span class="p">(</span><span class="nf">st_bbox</span><span class="p">(</span><span class="n">odd</span><span class="p">)),</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>Seems they only exist in Åland area and or are very small. Let&rsquo;s forget them for now</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">&lt;-</span> <span class="n">areass[</span><span class="o">!</span><span class="n">nostart</span><span class="p">,</span><span class="n">]</span> <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="nf">as.Date</span><span class="p">(</span> <span class="n">PaatPvm</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="n">start_year</span> <span class="o">=</span> <span class="nf">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="s">&#34;%Y&#34;</span><span class="p">))</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_histogram</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">),</span> <span class="n">position</span> <span class="o">=</span> <span class="nf">position_dodge2</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">1</span><span class="p">))</span> 
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<p>Seems like a lot of private areas have been established since late 1990s.</p>
+<h2 id="area-establishment-over-time">Area establishment over time</h2>
+<p>Split by starting time, and plot.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># adhoc groups</span>
+</span></span><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">&lt;-</span> <span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span>   <span class="n">start_group</span> <span class="o">=</span>  <span class="nf">cut</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">start_year</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                                                  <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1950</span><span class="p">,</span> <span class="m">1980</span><span class="p">,</span> <span class="m">1990</span><span class="p">,</span> <span class="m">2000</span><span class="p">,</span> <span class="m">2010</span><span class="p">,</span> <span class="m">2020</span><span class="p">,</span> <span class="m">2050</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                                                  <span class="nf">c</span><span class="p">(</span><span class="s">&#34;&lt;1950&#34;</span><span class="p">,</span> <span class="s">&#34;1950-1980&#34;</span><span class="p">,</span> <span class="s">&#34;1980s&#34;</span><span class="p">,</span> <span class="s">&#34;1990s&#34;</span><span class="p">,</span> <span class="s">&#34;2000s&#34;</span><span class="p">,</span> <span class="s">&#34;2010s&#34;</span><span class="p">,</span> <span class="s">&#34;2020-&gt;&#34;</span><span class="p">))</span>    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">           <span class="nf">geom_sf</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fin</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;white&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">           <span class="nf">geom_sf</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">))</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">           <span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">start_group</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-14-1.png" width="864" />
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">as.data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">suojeluRyhma</span><span class="p">,</span> <span class="n">start_group</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">summarise</span><span class="p">(</span><span class="n">mean_area_km2</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Shape_STAr</span><span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="n">^2</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">tidyr</span><span class="o">::</span><span class="nf">gather</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mean_area_km2</span><span class="o">:</span><span class="n">n</span><span class="p">)</span> <span class="o">%&gt;%</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">start_group</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">))</span> <span class="o">+</span> <span class="nf">geom_point</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">facet_grid</span><span class="p">(</span><span class="n">s</span><span class="o">~</span><span class="n">suojeluRyhma</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#34;free_y&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="o">=</span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="m">45</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">))</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-15-1.png" width="864" />
+<h2 id="areas-outside-mainland">Areas outside mainland</h2>
+<p>Several areas don&rsquo;t hit land:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">outside</span> <span class="o">&lt;-</span> <span class="nf">sapply</span><span class="p">(</span><span class="nf">st_intersects</span><span class="p">(</span><span class="n">areas1</span><span class="p">,</span> <span class="n">fin</span> <span class="o">|&gt;</span> <span class="nf">st_transform</span><span class="p">(</span><span class="n">crs</span><span class="p">))</span> <span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">areasout</span> <span class="o">&lt;-</span> <span class="n">areas1[outside</span><span class="p">,</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span> <span class="n">areasout</span><span class="o">$</span><span class="n">TyyppiNimi</span><span class="p">),</span> <span class="n">useNA</span><span class="o">=</span><span class="s">&#34;i&#34;</span> <span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Erityisesti suojeltavan lajin suojelualue (ERA; LsL 47 §) 
+</span></span><span class="line"><span class="cl">##                                                        31 
+</span></span><span class="line"><span class="cl">##                                           Kansallispuisto 
+</span></span><span class="line"><span class="cl">##                                                         3 
+</span></span><span class="line"><span class="cl">##                                       Lehtojensuojelualue 
+</span></span><span class="line"><span class="cl">##                                                         2 
+</span></span><span class="line"><span class="cl">##                  Luontotyypin suojelualue (LTA; LsL 29 §) 
+</span></span><span class="line"><span class="cl">##                                                       136 
+</span></span><span class="line"><span class="cl">##               Määräaikainen rauhoitusalue (MRA; LsL 25 §) 
+</span></span><span class="line"><span class="cl">##                                                         6 
+</span></span><span class="line"><span class="cl">##                               Muu luonnonsuojelualue (MH) 
+</span></span><span class="line"><span class="cl">##                                                        42 
+</span></span><span class="line"><span class="cl">##                                         Soidensuojelualue 
+</span></span><span class="line"><span class="cl">##                                                         1 
+</span></span><span class="line"><span class="cl">##                              Vanhojen metsien suojelualue 
+</span></span><span class="line"><span class="cl">##                                                         3 
+</span></span><span class="line"><span class="cl">##                   Yksityismaiden luonnonsuojelualue (YSA) 
+</span></span><span class="line"><span class="cl">##                                                      1632
+</span></span></code></pre></div><p>Some are special species-protection areas (e.g. seal).</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Golden ratio of Valium</title>
+      <link>https://antiphon.github.io/blog/golden-ratio-of-valium/</link>
+      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://antiphon.github.io/blog/golden-ratio-of-valium/</guid>
+      <description>Damien Hirst and patterns again, this time using the golden ratio.</description>
+      <content:encoded><![CDATA[<h1 id="hirsts-valium-and-the-golden-ratio">Hirst&rsquo;s Valium and the Golden ratio</h1>
+<p>The artist Damien Hirst has a painting called <em>Valium</em> (2000) (£6k-8k at Christie&rsquo;s) which is based on a geometrically repeating pattern coupled with randomised colors. The pattern of locations resembles that found in a sun flower, and has a beautiful connection to the golden ratio.  Numberphile has a <a href="https://www.youtube.com/watch?v=sj8Sg8qnjOg">video</a> that explains the maths quite nicely, let&rsquo;s demostrate the idea here.</p>
+<p>The priciple is to add dots around a center with a constant rotational step while moving further out each round. let&rsquo;s write a script that does that:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">generator</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">              <span class="n">frac</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="c1"># fraction of a round per turn</span>
+</span></span><span class="line"><span class="cl">              <span class="n">its</span>  <span class="o">=</span> <span class="m">100</span> <span class="c1"># do this many rounds</span>
+</span></span><span class="line"><span class="cl">              <span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">turn</span> <span class="o">&lt;-</span> <span class="m">2</span><span class="o">*</span><span class="kc">pi</span> <span class="o">/</span> <span class="n">frac</span> <span class="c1"># turn angle each step, radians</span>
+</span></span><span class="line"><span class="cl">  <span class="n">it</span> <span class="o">&lt;-</span> <span class="m">1</span> <span class="c1"># which rotation are we at</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ang</span> <span class="o">&lt;-</span> <span class="m">0</span>  <span class="c1"># # Points in polars, first location</span>
+</span></span><span class="line"><span class="cl">  <span class="n">r</span> <span class="o">&lt;-</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  <span class="n">i</span> <span class="o">&lt;-</span> <span class="m">1</span> <span class="c1"># iterator</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">while</span><span class="p">(</span><span class="kc">TRUE</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">newang</span> <span class="o">&lt;-</span> <span class="n">turn</span> <span class="o">+</span> <span class="n">ang[i]</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">if</span><span class="p">(</span><span class="n">newang</span> <span class="o">&gt;=</span> <span class="m">2</span><span class="o">*</span><span class="kc">pi</span><span class="p">){</span> <span class="c1"># have we done full round?</span>
+</span></span><span class="line"><span class="cl">      <span class="n">it</span> <span class="o">&lt;-</span> <span class="n">it</span> <span class="o">+</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">      <span class="nf">if</span><span class="p">(</span><span class="n">it</span> <span class="o">&gt;</span> <span class="n">its</span><span class="p">)</span> <span class="n">break</span> <span class="c1"># stop</span>
+</span></span><span class="line"><span class="cl">      <span class="n">r[i</span><span class="m">+1</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="n">r[i]</span> <span class="o">+</span> <span class="m">1</span>     
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">r[i</span><span class="m">+1</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="n">r[i]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ang[i</span><span class="m">+1</span><span class="n">]</span> <span class="o">&lt;-</span> <span class="n">newang</span> <span class="o">%%</span> <span class="p">(</span><span class="m">2</span><span class="o">*</span><span class="kc">pi</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">&lt;-</span> <span class="n">i</span><span class="m">+1</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># In Cartesian</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">r</span> <span class="o">*</span> <span class="nf">cos</span><span class="p">(</span><span class="n">ang</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">y</span> <span class="o">&lt;-</span> <span class="n">r</span> <span class="o">*</span> <span class="nf">sin</span><span class="p">(</span><span class="n">ang</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">cbind</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="p">,</span> <span class="n">ang</span> <span class="o">=</span> <span class="n">ang</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># shorthand generate + plot</span>
+</span></span><span class="line"><span class="cl"><span class="n">plop</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">frac</span><span class="p">,</span> <span class="n">its</span><span class="p">,</span> <span class="kc">...</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="m">1</span><span class="o">/</span><span class="n">frac</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">lim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span> <span class="n">its</span> <span class="o">+</span> <span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">plot</span><span class="p">(</span><span class="nf">generator</span><span class="p">(</span><span class="n">frac</span><span class="p">,</span> <span class="n">its</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">       <span class="n">axes</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span> <span class="n">asp</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">xlim</span> <span class="o">=</span> <span class="n">lim</span><span class="p">,</span> <span class="n">ylim</span> <span class="o">=</span><span class="n">lim</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="n">main</span><span class="p">,</span> <span class="kc">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">points</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="n">pch</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>We can now illustrate that if the turn is a rational fraction of a circle, we get a repeating pattern. Example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">fracs</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">f</span> <span class="n">in</span> <span class="n">fracs</span><span class="p">)</span> <span class="nf">plop</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">its</span> <span class="o">=</span> <span class="m">20</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<p>So when the fraction is 1/5 we will have 5 spokes, for example.</p>
+<p>The interesting thing is that when the fraction becomes less like a rational number, the pattern becomes more and more staggered. Repeating the example in the Numberphile video where we are close to the fraction 1/3:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">fracs</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="m">3</span> <span class="o">+</span> <span class="nf">seq</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="m">7</span><span class="p">)</span><span class="o">*</span><span class="m">.01</span><span class="p">)</span><span class="n">[</span><span class="m">-1</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">f</span> <span class="n">in</span> <span class="n">fracs</span><span class="p">)</span> <span class="nf">plop</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">its</span> <span class="o">=</span> <span class="m">200</span><span class="p">)</span>
+</span></span></code></pre></div><div class="figure">
+<img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/threes-1.png" alt="Fractions near 1/3" width="672" />
+<p class="caption">Figure 1: Fractions near 1/3</p>
+</div>
+<p>In the video the golden ration $\phi=\frac{1 + \sqrt{5}}{2}\approx 1.61808$ is argued to be&quot;the most irrational number&quot; because it is hardest to approximate with a rational number. The maths is not hard to understand, but to just illustrate the property discussed in the video, let&rsquo;s see some irrational numbers alongside the golden ratio:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">gr</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="m">1</span><span class="o">+</span><span class="nf">sqrt</span><span class="p">(</span><span class="m">5</span><span class="p">))</span><span class="o">/</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">fracs</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="s">&#34;pi&#34;</span><span class="o">=</span> <span class="kc">pi</span><span class="p">,</span> <span class="s">&#34;Sqrt 2&#34;</span><span class="o">=</span> <span class="nf">sqrt</span><span class="p">(</span><span class="m">2</span><span class="p">),</span> <span class="s">&#34;Golden ratio&#34;</span><span class="o">=</span> <span class="n">gr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="nf">names</span><span class="p">(</span><span class="n">fracs</span><span class="p">))</span> <span class="nf">plop</span><span class="p">(</span><span class="n">fracs[[i]]</span><span class="p">,</span> <span class="n">its</span> <span class="o">=</span> <span class="m">500</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">cex</span> <span class="o">=</span> <span class="m">.5</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<p>It is quite clear how $\pi$&rsquo;s pattern has that spokiness of rational numbers, and this is because it can be approximated with a rational number quite well (<em>viz.</em> Figure <a href="#fig:threes">1</a> above). $\sqrt{2}$ is a bit more mixed up but starts to show spokes as we get further out. The golden ratio is clearly the least spoky and keeps at it the furthest out. Note also the resemblance to the sun flower.</p>
+<h2 id="spot-paintings">Spot paintings</h2>
+<p>Returning to the paintings by Damien Hirst, we can now mimic the <em>Valium</em> painting pattern as it is quite obviously based on the golden ratio.</p>
+<p>First, let&rsquo;s adjust the radius of each dot, as otherwise the pattern is visually too packed near the center and thins out the further we go. To do this we transform each point&rsquo;s distance from the center by taking the square-root of it, which will keep the intensity of the points per unit area constant (proof available somewhere). Then we decorate with the famous random colors, and just as a final touch we add some noise to mimic the imperfect human hand:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">generator</span><span class="p">(</span><span class="n">gr</span><span class="p">,</span> <span class="m">700</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">ang</span> <span class="o">&lt;-</span> <span class="n">x[</span><span class="p">,</span><span class="m">4</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">newr</span> <span class="o">&lt;-</span> <span class="nf">sqrt</span><span class="p">(</span> <span class="n">x[</span><span class="p">,</span><span class="m">3</span><span class="n">]</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">xy</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span> <span class="n">newr</span> <span class="o">*</span> <span class="nf">cos</span><span class="p">(</span><span class="n">ang</span><span class="p">),</span> <span class="n">newr</span><span class="o">*</span><span class="nf">sin</span><span class="p">(</span><span class="n">ang</span><span class="p">)</span>  <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># add some noise</span>
+</span></span><span class="line"><span class="cl"><span class="n">xy</span> <span class="o">&lt;-</span> <span class="n">xy</span> <span class="o">+</span> <span class="nf">runif</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">xy</span><span class="p">),</span> <span class="m">-.1</span><span class="p">,</span> <span class="m">.1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Pick colors:</span>
+</span></span><span class="line"><span class="cl"><span class="n">col</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="nf">colors</span><span class="p">(),</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">xy</span><span class="p">),</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># we are done:</span>
+</span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span> <span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">asp</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">pch</span> <span class="o">=</span> <span class="m">19</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">F</span><span class="p">,</span> <span class="n">cex</span><span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+</span></span></code></pre></div><div class="figure">
+<img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-4-1.png" alt="Author's rendition" width="672" />
+<p class="caption">Figure 2: Author's rendition</p>
+</div>
+<p>For reference, here is the original by Hirst (from WikiArt):</p>
+<div class="figure">
+<img src="images/hirst-valium-wikiart.jpg" alt="Hirst: Valium (from Wikiart)"  />
+<p class="caption">Figure 3: Hirst: Valium (from Wikiart)</p>
+</div>
+<p>I don&rsquo;t have £7k or anything like that floating about, but I&rsquo;m pretty sure that when I want random spots on a white canvas to decorate my flat with, I can figure out a sufficient substitute.</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

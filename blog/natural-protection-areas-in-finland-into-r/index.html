@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician</title>
+<meta name="keywords" content="R, geo">
+<meta name="description" content="A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R.">
+<meta name="author" content="Tuomas Rajala">
+<link rel="canonical" href="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.0198c07b10eda863d06a6213a976623293505b726d7e31f6f249ed5b915c4ad5.css" integrity="sha256-AZjAexDtqGPQamITqXZiMpNQW3JtfjH28kntW5FcStU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://antiphon.github.io/favicon.ico">
+<link rel="apple-touch-icon" href="https://antiphon.github.io/apple-touch-icon.png">
+
+<meta name="twitter:title" content="Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician" />
+<meta name="twitter:description" content="A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R." />
+<meta name="twitter:site" content="@novoreorx" />
+<meta name="twitter:creator" content="@novoreorx" />
+<meta property="og:title" content="Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician" />
+<meta property="og:description" content="A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/" />
+<meta property="article:section" content="blog" />
+  <meta property="article:published_time" content="2020-02-28T00:00:00&#43;00:00" />
+  <meta property="article:modified_time" content="2020-02-28T00:00:00&#43;00:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Blogs",
+      "item": "https://antiphon.github.io/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Natural protection areas in Finland into R",
+      "item": "https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Natural protection areas in Finland into R | Tuomas Rajala ~ Statistician",
+  "name": "Natural protection areas in Finland into R",
+  "description": "A quick note on fetching Finland's natural protection area -data (luonnonsuojeluealueet) from Syke's servers into R.",
+  "keywords": [
+    "R", "geo"
+  ],
+  "wordCount" : "645",
+  "inLanguage": "en",
+  "datePublished": "2020-02-28T00:00:00Z",
+  "dateModified": "2020-02-28T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Tuomas Rajala"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tuomas Rajala ~ Statistician",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://antiphon.github.io/favicon.ico"
+    }
+  }
+}
+</script><style>
+  #icons {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2em;
+  }
+  #icons .item {
+    width: 80px;
+    height: 50px;
+    margin: 10px;
+  }
+  #icons .item .name {
+    font-size: 12px;
+    user-select: all;
+    text-align: center;
+  }
+  #icons .item .icon {
+    display: flex;
+    justify-content: center;
+  }
+  #icons .item svg {
+    width: 30px;
+    height: 30px;
+  }
+</style>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          
+          
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false},
+              {left: '\\[', right: '\\]', display: true}
+          ],
+          
+          throwOnError : false
+        });
+    });
+</script>
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class="" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://antiphon.github.io" accesskey="h" title="Tuomas Rajala ~ Statistician (Alt + H)">Tuomas Rajala ~ Statistician</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://antiphon.github.io/blog/" title="Posts"
+                >Posts
+                </a>
+            </li>
+            <li>
+                <a href="https://antiphon.github.io/docs/" title="Docs"
+                >Docs
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://antiphon.github.io">Home</a>&nbsp;»&nbsp;<a href="https://antiphon.github.io/blog/">Blogs</a></div>
+    <h1 class="post-title">
+      Natural protection areas in Finland into R
+    </h1>
+    <div class="post-description">
+      A quick note on fetching Finland&#39;s natural protection area -data (luonnonsuojeluealueet) from Syke&#39;s servers into R.
+    </div>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2020-02-28</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://antiphon.github.io/tags/r/">R</a><a href="https://antiphon.github.io/tags/geo/">geo</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul><ul>
+                <li>
+                    <a href="#download-data" aria-label="Download data">Download data</a></li></ul>
+                    
+                <li>
+                    <a href="#some-checks" aria-label="Some checks">Some checks</a><ul>
+                        
+                <li>
+                    <a href="#when-where-the-areas-established" aria-label="When where the areas established?">When where the areas established?</a></li>
+                <li>
+                    <a href="#area-establishment-over-time" aria-label="Area establishment over time">Area establishment over time</a></li>
+                <li>
+                    <a href="#areas-outside-mainland" aria-label="Areas outside mainland">Areas outside mainland</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>A quick note on fetching Finland&rsquo;s natural protection area -data (luonnonsuojeluealueet) from Syke&rsquo;s servers into R.</p>
+<p>Requirements:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Optional: Polygonal Finland for reference. Provide your own.</span>
+</span></span><span class="line"><span class="cl"><span class="n">fin</span> <span class="o">&lt;-</span> <span class="nf">st_geometry</span><span class="p">(</span>  <span class="nf">st_as_sf</span><span class="p">(</span> <span class="n">suomi</span><span class="o">::</span><span class="n">finland_polygons</span><span class="o">$</span><span class="n">sp_hires</span>  <span class="p">)</span> <span class="p">)</span>
+</span></span></code></pre></div><p><strong>Task: Compile a set of all natural protected areas in Finland. Use the simple features-format.</strong></p>
+<h2 id="download-data">Download data</h2>
+<p>The website for the data is <a href="https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot">https://www.syke.fi/fi-FI/Avoin_tieto/Paikkatietoaineistot/Ladattavat_paikkatietoaineistot</a> (2020-02-27). The download links are a bit different.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># The target zips</span>
+</span></span><span class="line"><span class="cl"><span class="n">types</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;eramaa&#34;</span><span class="p">,</span> <span class="s">&#34;valtio&#34;</span><span class="p">,</span> <span class="s">&#34;yksityinen&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">urlf</span> <span class="o">&lt;-</span> <span class="s">&#34;http://wwwd3.ymparisto.fi/d3/gis_data/spesific/luonnonsuojelualueet_%s.zip&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">paths</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">ty</span> <span class="n">in</span> <span class="n">types</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">tmp</span> <span class="o">&lt;-</span> <span class="nf">tempfile</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">  <span class="n">url</span> <span class="o">&lt;-</span> <span class="nf">sprintf</span><span class="p">(</span><span class="n">urlf</span><span class="p">,</span> <span class="n">ty</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">download.file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">unzip</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">exdir</span> <span class="o">=</span> <span class="n">path</span> <span class="o">&lt;-</span> <span class="nf">paste0</span><span class="p">(</span><span class="nf">tempdir</span><span class="p">(),</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="n">ty</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">  <span class="n">paths[[ty]]</span> <span class="o">&lt;-</span> <span class="n">path</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Then we read the shape-files in, make sure coordinate system is what we want, add an identifier for type of area, and compile:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># Target CRS is ETRS89 \ TM35FIN. The data should already be in that.</span>
+</span></span><span class="line"><span class="cl"><span class="n">crs</span> <span class="o">&lt;-</span> <span class="s">&#34;+init=epsg:3067&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># read the shapes as sf</span>
+</span></span><span class="line"><span class="cl"><span class="n">polyl</span> <span class="o">&lt;-</span> <span class="nf">lapply</span><span class="p">(</span><span class="n">types</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">ty</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">st_read</span><span class="p">(</span><span class="n">paths[[ty]]</span><span class="p">,</span> <span class="n">quiet</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">st_transform</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">crs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span><span class="o">$</span><span class="n">suojeluRyhma</span> <span class="o">&lt;-</span> <span class="n">ty</span>
+</span></span><span class="line"><span class="cl">  <span class="n">x</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Then rbind</span>
+</span></span><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">&lt;-</span> <span class="nf">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span> <span class="n">polyl</span><span class="p">)</span>
+</span></span></code></pre></div><p>We now got a bunch of polys.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">dim</span><span class="p">(</span><span class="n">areas</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 15847    29
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areas</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;137.1 Mb&#34;
+</span></span></code></pre></div><h1 id="some-checks">Some checks</h1>
+<p>According to the data all areas are currently active:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">areas</span><span class="o">$</span><span class="n">Olotila</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Voimassa 
+</span></span><span class="line"><span class="cl">##    15847
+</span></span></code></pre></div><p>Some stats:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">%&gt;%</span> <span class="nf">as.data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">suojeluRyhma</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">summarise</span><span class="p">(</span><span class="n">mean_area_km2</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Shape_STAr</span><span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="n">^2</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## # A tibble: 3 × 3
+</span></span><span class="line"><span class="cl">##   suojeluRyhma mean_area_km2     n
+</span></span><span class="line"><span class="cl">##   &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;
+</span></span><span class="line"><span class="cl">## 1 eramaa            1241.       12
+</span></span><span class="line"><span class="cl">## 2 valtio              19.0    1090
+</span></span><span class="line"><span class="cl">## 3 yksityinen           0.278 14745
+</span></span></code></pre></div><p>Private ones are very small, wilderness massive.</p>
+<p>Simplifying is easy with the <code>sf</code> classes:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areass</span> <span class="o">&lt;-</span> <span class="nf">st_simplify</span><span class="p">(</span><span class="n">areas</span><span class="p">,</span> <span class="n">dTolerance</span> <span class="o">=</span> <span class="m">400</span><span class="p">,</span> <span class="n">preserveTopology</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areass</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;26 Mb&#34;
+</span></span></code></pre></div><p>Example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">col</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span><span class="n">areass[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">add</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<h2 id="when-where-the-areas-established">When where the areas established?</h2>
+<p>According to meta-docs for the files,  <code>VoimaantuloPvm</code> should describe when the protection started. But many have filler date with year 9999,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">vyears</span> <span class="o">&lt;-</span> <span class="nf">format</span><span class="p">(</span><span class="nf">as.POSIXct</span><span class="p">(</span> <span class="n">areas</span><span class="o">$</span><span class="n">Voimaantul</span> <span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">vyears</span> <span class="o">&gt;</span> <span class="s">&#34;2025&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## FALSE  TRUE 
+</span></span><span class="line"><span class="cl">##  4180 11667
+</span></span></code></pre></div><p>Let&rsquo;s assume <code>PaatPvm</code> (date of the decision) is a better starting time. Some are still missing here, though:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">pyears</span> <span class="o">&lt;-</span> <span class="nf">format</span><span class="p">(</span><span class="nf">as.POSIXct</span><span class="p">(</span> <span class="n">areas</span><span class="o">$</span><span class="n">PaatPvm</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">nostart</span>  <span class="o">&lt;-</span> <span class="n">pyears</span> <span class="o">==</span> <span class="s">&#34;9999&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">paat</span><span class="o">=</span> <span class="n">nostart</span><span class="p">,</span> <span class="n">voim</span><span class="o">=</span><span class="n">vyears</span><span class="o">==</span><span class="s">&#34;9999&#34;</span><span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##        voim
+</span></span><span class="line"><span class="cl">## paat    FALSE  TRUE
+</span></span><span class="line"><span class="cl">##   FALSE  4181 11653
+</span></span><span class="line"><span class="cl">##   TRUE      0    13
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">odd</span> <span class="o">&lt;-</span> <span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[</span> <span class="n">nostart</span><span class="p">,</span><span class="n">]</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span> <span class="n">odd</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;red&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span> <span class="nf">st_as_sfc</span><span class="p">(</span><span class="nf">st_bbox</span><span class="p">(</span><span class="n">odd</span><span class="p">)),</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>Seems they only exist in Åland area and or are very small. Let&rsquo;s forget them for now</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">&lt;-</span> <span class="n">areass[</span><span class="o">!</span><span class="n">nostart</span><span class="p">,</span><span class="n">]</span> <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="nf">as.Date</span><span class="p">(</span> <span class="n">PaatPvm</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="n">start_year</span> <span class="o">=</span> <span class="nf">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="s">&#34;%Y&#34;</span><span class="p">))</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">geom_histogram</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">),</span> <span class="n">position</span> <span class="o">=</span> <span class="nf">position_dodge2</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">1</span><span class="p">))</span> 
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<p>Seems like a lot of private areas have been established since late 1990s.</p>
+<h2 id="area-establishment-over-time">Area establishment over time</h2>
+<p>Split by starting time, and plot.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="c1"># adhoc groups</span>
+</span></span><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">&lt;-</span> <span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span>   <span class="n">start_group</span> <span class="o">=</span>  <span class="nf">cut</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">start_year</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                                                  <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">1950</span><span class="p">,</span> <span class="m">1980</span><span class="p">,</span> <span class="m">1990</span><span class="p">,</span> <span class="m">2000</span><span class="p">,</span> <span class="m">2010</span><span class="p">,</span> <span class="m">2020</span><span class="p">,</span> <span class="m">2050</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                                                  <span class="nf">c</span><span class="p">(</span><span class="s">&#34;&lt;1950&#34;</span><span class="p">,</span> <span class="s">&#34;1950-1980&#34;</span><span class="p">,</span> <span class="s">&#34;1980s&#34;</span><span class="p">,</span> <span class="s">&#34;1990s&#34;</span><span class="p">,</span> <span class="s">&#34;2000s&#34;</span><span class="p">,</span> <span class="s">&#34;2010s&#34;</span><span class="p">,</span> <span class="s">&#34;2020-&gt;&#34;</span><span class="p">))</span>    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">ggplot</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">           <span class="nf">geom_sf</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fin</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;white&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">           <span class="nf">geom_sf</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">))</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">           <span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">start_group</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-14-1.png" width="864" />
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas1</span> <span class="o">%&gt;%</span> <span class="nf">as.data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">suojeluRyhma</span><span class="p">,</span> <span class="n">start_group</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">summarise</span><span class="p">(</span><span class="n">mean_area_km2</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Shape_STAr</span><span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="n">^2</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">tidyr</span><span class="o">::</span><span class="nf">gather</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mean_area_km2</span><span class="o">:</span><span class="n">n</span><span class="p">)</span> <span class="o">%&gt;%</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">start_group</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">suojeluRyhma</span><span class="p">))</span> <span class="o">+</span> <span class="nf">geom_point</span><span class="p">()</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">facet_grid</span><span class="p">(</span><span class="n">s</span><span class="o">~</span><span class="n">suojeluRyhma</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#34;free_y&#34;</span><span class="p">)</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="nf">theme</span><span class="p">(</span><span class="n">axis.text.x</span><span class="o">=</span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="m">45</span><span class="p">,</span><span class="n">hjust</span><span class="o">=</span><span class="m">1</span><span class="p">))</span>
+</span></span></code></pre></div><img src="https://antiphon.github.io/blog/natural-protection-areas-in-finland-into-r/index_files/figure-html/unnamed-chunk-15-1.png" width="864" />
+<h2 id="areas-outside-mainland">Areas outside mainland</h2>
+<p>Several areas don&rsquo;t hit land:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">outside</span> <span class="o">&lt;-</span> <span class="nf">sapply</span><span class="p">(</span><span class="nf">st_intersects</span><span class="p">(</span><span class="n">areas1</span><span class="p">,</span> <span class="n">fin</span> <span class="o">|&gt;</span> <span class="nf">st_transform</span><span class="p">(</span><span class="n">crs</span><span class="p">))</span> <span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">==</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">areasout</span> <span class="o">&lt;-</span> <span class="n">areas1[outside</span><span class="p">,</span><span class="n">]</span>
+</span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="nf">as.character</span><span class="p">(</span> <span class="n">areasout</span><span class="o">$</span><span class="n">TyyppiNimi</span><span class="p">),</span> <span class="n">useNA</span><span class="o">=</span><span class="s">&#34;i&#34;</span> <span class="p">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
+</span></span><span class="line"><span class="cl">## Erityisesti suojeltavan lajin suojelualue (ERA; LsL 47 §) 
+</span></span><span class="line"><span class="cl">##                                                        31 
+</span></span><span class="line"><span class="cl">##                                           Kansallispuisto 
+</span></span><span class="line"><span class="cl">##                                                         3 
+</span></span><span class="line"><span class="cl">##                                       Lehtojensuojelualue 
+</span></span><span class="line"><span class="cl">##                                                         2 
+</span></span><span class="line"><span class="cl">##                  Luontotyypin suojelualue (LTA; LsL 29 §) 
+</span></span><span class="line"><span class="cl">##                                                       136 
+</span></span><span class="line"><span class="cl">##               Määräaikainen rauhoitusalue (MRA; LsL 25 §) 
+</span></span><span class="line"><span class="cl">##                                                         6 
+</span></span><span class="line"><span class="cl">##                               Muu luonnonsuojelualue (MH) 
+</span></span><span class="line"><span class="cl">##                                                        42 
+</span></span><span class="line"><span class="cl">##                                         Soidensuojelualue 
+</span></span><span class="line"><span class="cl">##                                                         1 
+</span></span><span class="line"><span class="cl">##                              Vanhojen metsien suojelualue 
+</span></span><span class="line"><span class="cl">##                                                         3 
+</span></span><span class="line"><span class="cl">##                   Yksityismaiden luonnonsuojelualue (YSA) 
+</span></span><span class="line"><span class="cl">##                                                      1632
+</span></span></code></pre></div><p>Some are special species-protection areas (e.g. seal).</p>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="https://antiphon.github.io/blog/2022-06-17-blogdown-update-2022/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>Blogdown update 2022</span>
+  </a>
+  <a class="next" href="https://antiphon.github.io/blog/golden-ratio-of-valium/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>Golden ratio of Valium</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="https://antiphon.github.io">Tuomas Rajala ~ Statistician</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="/js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>
