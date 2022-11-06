@@ -170,7 +170,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
 <p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <h2 id="disable-css-fingerprinting">Disable CSS fingerprinting</h2>
-<p>After working in the site for a while the CSS stopped working. Resetting, rebuilding re-everything didn&rsquo;t help. Found that disabling fingerprinting (a form of tracking, which I didn&rsquo;t know was included) seemed to work at least on my own browsers. config.yaml:</p>
+<p>After working on the site for a while the CSS stopped working. Resetting, rebuilding re-everything didn&rsquo;t help. Found that disabling fingerprinting (a form of tracking, which I didn&rsquo;t know was included) seemes to work, at least on my own browsers. config.yaml:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">params:
 </span></span><span class="line"><span class="cl">  assets:
 </span></span><span class="line"><span class="cl">    disableFingerprinting: true
