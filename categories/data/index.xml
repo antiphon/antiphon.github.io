@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>data on Tuomas Rajala ~ Statistician</title>
+    <title>data on Tuomas Rajala</title>
     <link>https://antiphon.github.io/categories/data/</link>
-    <description>Recent content in data on Tuomas Rajala ~ Statistician</description>
+    <description>Recent content in data on Tuomas Rajala</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Fri, 28 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://antiphon.github.io/categories/data/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -51,15 +51,15 @@
 </span></span><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">&lt;-</span> <span class="nf">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span> <span class="n">polyl</span><span class="p">)</span>
 </span></span></code></pre></div><p>We now got a bunch of polys.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">dim</span><span class="p">(</span><span class="n">areas</span><span class="p">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 15774    29
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 15847    29
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areas</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;136.7 Mb&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;137.1 Mb&#34;
 </span></span></code></pre></div><h1 id="some-checks">Some checks</h1>
 <p>According to the data all areas are currently active:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">areas</span><span class="o">$</span><span class="n">Olotila</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
 </span></span><span class="line"><span class="cl">## Voimassa 
-</span></span><span class="line"><span class="cl">##    15774
+</span></span><span class="line"><span class="cl">##    15847
 </span></span></code></pre></div><p>Some stats:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">%&gt;%</span> <span class="nf">as.data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">suojeluRyhma</span><span class="p">)</span> <span class="o">%&gt;%</span> 
 </span></span><span class="line"><span class="cl">  <span class="nf">summarise</span><span class="p">(</span><span class="n">mean_area_km2</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Shape_STAr</span><span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="n">^2</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span>
@@ -68,12 +68,12 @@
 </span></span><span class="line"><span class="cl">##   &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;
 </span></span><span class="line"><span class="cl">## 1 eramaa            1241.       12
 </span></span><span class="line"><span class="cl">## 2 valtio              19.0    1090
-</span></span><span class="line"><span class="cl">## 3 yksityinen           0.259 14672
+</span></span><span class="line"><span class="cl">## 3 yksityinen           0.278 14745
 </span></span></code></pre></div><p>Private ones are very small, wilderness massive.</p>
 <p>Simplifying is easy with the <code>sf</code> classes:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areass</span> <span class="o">&lt;-</span> <span class="nf">st_simplify</span><span class="p">(</span><span class="n">areas</span><span class="p">,</span> <span class="n">dTolerance</span> <span class="o">=</span> <span class="m">400</span><span class="p">,</span> <span class="n">preserveTopology</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areass</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;25.9 Mb&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;26 Mb&#34;
 </span></span></code></pre></div><p>Example:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">col</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span><span class="n">areass[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">add</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
@@ -84,15 +84,15 @@
 </span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">vyears</span> <span class="o">&gt;</span> <span class="s">&#34;2025&#34;</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
 </span></span><span class="line"><span class="cl">## FALSE  TRUE 
-</span></span><span class="line"><span class="cl">##  4139 11635
+</span></span><span class="line"><span class="cl">##  4180 11667
 </span></span></code></pre></div><p>Let&rsquo;s assume <code>PaatPvm</code> (date of the decision) is a better starting time. Some are still missing here, though:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">pyears</span> <span class="o">&lt;-</span> <span class="nf">format</span><span class="p">(</span><span class="nf">as.POSIXct</span><span class="p">(</span> <span class="n">areas</span><span class="o">$</span><span class="n">PaatPvm</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">nostart</span>  <span class="o">&lt;-</span> <span class="n">pyears</span> <span class="o">==</span> <span class="s">&#34;9999&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">paat</span><span class="o">=</span> <span class="n">nostart</span><span class="p">,</span> <span class="n">voim</span><span class="o">=</span><span class="n">vyears</span><span class="o">==</span><span class="s">&#34;9999&#34;</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##        voim
 </span></span><span class="line"><span class="cl">## paat    FALSE  TRUE
-</span></span><span class="line"><span class="cl">##   FALSE  4140 11596
-</span></span><span class="line"><span class="cl">##   TRUE      0    38
+</span></span><span class="line"><span class="cl">##   FALSE  4181 11653
+</span></span><span class="line"><span class="cl">##   TRUE      0    13
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">odd</span> <span class="o">&lt;-</span> <span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[</span> <span class="n">nostart</span><span class="p">,</span><span class="n">]</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span> <span class="n">odd</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;red&#34;</span><span class="p">)</span>
@@ -136,16 +136,16 @@
 </span></span><span class="line"><span class="cl">##                                                         2 
 </span></span><span class="line"><span class="cl">##                  Luontotyypin suojelualue (LTA; LsL 29 §) 
 </span></span><span class="line"><span class="cl">##                                                       136 
-</span></span><span class="line"><span class="cl">##                               Muu luonnonsuojelualue (MH) 
-</span></span><span class="line"><span class="cl">##                                                        42 
 </span></span><span class="line"><span class="cl">##               Määräaikainen rauhoitusalue (MRA; LsL 25 §) 
 </span></span><span class="line"><span class="cl">##                                                         6 
+</span></span><span class="line"><span class="cl">##                               Muu luonnonsuojelualue (MH) 
+</span></span><span class="line"><span class="cl">##                                                        42 
 </span></span><span class="line"><span class="cl">##                                         Soidensuojelualue 
 </span></span><span class="line"><span class="cl">##                                                         1 
 </span></span><span class="line"><span class="cl">##                              Vanhojen metsien suojelualue 
 </span></span><span class="line"><span class="cl">##                                                         3 
 </span></span><span class="line"><span class="cl">##                   Yksityismaiden luonnonsuojelualue (YSA) 
-</span></span><span class="line"><span class="cl">##                                                      1608
+</span></span><span class="line"><span class="cl">##                                                      1632
 </span></span></code></pre></div><p>Some are special species-protection areas (e.g. seal).</p>
 ]]></content:encoded>
     </item>
