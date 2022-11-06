@@ -12,7 +12,10 @@
       <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
       
       <guid>https://antiphon.github.io/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</guid>
-      <description>Changing the projection of an interactive map? Yes, can be done, but not so straightforward.</description>
+      <description>Task Make an interactive map (HTML widget) where the Coordinate Reference System (CRS) of the map is the official CRS used by Finnish institutes, TM35FIN / EPSG:3067.
+Define the target CRS and Mercator EPSG codes to be used later.
+crs_fin &amp;lt;- 3067 crs_ll &amp;lt;- 4326 We will use these libraries.
+library(sf) library(leaflet) library(tmap) library(geofi) Preliminaries Example data: Polygons To have some data to depict and check the output, we fetch the municipalities of Finland using the geofi package.</description>
       <content:encoded><![CDATA[<h1 id="task">Task</h1>
 <p>Make an interactive map (HTML widget) where the Coordinate Reference System (CRS) of the map is the official CRS used by Finnish institutes, TM35FIN / EPSG:3067.</p>
 <p>Define the target CRS and Mercator EPSG codes to be used later.</p>
@@ -27,6 +30,9 @@
 <h2 id="example-data-polygons">Example data: Polygons</h2>
 <p>To have some data to depict and check the output, we fetch the municipalities of Finland using the <code>geofi</code> package.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mun</span> <span class="o">&lt;-</span> <span class="n">geofi</span><span class="o">::</span><span class="nf">get_municipalities</span><span class="p">()</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Requesting response from: http://geo.stat.fi/geoserver/wfs?service=WFS&amp;version=1.0.0&amp;request=getFeature&amp;typename=tilastointialueet%3Akunta4500k_2022
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Warning: Coercing CRS to epsg:3067 (ETRS89 / TM35FIN)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Data is licensed under: Attribution 4.0 International (CC BY 4.0)
 </span></span></code></pre></div><h2 id="example-basemap-that-supports-the-target-crs">Example basemap that supports the target CRS</h2>
 <p>Most likely the data is to plotted on top of some kind of a basemap, also known as a theme map or layer. A typical basemap service is of the type Web Map Service (WMS) or Web Map Tile Service (WMTS), and provides pre-rendered pixel-images known as tiles. These tiles are fast to download and are to be stiched together as the background map by the rendering engine. The images usually come in the unprojected lon-lat, Mercator CRS.</p>
 <p>An example of a WMTS service provider that supports the Finnish goverment CRS is the National Land Survey of Finland, or Maanmittauslaitos (MML). Details of their open data services can be found at <a href="https://www.maanmittauslaitos.fi/karttakuvapalvelu">https://www.maanmittauslaitos.fi/karttakuvapalvelu</a>. The English side is not complete, so try to parse the details from the Finnish pages.</p>
@@ -39,10 +45,10 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Augment the template with the api key</span>
 </span></span><span class="line"><span class="cl"><span class="n">umml</span> <span class="o">&lt;-</span> <span class="nf">sprintf</span><span class="p">(</span><span class="s">&#34;%s?api-key=%s&#34;</span><span class="p">,</span><span class="n">umml_fin</span><span class="p">,</span> <span class="n">mml_key</span><span class="p">)</span>
-</span></span></code></pre></div><p>Note the &ldquo;ETRS-TM35FIN&rdquo; string. This is where we request the tiles to be in the target projection. The other interesting string is &ldquo;taustakartta&rdquo;, which defines the layer we want. &ldquo;selkokartta&rdquo; and &ldquo;maastokartta&rdquo; would be alternatives, see<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+</span></span></code></pre></div><p>Note the &ldquo;ETRS-TM35FIN&rdquo; string. This is where we request the tiles to be in the target projection. The other interesting string is &ldquo;taustakartta&rdquo;, which defines the layer we want. &ldquo;selkokartta&rdquo; and &ldquo;maastokartta&rdquo; would be alternatives, see ^[https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts].</p>
 <p><em>Note: I think this is not clean WMTS, more like WMS, but I&rsquo;ve not found a way to make leaflet-package support the full WMTS 🤷</em></p>
 <h1 id="making-the-crs-understandable-by-leaflet">Making the CRS understandable by <code>leaflet</code></h1>
-<p><code>leaflet</code> assumes that all input data are in EPSG:3867 Web Mercator CRS <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. The list of basemap provides all default to this CRS, and will not work with the target projection.</p>
+<p><code>leaflet</code> assumes that all input data are in EPSG:3867 Web Mercator CRS ^[https://rstudio.github.io/leaflet/projections.html]. The list of basemap provides all default to this CRS, and will not work with the target projection.</p>
 <p>Other projections can be used, but the CRS need to be specified manually. Let us define the target CRS in a format that <code>leaflet</code> (and derivatives) understands. The specification is entagled with the properties of the tile service, particularly the resolution and the origin of the tile mosaics, so adjust accordingly. We need to</p>
 <ul>
 <li>Use the Proj4-string syntax. This string we get from <a href="https://epsg.io/3067">https://epsg.io/3067</a> (scroll down therein).</li>
@@ -55,7 +61,7 @@
 </span></span><span class="line"><span class="cl">                   <span class="n">origin</span>   <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">-548576</span><span class="p">,</span> <span class="m">8388608</span><span class="p">),</span> <span class="c1"># This is MML basemap related</span>
 </span></span><span class="line"><span class="cl">                   <span class="n">resolutions</span> <span class="o">=</span> <span class="m">2</span><span class="nf">^</span><span class="p">(</span><span class="m">13</span><span class="o">:</span><span class="m">-1</span><span class="p">)</span>         <span class="c1"># This is MML basemap related</span>
 </span></span><span class="line"><span class="cl">                   <span class="p">)</span>
-</span></span></code></pre></div><p>The origin and resolution details were found in a technical document provide by MML <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+</span></span></code></pre></div><p>The origin and resolution details were found in a technical document provide by MML ^[https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc].</p>
 <h1 id="interactive-map-using-leaflet">Interactive map using <code>leaflet</code></h1>
 <p>The projection information is now ready to be applied to a map. First though: <code>leaflet</code> expects all input data to be in lon-lat, so we need to first transform the data to be shown. The back-transformation to the target CRS will take place inside <code>leaflet</code> code when rendered.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mun_ll</span> <span class="o">&lt;-</span> <span class="n">sf</span><span class="o">::</span><span class="nf">st_transform</span><span class="p">(</span><span class="n">mun</span><span class="p">,</span> <span class="n">crs_ll</span><span class="p">)</span>
@@ -91,20 +97,6 @@
 </span></span><span class="line"><span class="cl">          <span class="p">)</span> 
 </span></span></code></pre></div><p><img loading="lazy" src="/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/tmap-1.png" type="" alt="tmap example"  /></p>
 <p>Note that while writing this example the <code>tm_shape</code> data needed to be in lat-lon too if using a custom CRS basemap provider. I think this is because when manipulating the CRS using <code>tm_view</code>, the data is automatically re-projected from assumed lon-lat regardless of the data CRS.</p>
-<div class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1">
-<p>Description of available layers: <a href="https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts">https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2">
-<p>Brief description of projections in the leaflet-package: <a href="https://rstudio.github.io/leaflet/projections.html">https://rstudio.github.io/leaflet/projections.html</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3">
-<p>Specs for the MML tile services: <a href="https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc">https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</div>
 ]]></content:encoded>
     </item>
     
