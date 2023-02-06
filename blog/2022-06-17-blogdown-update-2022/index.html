@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Blogdown update 2022 | Tuomas Rajala ~ Statistician</title>
+<title>Blogdown update 2022 | Tuomas Rajala</title>
 <meta name="keywords" content="blogdown">
 <meta name="description" content="Trying out blogdown again, this time with the intention of migrating the site under Github pages. As usual, some tweaks are needed to make Hugo themes work with R and blogdown.
 I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking the look but finding it difficult to edit. I tried some others, mainly Anatole and Apéro, but the PaperMod was at a more suitable balance of simple looks and rich in features for me.">
@@ -15,12 +15,12 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 <link rel="icon" href="https://antiphon.github.io/favicon.ico">
 <link rel="apple-touch-icon" href="https://antiphon.github.io/apple-touch-icon.png">
 
-<meta name="twitter:title" content="Blogdown update 2022 | Tuomas Rajala ~ Statistician" />
+<meta name="twitter:title" content="Blogdown update 2022 | Tuomas Rajala" />
 <meta name="twitter:description" content="Trying out blogdown again, this time with the intention of migrating the site under Github pages. As usual, some tweaks are needed to make Hugo themes work with R and blogdown.
 I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking the look but finding it difficult to edit. I tried some others, mainly Anatole and Apéro, but the PaperMod was at a more suitable balance of simple looks and rich in features for me." />
 <meta name="twitter:site" content="@novoreorx" />
 <meta name="twitter:creator" content="@novoreorx" />
-<meta property="og:title" content="Blogdown update 2022 | Tuomas Rajala ~ Statistician" />
+<meta property="og:title" content="Blogdown update 2022 | Tuomas Rajala" />
 <meta property="og:description" content="Trying out blogdown again, this time with the intention of migrating the site under Github pages. As usual, some tweaks are needed to make Hugo themes work with R and blogdown.
 I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking the look but finding it difficult to edit. I tried some others, mainly Anatole and Apéro, but the PaperMod was at a more suitable balance of simple looks and rich in features for me." />
 <meta property="og:type" content="article" />
@@ -54,13 +54,17 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Blogdown update 2022 | Tuomas Rajala ~ Statistician",
+  "headline": "Blogdown update 2022 | Tuomas Rajala",
   "name": "Blogdown update 2022",
   "description": "Trying out blogdown again, this time with the intention of migrating the site under Github pages. As usual, some tweaks are needed to make Hugo themes work with R and blogdown.\nI chose the PaperModX as the Hugo theme after trying out the PaperMod and liking the look but finding it difficult to edit. I tried some others, mainly Anatole and Apéro, but the PaperMod was at a more suitable balance of simple looks and rich in features for me.",
   "keywords": [
     "blogdown"
   ],
+<<<<<<< HEAD
   "wordCount" : "510",
+=======
+  "wordCount" : "558",
+>>>>>>> 981981831278351bb10eab245073fc7ca2cb73b2
   "inLanguage": "en",
   "datePublished": "2022-06-17T00:00:00Z",
   "dateModified": "2022-06-17T00:00:00Z",
@@ -74,7 +78,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Tuomas Rajala ~ Statistician",
+    "name": "Tuomas Rajala",
     "logo": {
       "@type": "ImageObject",
       "url": "https://antiphon.github.io/favicon.ico"
@@ -240,7 +244,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://antiphon.github.io" accesskey="h" title="Tuomas Rajala ~ Statistician (Alt + H)">Tuomas Rajala ~ Statistician</a>
+            <a href="https://antiphon.github.io" accesskey="h" title="Tuomas Rajala (Alt + H)">Tuomas Rajala</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -313,6 +317,11 @@ function toggleThemeListener() {
                 <li>
                     <a href="#footnotes-no-more-inline-footnote-ness" aria-label="Footnotes: no more inline footnote-ness">Footnotes: no more inline footnote-ness</a></li>
                 <li>
+<<<<<<< HEAD
+=======
+                    <a href="#disable-css-fingerprinting" aria-label="Disable CSS fingerprinting">Disable CSS fingerprinting</a></li>
+                <li>
+>>>>>>> 981981831278351bb10eab245073fc7ca2cb73b2
                     <a href="#disqus" aria-label="Disqus">Disqus</a>
                 </li>
             </ul>
@@ -381,7 +390,16 @@ function toggleThemeListener() {
 </span></span><span class="line"><span class="cl">&#39;&#39;&#39;
 </span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
 <p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<<<<<<< HEAD
 <h2 id="disqus">Disqus</h2>
+=======
+<h2 id="disable-css-fingerprinting">Disable CSS fingerprinting</h2>
+<p>After working on the site for a while the CSS stopped working. Resetting, rebuilding re-everything didn&rsquo;t help. Found that disabling fingerprinting (a form of tracking, which I didn&rsquo;t know was included) seemes to work, at least on my own browsers. config.yaml:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">  assets:
+</span></span><span class="line"><span class="cl">    disableFingerprinting: true
+</span></span></code></pre></div><h2 id="disqus">Disqus</h2>
+>>>>>>> 981981831278351bb10eab245073fc7ca2cb73b2
 <p>Two steps, following <a href="https://reorx.github.io/hugo-PaperModX/docs/features/#comments">https://reorx.github.io/hugo-PaperModX/docs/features/#comments</a> and <a href="https://gohugo.io/content-management/comments/">https://gohugo.io/content-management/comments/</a>:</p>
 <ol>
 <li>Add to config.yaml</li>
@@ -444,7 +462,11 @@ function toggleThemeListener() {
     </main>
     
 <footer class="footer">
+<<<<<<< HEAD
   <span>&copy; 2023 <a href="https://antiphon.github.io">Tuomas Rajala ~ Statistician</a></span><span style="display: inline-block; margin-left: 1em;">
+=======
+  <span>&copy; 2022 <a href="https://antiphon.github.io">Tuomas Rajala</a></span><span style="display: inline-block; margin-left: 1em;">
+>>>>>>> 981981831278351bb10eab245073fc7ca2cb73b2
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
