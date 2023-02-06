@@ -12,7 +12,10 @@
       <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
       
       <guid>https://antiphon.github.io/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</guid>
-      <description>Changing the projection of an interactive map? Yes, can be done, but not so straightforward.</description>
+      <description>Task Make an interactive map (HTML widget) where the Coordinate Reference System (CRS) of the map is the official CRS used by Finnish institutes, TM35FIN / EPSG:3067.
+Define the target CRS and Mercator EPSG codes to be used later.
+crs_fin &amp;lt;- 3067 crs_ll &amp;lt;- 4326 We will use these libraries.
+library(sf) library(leaflet) library(tmap) library(geofi) Preliminaries Example data: Polygons To have some data to depict and check the output, we fetch the municipalities of Finland using the geofi package.</description>
       <content:encoded><![CDATA[<h1 id="task">Task</h1>
 <p>Make an interactive map (HTML widget) where the Coordinate Reference System (CRS) of the map is the official CRS used by Finnish institutes, TM35FIN / EPSG:3067.</p>
 <p>Define the target CRS and Mercator EPSG codes to be used later.</p>
@@ -27,6 +30,9 @@
 <h2 id="example-data-polygons">Example data: Polygons</h2>
 <p>To have some data to depict and check the output, we fetch the municipalities of Finland using the <code>geofi</code> package.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mun</span> <span class="o">&lt;-</span> <span class="n">geofi</span><span class="o">::</span><span class="nf">get_municipalities</span><span class="p">()</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Requesting response from: http://geo.stat.fi/geoserver/wfs?service=WFS&amp;version=1.0.0&amp;request=getFeature&amp;typename=tilastointialueet%3Akunta4500k_2022
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Warning: Coercing CRS to epsg:3067 (ETRS89 / TM35FIN)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## Data is licensed under: Attribution 4.0 International (CC BY 4.0)
 </span></span></code></pre></div><h2 id="example-basemap-that-supports-the-target-crs">Example basemap that supports the target CRS</h2>
 <p>Most likely the data is to plotted on top of some kind of a basemap, also known as a theme map or layer. A typical basemap service is of the type Web Map Service (WMS) or Web Map Tile Service (WMTS), and provides pre-rendered pixel-images known as tiles. These tiles are fast to download and are to be stiched together as the background map by the rendering engine. The images usually come in the unprojected lon-lat, Mercator CRS.</p>
 <p>An example of a WMTS service provider that supports the Finnish goverment CRS is the National Land Survey of Finland, or Maanmittauslaitos (MML). Details of their open data services can be found at <a href="https://www.maanmittauslaitos.fi/karttakuvapalvelu">https://www.maanmittauslaitos.fi/karttakuvapalvelu</a>. The English side is not complete, so try to parse the details from the Finnish pages.</p>
@@ -39,10 +45,10 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1"># Augment the template with the api key</span>
 </span></span><span class="line"><span class="cl"><span class="n">umml</span> <span class="o">&lt;-</span> <span class="nf">sprintf</span><span class="p">(</span><span class="s">&#34;%s?api-key=%s&#34;</span><span class="p">,</span><span class="n">umml_fin</span><span class="p">,</span> <span class="n">mml_key</span><span class="p">)</span>
-</span></span></code></pre></div><p>Note the &ldquo;ETRS-TM35FIN&rdquo; string. This is where we request the tiles to be in the target projection. The other interesting string is &ldquo;taustakartta&rdquo;, which defines the layer we want. &ldquo;selkokartta&rdquo; and &ldquo;maastokartta&rdquo; would be alternatives, see<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+</span></span></code></pre></div><p>Note the &ldquo;ETRS-TM35FIN&rdquo; string. This is where we request the tiles to be in the target projection. The other interesting string is &ldquo;taustakartta&rdquo;, which defines the layer we want. &ldquo;selkokartta&rdquo; and &ldquo;maastokartta&rdquo; would be alternatives, see ^[https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts].</p>
 <p><em>Note: I think this is not clean WMTS, more like WMS, but I&rsquo;ve not found a way to make leaflet-package support the full WMTS 🤷</em></p>
 <h1 id="making-the-crs-understandable-by-leaflet">Making the CRS understandable by <code>leaflet</code></h1>
-<p><code>leaflet</code> assumes that all input data are in EPSG:3867 Web Mercator CRS <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. The list of basemap provides all default to this CRS, and will not work with the target projection.</p>
+<p><code>leaflet</code> assumes that all input data are in EPSG:3867 Web Mercator CRS ^[https://rstudio.github.io/leaflet/projections.html]. The list of basemap provides all default to this CRS, and will not work with the target projection.</p>
 <p>Other projections can be used, but the CRS need to be specified manually. Let us define the target CRS in a format that <code>leaflet</code> (and derivatives) understands. The specification is entagled with the properties of the tile service, particularly the resolution and the origin of the tile mosaics, so adjust accordingly. We need to</p>
 <ul>
 <li>Use the Proj4-string syntax. This string we get from <a href="https://epsg.io/3067">https://epsg.io/3067</a> (scroll down therein).</li>
@@ -55,7 +61,7 @@
 </span></span><span class="line"><span class="cl">                   <span class="n">origin</span>   <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">-548576</span><span class="p">,</span> <span class="m">8388608</span><span class="p">),</span> <span class="c1"># This is MML basemap related</span>
 </span></span><span class="line"><span class="cl">                   <span class="n">resolutions</span> <span class="o">=</span> <span class="m">2</span><span class="nf">^</span><span class="p">(</span><span class="m">13</span><span class="o">:</span><span class="m">-1</span><span class="p">)</span>         <span class="c1"># This is MML basemap related</span>
 </span></span><span class="line"><span class="cl">                   <span class="p">)</span>
-</span></span></code></pre></div><p>The origin and resolution details were found in a technical document provide by MML <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.</p>
+</span></span></code></pre></div><p>The origin and resolution details were found in a technical document provide by MML ^[https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc].</p>
 <h1 id="interactive-map-using-leaflet">Interactive map using <code>leaflet</code></h1>
 <p>The projection information is now ready to be applied to a map. First though: <code>leaflet</code> expects all input data to be in lon-lat, so we need to first transform the data to be shown. The back-transformation to the target CRS will take place inside <code>leaflet</code> code when rendered.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">mun_ll</span> <span class="o">&lt;-</span> <span class="n">sf</span><span class="o">::</span><span class="nf">st_transform</span><span class="p">(</span><span class="n">mun</span><span class="p">,</span> <span class="n">crs_ll</span><span class="p">)</span>
@@ -91,20 +97,6 @@
 </span></span><span class="line"><span class="cl">          <span class="p">)</span> 
 </span></span></code></pre></div><p><img loading="lazy" src="/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/tmap-1.png" type="" alt="tmap example"  /></p>
 <p>Note that while writing this example the <code>tm_shape</code> data needed to be in lat-lon too if using a custom CRS basemap provider. I think this is because when manipulating the CRS using <code>tm_view</code>, the data is automatically re-projected from assumed lon-lat regardless of the data CRS.</p>
-<div class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1">
-<p>Description of available layers: <a href="https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts">https://www.maanmittauslaitos.fi/karttakuvapalvelu/tekninen-kuvaus-wmts</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2">
-<p>Brief description of projections in the leaflet-package: <a href="https://rstudio.github.io/leaflet/projections.html">https://rstudio.github.io/leaflet/projections.html</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:3">
-<p>Specs for the MML tile services: <a href="https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc">https://www.suomidigi.fi/sites/default/files/2020-07/JHS180_liite1.doc</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</div>
 ]]></content:encoded>
     </item>
     
@@ -177,13 +169,19 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl">&#39;&#39;&#39;
 </span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
 <p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
-<h2 id="disable-rsi-fingerprinting">Disable RSI fingerprinting</h2>
-<p>After working for a while the CSS fingerprinting broke. Rebuilding did nothing, so for now the fingerprinting has been disabled by add to the config.yaml</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">params: 
-</span></span><span class="line"><span class="cl">  assets:
-</span></span><span class="line"><span class="cl">    disableFingerprinting: true
-</span></span></code></pre></div><p>I hope no evil comes of this.</p>
-<div class="footnotes" role="doc-endnotes">
+<h2 id="disqus">Disqus</h2>
+<p>Two steps, following <a href="https://reorx.github.io/hugo-PaperModX/docs/features/#comments">https://reorx.github.io/hugo-PaperModX/docs/features/#comments</a> and <a href="https://gohugo.io/content-management/comments/">https://gohugo.io/content-management/comments/</a>:</p>
+<ol>
+<li>Add to config.yaml</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">disqusShortname: yourDisqusShortname
+</span></span><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">  comments: true
+</span></span></code></pre></div><ol start="2">
+<li>Create ./layouts/partials/comments.html with the content</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{ template &#34;_internal/disqus.html&#34; . }}
+</span></span></code></pre></div><div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1">
@@ -239,15 +237,15 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">&lt;-</span> <span class="nf">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span> <span class="n">polyl</span><span class="p">)</span>
 </span></span></code></pre></div><p>We now got a bunch of polys.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">dim</span><span class="p">(</span><span class="n">areas</span><span class="p">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 15847    29
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] 15774    29
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areas</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;137.1 Mb&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;136.7 Mb&#34;
 </span></span></code></pre></div><h1 id="some-checks">Some checks</h1>
 <p>According to the data all areas are currently active:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">areas</span><span class="o">$</span><span class="n">Olotila</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
 </span></span><span class="line"><span class="cl">## Voimassa 
-</span></span><span class="line"><span class="cl">##    15847
+</span></span><span class="line"><span class="cl">##    15774
 </span></span></code></pre></div><p>Some stats:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areas</span> <span class="o">%&gt;%</span> <span class="nf">as.data.frame</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">suojeluRyhma</span><span class="p">)</span> <span class="o">%&gt;%</span> 
 </span></span><span class="line"><span class="cl">  <span class="nf">summarise</span><span class="p">(</span><span class="n">mean_area_km2</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">Shape_STAr</span><span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="n">^2</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span>
@@ -256,12 +254,12 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl">##   &lt;chr&gt;                &lt;dbl&gt; &lt;int&gt;
 </span></span><span class="line"><span class="cl">## 1 eramaa            1241.       12
 </span></span><span class="line"><span class="cl">## 2 valtio              19.0    1090
-</span></span><span class="line"><span class="cl">## 3 yksityinen           0.278 14745
+</span></span><span class="line"><span class="cl">## 3 yksityinen           0.259 14672
 </span></span></code></pre></div><p>Private ones are very small, wilderness massive.</p>
 <p>Simplifying is easy with the <code>sf</code> classes:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">areass</span> <span class="o">&lt;-</span> <span class="nf">st_simplify</span><span class="p">(</span><span class="n">areas</span><span class="p">,</span> <span class="n">dTolerance</span> <span class="o">=</span> <span class="m">400</span><span class="p">,</span> <span class="n">preserveTopology</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">format</span><span class="p">(</span><span class="nf">object.size</span><span class="p">(</span><span class="n">areass</span><span class="p">),</span> <span class="s">&#34;Mb&#34;</span><span class="p">)</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;26 Mb&#34;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## [1] &#34;25.9 Mb&#34;
 </span></span></code></pre></div><p>Example:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">col</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="nf">st_geometry</span><span class="p">(</span><span class="n">areass[1</span><span class="p">,</span><span class="n">]</span><span class="p">),</span> <span class="n">add</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
@@ -272,15 +270,15 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">vyears</span> <span class="o">&gt;</span> <span class="s">&#34;2025&#34;</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">## 
 </span></span><span class="line"><span class="cl">## FALSE  TRUE 
-</span></span><span class="line"><span class="cl">##  4180 11667
+</span></span><span class="line"><span class="cl">##  4139 11635
 </span></span></code></pre></div><p>Let&rsquo;s assume <code>PaatPvm</code> (date of the decision) is a better starting time. Some are still missing here, though:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">pyears</span> <span class="o">&lt;-</span> <span class="nf">format</span><span class="p">(</span><span class="nf">as.POSIXct</span><span class="p">(</span> <span class="n">areas</span><span class="o">$</span><span class="n">PaatPvm</span><span class="p">,</span> <span class="n">format</span> <span class="o">=</span> <span class="s">&#34;%Y/%m/%d&#34;</span> <span class="p">),</span> <span class="s">&#34;%Y&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="n">nostart</span>  <span class="o">&lt;-</span> <span class="n">pyears</span> <span class="o">==</span> <span class="s">&#34;9999&#34;</span>
 </span></span><span class="line"><span class="cl"><span class="nf">table</span><span class="p">(</span><span class="n">paat</span><span class="o">=</span> <span class="n">nostart</span><span class="p">,</span> <span class="n">voim</span><span class="o">=</span><span class="n">vyears</span><span class="o">==</span><span class="s">&#34;9999&#34;</span><span class="p">)</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##        voim
 </span></span><span class="line"><span class="cl">## paat    FALSE  TRUE
-</span></span><span class="line"><span class="cl">##   FALSE  4181 11653
-</span></span><span class="line"><span class="cl">##   TRUE      0    13
+</span></span><span class="line"><span class="cl">##   FALSE  4140 11596
+</span></span><span class="line"><span class="cl">##   TRUE      0    38
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">odd</span> <span class="o">&lt;-</span> <span class="nf">st_geometry</span><span class="p">(</span> <span class="n">areas[</span> <span class="n">nostart</span><span class="p">,</span><span class="n">]</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span> <span class="n">odd</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s">&#34;red&#34;</span><span class="p">)</span>
@@ -324,16 +322,16 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl">##                                                         2 
 </span></span><span class="line"><span class="cl">##                  Luontotyypin suojelualue (LTA; LsL 29 §) 
 </span></span><span class="line"><span class="cl">##                                                       136 
-</span></span><span class="line"><span class="cl">##               Määräaikainen rauhoitusalue (MRA; LsL 25 §) 
-</span></span><span class="line"><span class="cl">##                                                         6 
 </span></span><span class="line"><span class="cl">##                               Muu luonnonsuojelualue (MH) 
 </span></span><span class="line"><span class="cl">##                                                        42 
+</span></span><span class="line"><span class="cl">##               Määräaikainen rauhoitusalue (MRA; LsL 25 §) 
+</span></span><span class="line"><span class="cl">##                                                         6 
 </span></span><span class="line"><span class="cl">##                                         Soidensuojelualue 
 </span></span><span class="line"><span class="cl">##                                                         1 
 </span></span><span class="line"><span class="cl">##                              Vanhojen metsien suojelualue 
 </span></span><span class="line"><span class="cl">##                                                         3 
 </span></span><span class="line"><span class="cl">##                   Yksityismaiden luonnonsuojelualue (YSA) 
-</span></span><span class="line"><span class="cl">##                                                      1632
+</span></span><span class="line"><span class="cl">##                                                      1608
 </span></span></code></pre></div><p>Some are special species-protection areas (e.g. seal).</p>
 ]]></content:encoded>
     </item>
@@ -427,7 +425,7 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </div>
 <p>For reference, here is the original by Hirst (from WikiArt):</p>
 <div class="figure">
-<img src="images/hirst-valium-wikiart.jpg" alt="Hirst: Valium (from Wikiart)"  />
+<img src="images/hirst-valium-wikiart.jpg" alt="Hirst: Valium (from Wikiart)" width="240" />
 <p class="caption">Figure 3: Hirst: Valium (from Wikiart)</p>
 </div>
 <p>I don&rsquo;t have £7k or anything like that floating about, but I&rsquo;m pretty sure that when I want random spots on a white canvas to decorate my flat with, I can figure out a sufficient substitute.</p>

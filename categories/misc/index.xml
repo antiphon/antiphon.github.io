@@ -75,13 +75,19 @@ I chose the PaperModX as the Hugo theme after trying out the PaperMod and liking
 </span></span><span class="line"><span class="cl">&#39;&#39;&#39;
 </span></span></code></pre></div><h2 id="footnotes-no-more-inline-footnote-ness">Footnotes: no more inline footnote-ness</h2>
 <p>Render engine is different, so inline footnotes like this <code>blaa blaa^[they said]</code> won&rsquo;t work: blaa blaa ^[they said]. Instead, one needs to go through the tag-ref way of <code>blaa blaa[^tag]</code> and write the description <code>[^tag]: they said</code> somewhere, like this : blaa blaa<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
-<h2 id="disable-rsi-fingerprinting">Disable RSI fingerprinting</h2>
-<p>After working for a while the CSS fingerprinting broke. Rebuilding did nothing, so for now the fingerprinting has been disabled by add to the config.yaml</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">params: 
-</span></span><span class="line"><span class="cl">  assets:
-</span></span><span class="line"><span class="cl">    disableFingerprinting: true
-</span></span></code></pre></div><p>I hope no evil comes of this.</p>
-<div class="footnotes" role="doc-endnotes">
+<h2 id="disqus">Disqus</h2>
+<p>Two steps, following <a href="https://reorx.github.io/hugo-PaperModX/docs/features/#comments">https://reorx.github.io/hugo-PaperModX/docs/features/#comments</a> and <a href="https://gohugo.io/content-management/comments/">https://gohugo.io/content-management/comments/</a>:</p>
+<ol>
+<li>Add to config.yaml</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">disqusShortname: yourDisqusShortname
+</span></span><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">  comments: true
+</span></span></code></pre></div><ol start="2">
+<li>Create ./layouts/partials/comments.html with the content</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{{ template &#34;_internal/disqus.html&#34; . }}
+</span></span></code></pre></div><div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1">
