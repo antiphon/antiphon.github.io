@@ -8,10 +8,10 @@
     <lastBuildDate>Fri, 15 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://antiphon.github.io/categories/maps/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R, leaflet, and MML tiles: Changing the output CRS</title>
-      <link>https://antiphon.github.io/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</link>
+      <link>https://antiphon.github.io/posts/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</link>
       <pubDate>Fri, 15 Jul 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://antiphon.github.io/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</guid>
+      <guid>https://antiphon.github.io/posts/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/</guid>
       <description>Task Make an interactive map (HTML widget) where the Coordinate Reference System (CRS) of the map is the official CRS used by Finnish institutes, TM35FIN / EPSG:3067.
 Define the target CRS and Mercator EPSG codes to be used later.
 crs_fin &amp;lt;- 3067 crs_ll &amp;lt;- 4326 We will use these libraries.
@@ -78,7 +78,7 @@ library(sf) library(leaflet) library(tmap) library(geofi) Preliminaries Example 
 </span></span><span class="line"><span class="cl">              <span class="n">highlightOptions</span> <span class="o">=</span> <span class="nf">highlightOptions</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s">&#34;red&#34;</span><span class="p">,</span> <span class="n">bringToFront</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">              <span class="p">)</span> <span class="o">|&gt;</span>
 </span></span><span class="line"><span class="cl">  <span class="nf">setView</span><span class="p">(</span><span class="n">lng</span> <span class="o">=</span> <span class="m">25</span><span class="p">,</span> <span class="n">lat</span> <span class="o">=</span> <span class="m">68</span><span class="p">,</span> <span class="n">zoom</span> <span class="o">=</span> <span class="m">3</span><span class="p">)</span> <span class="c1"># lon-lat again</span>
-</span></span></code></pre></div><p><img loading="lazy" src="/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/leaflet-1.png" type="" alt="Leaflet example"  /></p>
+</span></span></code></pre></div><p><img loading="lazy" src="/posts/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/leaflet-1.png" type="" alt="Leaflet example"  /></p>
 <p>The projection is now correct.</p>
 <h1 id="tmap-example-uses-leaflet"><code>tmap</code> example, uses <code>leaflet</code></h1>
 <p>If the above example for <code>leaflet</code> worked, we should be able to also use <code>tmap</code>, which provides a higher level functionality for producing maps.</p>
@@ -95,7 +95,7 @@ library(sf) library(leaflet) library(tmap) library(geofi) Preliminaries Example 
 </span></span><span class="line"><span class="cl">          <span class="n">id</span> <span class="o">=</span> <span class="s">&#34;name&#34;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">          <span class="n">popup.vars</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">,</span> <span class="s">&#34;ely_name_fi&#34;</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">          <span class="p">)</span> 
-</span></span></code></pre></div><p><img loading="lazy" src="/blog/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/tmap-1.png" type="" alt="tmap example"  /></p>
+</span></span></code></pre></div><p><img loading="lazy" src="/posts/2022-07-15-r-leaflet-and-mml-tiles-changing-the-output-crs/img/tmap-1.png" type="" alt="tmap example"  /></p>
 <p>Note that while writing this example the <code>tm_shape</code> data needed to be in lat-lon too if using a custom CRS basemap provider. I think this is because when manipulating the CRS using <code>tm_view</code>, the data is automatically re-projected from assumed lon-lat regardless of the data CRS.</p>
 ]]></content:encoded>
     </item>

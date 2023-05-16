@@ -8,10 +8,10 @@
     <lastBuildDate>Mon, 06 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://antiphon.github.io/categories/papers/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Anisotropic news</title>
-      <link>https://antiphon.github.io/blog/2023-02-06-anisotropic-news/</link>
+      <link>https://antiphon.github.io/posts/2023-02-06-anisotropic-news/</link>
       <pubDate>Mon, 06 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://antiphon.github.io/blog/2023-02-06-anisotropic-news/</guid>
+      <guid>https://antiphon.github.io/posts/2023-02-06-anisotropic-news/</guid>
       <description>Numbers of directions, compared.</description>
       <content:encoded><![CDATA[<h1 id="new-paper-out">New paper out</h1>
 <p>Back in 2018 Aila, Claudia, Martina and I wrote a review piece listing the kind of statistics people use to describe directional structures in spatial point patterns (Rajala et al. 2018). Our plan was to gather what we could find into one toolbox, and then compare the tools with respect to statistical power, ease of use, and other such user-relevant metrics.</p>

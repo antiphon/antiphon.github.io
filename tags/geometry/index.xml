@@ -8,10 +8,10 @@
     <lastBuildDate>Mon, 06 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://antiphon.github.io/tags/geometry/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Anisotropic news</title>
-      <link>https://antiphon.github.io/blog/2023-02-06-anisotropic-news/</link>
+      <link>https://antiphon.github.io/posts/2023-02-06-anisotropic-news/</link>
       <pubDate>Mon, 06 Feb 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://antiphon.github.io/blog/2023-02-06-anisotropic-news/</guid>
+      <guid>https://antiphon.github.io/posts/2023-02-06-anisotropic-news/</guid>
       <description>Numbers of directions, compared.</description>
       <content:encoded><![CDATA[<h1 id="new-paper-out">New paper out</h1>
 <p>Back in 2018 Aila, Claudia, Martina and I wrote a review piece listing the kind of statistics people use to describe directional structures in spatial point patterns (Rajala et al. 2018). Our plan was to gather what we could find into one toolbox, and then compare the tools with respect to statistical power, ease of use, and other such user-relevant metrics.</p>
@@ -47,10 +47,10 @@ Figure 1: Overall results of the simulation trials. For each anisotropy summary,
     
     <item>
       <title>Golden ratio of Valium</title>
-      <link>https://antiphon.github.io/blog/golden-ratio-of-valium/</link>
+      <link>https://antiphon.github.io/posts/golden-ratio-of-valium/</link>
       <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://antiphon.github.io/blog/golden-ratio-of-valium/</guid>
+      <guid>https://antiphon.github.io/posts/golden-ratio-of-valium/</guid>
       <description>Damien Hirst and patterns again, this time using the golden ratio.</description>
       <content:encoded><![CDATA[<h1 id="hirsts-valium-and-the-golden-ratio">Hirst&rsquo;s Valium and the Golden ratio</h1>
 <p>The artist Damien Hirst has a painting called <em>Valium</em> (2000) (£6k-8k at Christie&rsquo;s) which is based on a geometrically repeating pattern coupled with randomised colors. The pattern of locations resembles that found in a sun flower, and has a beautiful connection to the golden ratio.  Numberphile has a <a href="https://www.youtube.com/watch?v=sj8Sg8qnjOg">video</a> that explains the maths quite nicely, let&rsquo;s demostrate the idea here.</p>
@@ -95,14 +95,14 @@ Figure 1: Overall results of the simulation trials. For each anisotropy summary,
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">fracs</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">),</span> <span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">f</span> <span class="n">in</span> <span class="n">fracs</span><span class="p">)</span> <span class="nf">plop</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">its</span> <span class="o">=</span> <span class="m">20</span><span class="p">)</span>
-</span></span></code></pre></div><img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+</span></span></code></pre></div><img src="https://antiphon.github.io/posts/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 <p>So when the fraction is 1/5 we will have 5 spokes, for example.</p>
 <p>The interesting thing is that when the fraction becomes less like a rational number, the pattern becomes more and more staggered. Repeating the example in the Numberphile video where we are close to the fraction 1/3:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-r" data-lang="r"><span class="line"><span class="cl"><span class="n">fracs</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="m">3</span> <span class="o">+</span> <span class="nf">seq</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="m">7</span><span class="p">)</span><span class="o">*</span><span class="m">.01</span><span class="p">)</span><span class="n">[</span><span class="m">-1</span><span class="n">]</span>
 </span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">f</span> <span class="n">in</span> <span class="n">fracs</span><span class="p">)</span> <span class="nf">plop</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">its</span> <span class="o">=</span> <span class="m">200</span><span class="p">)</span>
 </span></span></code></pre></div><div class="figure">
-<img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/threes-1.png" alt="Fractions near 1/3" width="672" />
+<img src="https://antiphon.github.io/posts/golden-ratio-of-valium/index_files/figure-html/threes-1.png" alt="Fractions near 1/3" width="672" />
 <p class="caption">Figure 1: Fractions near 1/3</p>
 </div>
 <p>In the video the golden ration $\phi=\frac{1 + \sqrt{5}}{2}\approx 1.61808$ is argued to be&quot;the most irrational number&quot; because it is hardest to approximate with a rational number. The maths is not hard to understand, but to just illustrate the property discussed in the video, let&rsquo;s see some irrational numbers alongside the golden ratio:</p>
@@ -110,7 +110,7 @@ Figure 1: Overall results of the simulation trials. For each anisotropy summary,
 </span></span><span class="line"><span class="cl"><span class="n">fracs</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="s">&#34;pi&#34;</span><span class="o">=</span> <span class="kc">pi</span><span class="p">,</span> <span class="s">&#34;Sqrt 2&#34;</span><span class="o">=</span> <span class="nf">sqrt</span><span class="p">(</span><span class="m">2</span><span class="p">),</span> <span class="s">&#34;Golden ratio&#34;</span><span class="o">=</span> <span class="n">gr</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="n">mar</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="nf">names</span><span class="p">(</span><span class="n">fracs</span><span class="p">))</span> <span class="nf">plop</span><span class="p">(</span><span class="n">fracs[[i]]</span><span class="p">,</span> <span class="n">its</span> <span class="o">=</span> <span class="m">500</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">cex</span> <span class="o">=</span> <span class="m">.5</span><span class="p">)</span>
-</span></span></code></pre></div><img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+</span></span></code></pre></div><img src="https://antiphon.github.io/posts/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 <p>It is quite clear how $\pi$&rsquo;s pattern has that spokiness of rational numbers, and this is because it can be approximated with a rational number quite well (<em>viz.</em> Figure <a href="#fig:threes">1</a> above). $\sqrt{2}$ is a bit more mixed up but starts to show spokes as we get further out. The golden ratio is clearly the least spoky and keeps at it the furthest out. Note also the resemblance to the sun flower.</p>
 <h2 id="spot-paintings">Spot paintings</h2>
 <p>Returning to the paintings by Damien Hirst, we can now mimic the <em>Valium</em> painting pattern as it is quite obviously based on the golden ratio.</p>
@@ -129,7 +129,7 @@ Figure 1: Overall results of the simulation trials. For each anisotropy summary,
 </span></span><span class="line"><span class="cl"><span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span> <span class="n">mfrow</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
 </span></span><span class="line"><span class="cl"><span class="nf">plot</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">asp</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">pch</span> <span class="o">=</span> <span class="m">19</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">F</span><span class="p">,</span> <span class="n">cex</span><span class="o">=</span> <span class="m">1</span><span class="p">)</span>
 </span></span></code></pre></div><div class="figure">
-<img src="https://antiphon.github.io/blog/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-4-1.png" alt="Author's rendition" width="672" />
+<img src="https://antiphon.github.io/posts/golden-ratio-of-valium/index_files/figure-html/unnamed-chunk-4-1.png" alt="Author's rendition" width="672" />
 <p class="caption">Figure 2: Author's rendition</p>
 </div>
 <p>For reference, here is the original by Hirst (from WikiArt):</p>
